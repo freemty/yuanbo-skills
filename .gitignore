@@ -1,0 +1,17 @@
+node_modules/
+.DS_Store
+*.log
+docs/superpowers/
+
+# Python
+.venv/
+__pycache__/
+*.pyc
+
+# Browser data
+data/browser_state/
+
+# Presentation assets (large binaries)
+frontend-slides/steam-steel-presentation-assets/
+frontend-slides/.claude-design/
+frontend-slides/steam-steel-infinite-minds.html

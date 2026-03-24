@@ -1,0 +1,467 @@
+---
+name: no-more-fomo
+description: >
+  Use when user says 'fomo', 'digest', 'daily', 'AI news', 'today's papers',
+  'what's new in AI', 'catch up', or on a scheduled daily cron trigger.
+---
+
+# No More FOMO
+
+Daily AI intelligence briefing: Twitter KOLs + AI lab blogs + tech podcasts + HackerNews.
+
+**IMPORTANT: All digest output MUST be in English.** Summaries, descriptions, and commentary — everything in the saved markdown file and the summary shown to the user must be English. Even if source content is in Chinese or other languages, translate to English for the digest.
+
+## When to Use
+
+- User asks about today's AI papers, news, or trending research
+- Morning routine check-in on new releases
+- Scheduled daily cron trigger
+
+**When NOT to use:** Searching for a specific paper (use WebFetch or arxiv directly).
+
+## Prerequisites
+
+- **xreach** (`npm i -g xreach-cli`) — Twitter/X data. Requires auth: `xreach auth`
+- **curl** — RSS feeds and HN API (standard on all systems)
+- **Jina Reader** — free, no auth needed (`https://r.jina.ai/URL`)
+
+## Sources
+
+### Twitter — Tier 1: KOLs (Default, always fetched)
+
+| Handle | Who | Focus | Count |
+|--------|-----|-------|-------|
+| @_akhaliq | AK | Papers, models, tools — highest signal/volume | `-n 50` |
+| @karpathy | Andrej Karpathy | Deep insights, tutorials, AI commentary | `-n 20` |
+| @dotey | Baoyu | Chinese AI community, translations, commentary | `-n 30` |
+| @bcherny | Boris Cherny | Claude Code core dev, coding agents | `-n 20` |
+| @oran_ge | OrangeAI | AI research, tools, commentary | `-n 20` |
+| @trq212 | Thariq | Claude Code core dev | `-n 20` |
+| @swyx | swyx | Latent Space host, AI engineering ecosystem | `-n 20` |
+| @emollick | Ethan Mollick | Wharton professor, AI adoption & impact | `-n 20` |
+| @drjimfan | Jim Fan | NVIDIA robotics/embodied AI research | `-n 20` |
+| @simonw | Simon Willison | LLM tooling, Datasette creator, pragmatic builder | `-n 20` |
+| @hardmaru | David Ha | Sakana AI CEO, creative AI research | `-n 20` |
+| @ylecun | Yann LeCun | Meta/NYU, AI theory debates, high signal | `-n 20` |
+| @cursor_ai | Cursor | AI-native code editor | `-n 15` |
+| @AnthropicAI | Anthropic | Claude, safety research | `-n 15` |
+| @OpenAI | OpenAI | GPT, API, product launches | `-n 15` |
+| @GoogleDeepMind | Google DeepMind | Models, research papers | `-n 15` |
+
+### Twitter — Tier 2: More Companies & Tools (on-demand via `--full`)
+
+| Handle | Who | Focus |
+|--------|-----|-------|
+| @xai | xAI | Grok, compute infrastructure |
+| @WindsurfAI | Windsurf | AI coding (Codeium) |
+| @cognition | Cognition | Devin, autonomous coding agent |
+| @replit | Replit | AI-native IDE & deployment |
+| @huggingface | Hugging Face | Open-source models & datasets |
+| @llama_index | LlamaIndex | RAG, AI agents for documents |
+
+Users can also add any handle via arguments: `/no-more-fomo @someone`
+
+### AI Lab Blogs
+
+| Source | URL | Method |
+|--------|-----|--------|
+| DeepMind | `https://deepmind.google/blog/rss.xml` | Jina Reader |
+| Anthropic | `https://www.anthropic.com/research` + `https://www.anthropic.com/news` | Jina Reader (no RSS) |
+| OpenAI | `https://openai.com/blog/rss.xml` | Jina Reader |
+
+### Tech Podcasts (RSS)
+
+| Podcast | RSS Feed | Transcript Source | Focus |
+|---------|----------|-------------------|-------|
+| No Priors | `https://rss.art19.com/no-priors-ai` | YouTube subs | AI/ML/startups — top researcher interviews |
+| Latent Space | `https://api.substack.com/feed/podcast/1084089.rss` | Substack post (embedded) | AI engineering deep dives |
+| Dwarkesh Podcast | `https://apple.dwarkesh-podcast.workers.dev/feed.rss` | Substack post (embedded) | Long-form interviews with AI leaders |
+| Training Data (Sequoia) | `https://feeds.megaphone.fm/trainingdata` | YouTube subs | AI/tech from Sequoia Capital |
+
+**Transcript retrieval (with `--transcripts`):**
+
+Substack-based podcasts (Latent Space, Dwarkesh) embed full transcripts in posts:
+```bash
+curl -s "https://r.jina.ai/POST_URL"  # transcript is inline with timestamps
+```
+
+YouTube-based podcasts (No Priors, Training Data) — use yt-dlp:
+```bash
+yt-dlp --write-auto-sub --sub-lang en --skip-download -o "%(title)s" "VIDEO_URL"
+```
+
+To find the YouTube video URL for a podcast episode, search YouTube:
+```bash
+yt-dlp --flat-playlist "ytsearch1:PODCAST_NAME EPISODE_TITLE" --print url
+```
+
+### arxiv Papers (Topic-filtered)
+
+Default topics (customizable via config):
+
+| Topic | arxiv Query | Categories |
+|-------|-------------|------------|
+| AI Agents | `abs:"AI agent" OR abs:"LLM agent"` | cs.AI, cs.CL |
+| Large Language Models | `abs:"large language model" OR abs:LLM` | cs.CL, cs.AI |
+
+**arxiv API** — fetch papers from last 24h matching user topics:
+```bash
+curl -s "https://export.arxiv.org/api/query?search_query=cat:cs.AI+AND+abs:AI+agent&sortBy=submittedDate&sortOrder=descending&max_results=10"
+```
+
+**HuggingFace Daily Papers** — community-upvoted trending papers (no topic filter, but quality signal):
+```bash
+curl -s "https://huggingface.co/api/daily_papers?limit=20"
+```
+Filter: `upvotes >= 3` (configurable via `min_hf_upvotes`).
+
+**Merge logic:** Deduplicate by arxiv ID across both sources. If a paper appears in both arxiv topic search AND HF daily, mark it as high-signal.
+
+### HackerNews
+
+Two parallel searches via HN Algolia API, filtered to last 24h:
+1. `ai agent` — agent-specific stories
+2. `LLM OR GPT OR Claude OR Gemini` — broader AI coverage
+
+## User Config (Optional)
+
+Users can customize sources by creating `~/.no-more-fomo/config.yaml`. The skill merges this with defaults — users only specify what they want to change.
+
+**Before fetching, always check if config exists:**
+```bash
+cat ~/.no-more-fomo/config.yaml 2>/dev/null
+```
+
+**Config format:**
+```yaml
+# ~/.no-more-fomo/config.yaml
+
+twitter:
+  add:                          # Extra accounts to follow
+    - handle: "@elonmusk"
+      count: 15
+    - handle: "@sama"
+      count: 15
+  remove:                       # Accounts to skip from defaults
+    - "@ylecun"
+    - "@hardmaru"
+
+papers:
+  topics:                       # arxiv topic searches (default: ai agent + llm)
+    - query: "AI agent"
+      categories: ["cs.AI", "cs.CL"]
+    - query: "large language model"
+      categories: ["cs.CL", "cs.AI"]
+    # Add your own:
+    # - query: "world model"
+    #   categories: ["cs.AI", "cs.CV"]
+    # - query: "diffusion transformer"
+    #   categories: ["cs.CV"]
+  hf_daily: true                # Also pull HuggingFace trending papers
+  min_hf_upvotes: 3             # Quality threshold for HF papers
+
+podcasts:
+  add:
+    - name: "Lex Fridman"
+      rss: "https://lexfridman.com/feed/podcast/"
+      transcript: youtube       # youtube | substack | none
+    - name: "80000 Hours"
+      rss: "https://feeds.feedburner.com/80000HoursPodcast"
+      transcript: none
+  remove:
+    - "Training Data"           # Match by podcast name
+
+blogs:
+  add:
+    - name: "Meta AI"
+      url: "https://ai.meta.com/blog/"
+  remove: []
+
+hn:
+  extra_queries:                # Additional HN search terms
+    - "robotics"
+    - "computer vision"
+
+language: en                    # en | zh — output language
+```
+
+**Merge rules:**
+- `add` items are appended to defaults
+- `remove` items are excluded from defaults (match by handle or name)
+- If no config file exists, use all defaults as-is
+- Unspecified sections keep their defaults
+
+## Process
+
+### 1. Fetch All Sources (PARALLEL)
+
+Launch ALL fetches in parallel. Use separate Bash tool calls. **First read `~/.no-more-fomo/config.yaml` if it exists, then merge with defaults to determine the final source list.**
+
+**Twitter — Tier 1 (always, one call per account):**
+```bash
+xreach tweets @_akhaliq --json -n 50
+xreach tweets @karpathy --json -n 20
+xreach tweets @dotey --json -n 30
+xreach tweets @bcherny --json -n 20
+xreach tweets @oran_ge --json -n 20
+xreach tweets @trq212 --json -n 20
+xreach tweets @swyx --json -n 20
+xreach tweets @emollick --json -n 20
+xreach tweets @drjimfan --json -n 20
+xreach tweets @simonw --json -n 20
+xreach tweets @hardmaru --json -n 20
+xreach tweets @ylecun --json -n 20
+xreach tweets @cursor_ai --json -n 15
+xreach tweets @AnthropicAI --json -n 15
+xreach tweets @OpenAI --json -n 15
+xreach tweets @GoogleDeepMind --json -n 15
+```
+
+**Twitter — Tier 2 (only with `--full` flag):**
+```bash
+xreach tweets @xai --json -n 15
+xreach tweets @WindsurfAI --json -n 15
+xreach tweets @cognition --json -n 15
+xreach tweets @replit --json -n 15
+xreach tweets @huggingface --json -n 15
+xreach tweets @llama_index --json -n 15
+# + any extra @handles from arguments
+```
+
+**AI Lab Blogs (one call per source):**
+```bash
+curl -s "https://r.jina.ai/https://deepmind.google/blog/rss.xml"
+curl -s "https://r.jina.ai/https://www.anthropic.com/news"
+curl -s "https://r.jina.ai/https://openai.com/blog/rss.xml"
+```
+
+**Podcasts (one call per feed):**
+```bash
+curl -s "https://r.jina.ai/https://rss.art19.com/no-priors-ai"
+curl -s "https://r.jina.ai/https://api.substack.com/feed/podcast/1084089.rss"
+curl -s "https://r.jina.ai/https://apple.dwarkesh-podcast.workers.dev/feed.rss"
+curl -s "https://r.jina.ai/https://feeds.megaphone.fm/trainingdata"
+```
+
+**arxiv Papers (one call per topic from config, default: ai agent + llm):**
+```bash
+# For each topic, build query from categories + keywords
+curl -s "https://export.arxiv.org/api/query?search_query=(cat:cs.AI+OR+cat:cs.CL)+AND+abs:%22AI+agent%22&sortBy=submittedDate&sortOrder=descending&max_results=10"
+curl -s "https://export.arxiv.org/api/query?search_query=(cat:cs.CL+OR+cat:cs.AI)+AND+abs:%22large+language+model%22&sortBy=submittedDate&sortOrder=descending&max_results=10"
+```
+
+**HuggingFace Daily Papers:**
+```bash
+curl -s "https://huggingface.co/api/daily_papers?limit=20"
+```
+Filter to `upvotes >= 3` (or `min_hf_upvotes` from config). Extract: title, arxiv ID, upvotes.
+
+**HackerNews:**
+```bash
+YESTERDAY=$(python3 -c "import time; print(int(time.time()) - 86400)")
+curl -s "https://hn.algolia.com/api/v1/search?query=ai+agent&tags=story&numericFilters=created_at_i%3E$YESTERDAY&hitsPerPage=20"
+```
+```bash
+YESTERDAY=$(python3 -c "import time; print(int(time.time()) - 86400)")
+curl -s "https://hn.algolia.com/api/v1/search?query=LLM+OR+GPT+OR+Claude+OR+Gemini&tags=story&numericFilters=created_at_i%3E$YESTERDAY&hitsPerPage=15"
+```
+
+### 2. Parse & Extract
+
+**CRITICAL: xreach JSON structure.** Tweets are in `data.items[]`. Each item has:
+- `text` — tweet text (may contain t.co links)
+- `createdAt` — date string like "Fri Mar 20 18:31:49 +0000 2026"
+- `likeCount`, `retweetCount`, `viewCount`
+- `isRetweet`, `isQuote`, `isReply`
+- `entities.urls[]` — **MUST use `expanded_url` field** to get real URLs (arxiv, github, etc.)
+- `media[]` — images/videos
+
+**URL expansion is mandatory.** Never output t.co links. Always extract `entities.urls[].expanded_url`. If entities is empty, resolve t.co links via `curl -sI URL | grep -i location`.
+
+### 3. Filter
+
+**Twitter:**
+- Filter to last 24h
+- Include original tweets and quote tweets with commentary
+- Exclude pure retweets (`isRetweet: true` without `isQuote: true`) and reply threads
+- Quality: `likeCount > 100` for @_akhaliq, `> 50` for others (lower on weekends)
+
+**Blogs:** Only posts from last 7 days. Skip non-technical posts (hiring, events).
+
+**Podcasts:** Only episodes from last 7 days. Extract: title, date, description (200 chars), link.
+
+**HN:** `points > 20`. Deduplicate against Twitter (same URL = merge, note both sources).
+
+### 4. Enrich (IMPORTANT — this is what makes the digest useful)
+
+After filtering, collect all unique URLs from tweets, blogs, and HN. Then enrich in parallel:
+
+**arxiv papers** — fetch abstract:
+```bash
+curl -s "https://r.jina.ai/https://arxiv.org/abs/PAPER_ID" | head -80
+```
+Extract: title, authors (first 3), abstract (first 2 sentences). This is the **primary value** of the digest — users need to know what the paper actually does, not just its title.
+
+**GitHub repos** — fetch description:
+```bash
+curl -s "https://api.github.com/repos/OWNER/REPO" | python3 -c "import sys,json; d=json.load(sys.stdin); print(d.get('description',''), '|', d.get('stargazers_count',0), 'stars')"
+```
+
+**HuggingFace models** — fetch model card summary:
+```bash
+curl -s "https://r.jina.ai/https://huggingface.co/MODEL_ID" | head -40
+```
+
+**Blog posts** (from Lab Updates) — already fetched in Step 1, extract first paragraph as summary.
+
+**Podcast transcripts** — always fetch (not just with --transcripts). For each new episode:
+- Substack (Latent Space, Dwarkesh): `curl -s "https://r.jina.ai/POST_URL"` — extract key points from transcript
+- YouTube (No Priors, Training Data): `yt-dlp --write-auto-sub --sub-lang en --skip-download`
+
+**Parallelism:** Launch all enrichment fetches in parallel. Typically 5-15 URLs to enrich.
+
+**What "enriched" looks like:**
+
+| Before (bad) | After (good) |
+|-------------|-------------|
+| `**FASTER** — paper | @_akhaliq | 33L` | `**FASTER** — 将 VLA 推理速度提升 5x，通过 flow matching 替代 diffusion 采样，在 LIBERO 上达到 93% 成功率 | [arxiv](https://arxiv.org/abs/...) [github](https://github.com/...) | @_akhaliq | 33L` |
+| `**Nemotron-Cascade 2** — Nvidia 发布` | `**Nemotron-Cascade 2** — Nvidia 的级联推理模型，小模型处理简单 query、大模型处理复杂 query，推理成本降低 3x | [HF](https://huggingface.co/...) [paper](https://arxiv.org/...) | @_akhaliq | 35L` |
+| `**OpenCode** — 开源 AI coding agent | HN 673 pts` | `**OpenCode** — TypeScript 实现的开源 AI coding agent，支持 Claude/GPT/Gemini，类似 Claude Code 的终端体验 (2.1k stars) | [github](https://github.com/nicepkg/opencode) | HN 673 pts` |
+
+### 5. Categorize
+
+| Section | Content |
+|---------|---------|
+| Models & Releases | New models, checkpoints, fine-tunes, API launches |
+| Tools & Demos | Libraries, frameworks, demos, open-source tools |
+| AI Agents | Agent frameworks, benchmarks, real-world agent stories |
+| Lab Updates | DeepMind / Anthropic / OpenAI blog highlights |
+| Podcasts | New episodes from tracked shows (last 7 days) |
+| HN Threads | Top HN discussions on AI/agents (with comment count) |
+| Industry | Company announcements, funding, policy, safety |
+| HF Trending Papers | HuggingFace community-upvoted papers (bottom, Part 1) |
+| arxiv: [Topic] | Per-topic arxiv search results (bottom, Part 2) |
+
+### 6. Format & Output
+
+```markdown
+# No More FOMO Digest — YYYY-MM-DD
+
+## Top Highlights
+1. [Most important — 1 sentence]
+2. [Second — 1 sentence]
+3. [Third — 1 sentence]
+
+## Models & Releases
+- **[Name]** — [what it is, key capability, how it compares to previous] | [HF](URL) [paper](URL) | @source | Likes: N
+
+## Tools & Demos
+- **[Name]** — [what it does, why it matters, key differentiator] (N stars) | [github](URL) | @source | Likes: N
+
+## AI Agents
+- **[Title]** — [what it does, architecture insight if available, why notable] | [link](URL) | @source | Likes: N
+
+## Lab Updates
+- **[DeepMind]** [Title] — [1-paragraph summary of the blog post] | [link](URL)
+- **[Anthropic]** [Title] — [1-paragraph summary] | [link](URL)
+- **[OpenAI]** [Title] — [1-paragraph summary] | [link](URL)
+
+## Podcasts (Last 7 Days)
+- **[Show Name]** [Episode Title] — [guest name & role] | [link](URL)
+  > [3-5 sentence summary: key thesis, most surprising insight, practical takeaway]
+
+## HN Threads
+- **[Title]** — [points] pts, [comments] comments | [url](URL) | [HN](URL)
+  > [1-2 sentences: what it is + why HN cares]
+
+## Industry
+- **[Topic]** — [what happened, who's involved, why it matters] | @source | Likes: N
+
+---
+
+## HF Trending Papers
+Community-upvoted papers from [HuggingFace Daily Papers](https://huggingface.co/papers). Sorted by upvotes, no topic filter — shows what the broader ML community finds interesting today.
+
+- **[Title]** (N upvotes) — [1-2 sentence summary] | [arxiv](URL) [HF](https://huggingface.co/papers/ID)
+
+## arxiv: AI Agents
+Recent papers matching `"AI agent" OR "LLM agent"` in cs.AI, cs.CL. Customize topics in `~/.no-more-fomo/config.yaml`.
+
+- **[Title]** — [2-3 sentence summary from abstract] | [arxiv](URL) | categories
+
+## arxiv: Large Language Models
+Recent papers matching `"large language model"` in cs.CL, cs.AI.
+
+- **[Title]** — [2-3 sentence summary from abstract] | [arxiv](URL) | categories
+
+---
+Sources: Tier1-KOLs(N) [Tier2-Companies(N)] Labs(N) Podcasts(N) HN(N) HF-Trending(N) arxiv(N)
+Total: N items
+```
+
+Save to `~/no-more-fomo/YYYY-MM-DD.md` (create directory if needed).
+
+### 7. Relevance Check
+
+If user has CLAUDE.md or memory files with project keywords, tag matching items with `[RELEVANT]`.
+
+### 8. Summary to User
+
+Print concise summary:
+- Top 3 highlights with links
+- Count per section
+- New podcast episodes (always mention)
+- Any `[RELEVANT]` items called out
+
+## Arguments
+
+| Argument | Effect |
+|----------|--------|
+| (none) | Tier 1 KOLs + blogs + podcasts + HN |
+| `--full` | Also fetch Tier 2 company/product accounts |
+| `--transcripts` | Fetch transcripts for new podcast episodes and append summaries |
+| `@handle` | Add extra Twitter accounts (repeatable) |
+| `--twitter-only` | Skip blogs, podcasts, and HN |
+| `--hn-only` | Skip Twitter, blogs, and podcasts |
+| `--podcasts-only` | Only check podcast feeds |
+| `--no-save` | Print results, don't save to file |
+| `--query "term"` | Add custom HN search query |
+
+## Common Mistakes
+
+| Mistake | Fix |
+|---------|-----|
+| Including all retweets | Only quote tweets with commentary |
+| Sequential fetching | ALL fetches must be parallel |
+| Missing URLs | Always extract arxiv/GitHub/HF links |
+| Ignoring dedup | Same URL from Twitter + HN = one entry |
+| Stale blog/podcast posts | Blogs: 7 days, Podcasts: 7 days |
+| Empty section hidden | Show "No new episodes this week" |
+
+## Scheduling
+
+### Claude Code Cloud (recommended)
+
+Go to [preview.claude.ai/code](https://preview.claude.ai/code) → **Scheduled** → **+ New scheduled task**:
+
+| Field | Value |
+|-------|-------|
+| Name | `no-more-fomo` |
+| Prompt | `run /no-more-fomo and save the digest` |
+| Frequency | Daily |
+| Time | 09:00 AM |
+
+Runs on cloud infra — no local machine needed.
+
+### Local fallback (crontab)
+
+```bash
+# Add to crontab
+0 9 * * * claude -p "run /no-more-fomo and save the digest" --allowedTools "Bash,Read,Write,Glob" --output-format stream-json >> /tmp/no-more-fomo.log 2>&1
+```
+
+## Fallback
+
+- xreach fails: `curl -s "https://r.jina.ai/https://twitter.com/HANDLE"`
+- HN API fails: `curl -s "https://r.jina.ai/https://news.ycombinator.com"`
+- Podcast RSS fails: `curl -s "https://r.jina.ai/PODCAST_WEBSITE"`
