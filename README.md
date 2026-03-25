@@ -1,11 +1,11 @@
-# ybskills
+# yuanbo-skills
 
 Personal Claude Code skills collection by yuanbo.
 
 ## Install
 
 ```bash
-git clone https://github.com/sum-young/ybskills ~/code/projects/ybskills
+git clone https://github.com/freemty/yuanbo-skills ~/code/projects/ybskills
 cd ~/code/projects/ybskills
 ./install.sh
 ```
