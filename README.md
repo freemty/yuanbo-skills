@@ -15,7 +15,7 @@ cd ~/code/projects/ybskills
 | Skill | Description |
 |-------|-------------|
 | no-more-fomo | AI daily digest from Twitter, labs, podcasts |
-| claude-code-best-practices | CC workflow advisor based on 8 best-practice sources |
+| [cc-navigator](https://github.com/freemty/cc-navigator) | CC workflow navigator — 11 sources, skill/agent/tool recommendation (independent repo) |
 | humanizer | Remove AI-generated writing patterns (English) |
 | Humanizer-zh | Remove AI-generated writing patterns (Chinese) |
 | notebooklm | Query Google NotebookLM with source-grounded answers |
@@ -40,6 +40,8 @@ See [dependencies.md](dependencies.md) for skills I use but didn't create, with 
 
 - [baoyu-skills](https://github.com/JimLiu/baoyu-skills) — Content generation skills
 - [ljg-skills](https://github.com/lijigang/ljg-skills) — Learning & writing skills
+- [sjh-skills](https://github.com/jiahao-shao1/sjh-skills) — Research workflow skills
+- [anthropics/skills](https://github.com/anthropics/skills) — Official Anthropic skill spec & examples
 
 ## License
 
