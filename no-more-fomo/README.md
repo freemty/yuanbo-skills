@@ -23,9 +23,10 @@ Most "AI news" tools give you a list of links. You still have to click each one,
 `/no-more-fomo` does the reading for you:
 
 - Papers come with **2-3 sentence summaries from the actual arxiv abstract**
-- Podcasts come with **key takeaways extracted from transcripts**
+- Podcasts come with **structured summaries: TLDR, chapter breakdown, and speaker-attributed quotes** extracted from transcripts
 - HN threads come with **context on why the community cares**
 - Everything has **real links** — arxiv, GitHub, HuggingFace, not t.co
+- Every digest also outputs a **styled HTML version** with three-view layout, dark mode, and date navigation
 
 ## Sources
 
@@ -44,9 +45,11 @@ Most "AI news" tools give you a list of links. You still have to click each one,
 ```bash
 /no-more-fomo                    # Daily digest — all default sources
 /no-more-fomo --full             # Also include company/product accounts
-/no-more-fomo --transcripts      # Add podcast transcript summaries
+/no-more-fomo --transcripts      # (deprecated — Phase 2 does this automatically)
 /no-more-fomo @someone           # Add any Twitter handle
 /no-more-fomo --hn-only          # Just HackerNews
+/no-more-fomo --quick           # Quick digest — skip deep processing
+/no-more-fomo --no-html          # Markdown only, skip HTML output
 /no-more-fomo --podcasts-only    # Just podcast feeds
 ```
 
@@ -85,7 +88,14 @@ hn:
   extra_queries:
     - "robotics"
 
-language: en   # en | zh
+discovery:
+  enabled: true
+  max_per_topic: 3
+
+topic_search:
+  enabled: true
+
+language: zh   # en | zh
 ```
 
 See [SKILL.md](SKILL.md#user-config-optional) for the full config reference.
@@ -110,6 +120,8 @@ git clone https://github.com/freemty/no-more-fomo.git ~/.claude/skills/no-more-f
 
 - [xreach](https://github.com/nicepkg/xreach) (`npm i -g xreach-cli`) — Twitter/X data
 - [yt-dlp](https://github.com/yt-dlp/yt-dlp) — podcast transcripts (optional)
+- [baoyu-youtube-transcript](https://github.com/nicepkg/xreach) (optional) — enhanced podcast transcript processing
+- [bun](https://bun.sh) — runtime for youtube-transcript (optional)
 - `curl` — RSS feeds and HN API (standard on all systems)
 
 ## Schedule it
@@ -138,6 +150,7 @@ Runs on cloud infra — no local machine needed.
 4. **Enrich** — fetches arxiv abstracts, GitHub descriptions, podcast transcripts
 5. **Categorize** — Papers, Models, Tools, Agents, Lab Updates, Podcasts, HN, Industry
 6. **Output** — structured markdown with summaries, links, and engagement metrics
+7. **Render** — generates styled HTML from template with three-view layout (newspaper/sidebar/grid)
 
 ## More from freemty
 
