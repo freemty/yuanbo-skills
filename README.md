@@ -21,6 +21,8 @@ cd ~/code/projects/ybskills
 | clash-split-routing | ClashX Pro split routing configuration |
 | slides-dispatch | Slides generation dispatcher via subagent |
 | [cc-navigator](https://github.com/freemty/cc-navigator) | CC workflow navigator — skill/agent/tool recommendation (independent repo) |
+| flipradio-write | Guided writing in FlipRadio critical public intellectual style |
+| flipradio-polish | Polish articles against FlipRadio 10-dimension style framework |
 
 ## Third-party References
 
