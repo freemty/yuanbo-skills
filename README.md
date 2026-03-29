@@ -16,9 +16,7 @@ cd ~/code/projects/ybskills
 |-------|-------------|
 | paper-storyteller | Narrative-driven academic paper writing (Wu/Efros/Liu/Freeman/Isola style) |
 | no-more-fomo | AI daily digest from Twitter, labs, podcasts |
-| commit-changelog | Standardized git commits and CHANGELOG management |
 | writing-agents | Guide for authoring custom Claude Code agents |
-| clash-split-routing | ClashX Pro split routing configuration |
 | slides-dispatch | Slides generation dispatcher via subagent |
 | [cc-navigator](https://github.com/freemty/cc-navigator) | CC workflow navigator — skill/agent/tool recommendation (independent repo) |
 | flipradio-write | Guided writing in FlipRadio critical public intellectual style |
