@@ -20,6 +20,7 @@ cd ~/code/projects/ybskills
 | [cc-navigator](https://github.com/freemty/cc-navigator) | CC workflow navigator — skill/agent/tool recommendation (independent repo) |
 | flipradio-write | Guided writing in FlipRadio critical public intellectual style |
 | flipradio-polish | Polish articles against FlipRadio 10-dimension style framework |
+| web-fetcher | Unified URL fetcher — auto-routes Twitter/YouTube/Bilibili/小红书/GitHub/知乎/Reddit/微博 to best tool, fallback to Jina Reader |
 | yuanboizer-zh | Personal style polisher — rewrites compressed drafts to sound like Yuanbo |
 
 ## Third-party References
