@@ -1,10 +1,8 @@
 ---
 name: yuanboizer-zh
-description: |
-  个人风格润色 skill。将渊博的草稿（Notion thoughts、微信、小红书、笔记）
-  改写为"像渊博写的、别人能读懂"的文本。保留思维内核（中英嵌套、跨域类比、
-  情感极性），展开压缩句为可读形态。自动判断语域（口语帖/结构化文章）。
-  触发词：润色、yuanboize、帮我改改、改成小红书。
+description: >-
+  Use when polishing Chinese drafts (Notion thoughts, WeChat, Xiaohongshu, notes)
+  to sound like Yuanbo wrote them. Triggers: 润色, yuanboize, 帮我改改, 改成小红书.
 allowed-tools:
   - Read
   - Write
