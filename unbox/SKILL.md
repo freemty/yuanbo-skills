@@ -108,7 +108,14 @@ Print the overview table and the path to `unbox-output/`.
 | 不搜高中/高考信息 | 从本科入学年反推高考年，搜 "{中文名} 高中/高考/自主招生"，信息密度远超本科标签 |
 | 忽略微信公众号 | 大量早期信息沉淀在学校/院系/社团公众号，用 Google 搜 "{中文名} mp.weixin.qq.com"（注意：不要用 `site:` 语法，直接作为关键词） |
 | 不查高校 BBS | 水木社区 (newsmth.net) 有入学名单、院系讨论；cc98.org 有浙大信息 |
+| 不查海外中文论坛 | newmitbbs.com 和一亩三分地 (1point3acres.com) 有大量 biographical tidbits |
 | Wayback Machine 是唯一的时光机 | 先查 GitHub Pages 源码仓库的 git log，精确到天 |
 | 只看发表列表 | 性格信号（thesis 致谢、知乎、rebuttal 风格）才是核心 |
 | 忽略 conference tutorials | Tutorial 比 paper 更能看出判断力和思想 flow |
 | 对单个名字没加消歧 | "Hao Zhang" 有几十个同名人，加 institution/paper 关键词 |
+| 只搜"采访/访谈" | 中文人物报道关键词更多：专访、人物、故事、校友故事、校友风采 |
+| 不搜非学术特质 | 运动队、社团、乐队、创业等信息藏在校级新闻和校友报道里 |
+| 不搜科技媒体 | 机器之心/量子位/雷锋网/36kr/腾讯云的人物长文是性格信号金矿 |
+| 不搜奖项报道 | MIT TR35/求是奖/科学探索奖的报道常包含详细人物背景 |
+| 搜一次就停 | 必须滚雪球：每次 fetch 页面后提取新线索，追加搜索 |
+| 不搜"如何评价 XXX" | 知乎"如何评价"类问题是中文互联网上最集中的人物讨论 |

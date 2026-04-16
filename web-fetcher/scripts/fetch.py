@@ -253,6 +253,20 @@ def fetch_via_opencli_weibo(url: str, match: re.Match) -> str:
     return _run(["opencli", "weibo", "comments", url, "-f", "md"], timeout=30)
 
 
+def fetch_via_baike_mobile(url: str, match: re.Match) -> str:
+    """Fetch Baidu Baike via mobile version (wapbaike) which has simpler HTML.
+
+    Desktop baike.baidu.com is JS-rendered and Jina Reader only gets the navbar.
+    Mobile wapbaike.baidu.com serves actual content in lighter HTML that Jina can parse.
+    """
+    mobile_url = url.replace("baike.baidu.com", "wapbaike.baidu.com", 1)
+    return fetch_url(
+        f"https://r.jina.ai/{mobile_url}",
+        headers={"Accept": "text/markdown"},
+        timeout=30,
+    )
+
+
 # Platform routes: (url_regex, tool_binary_name, handler_fn)
 # Order matters — first match wins. Multiple entries for same platform = fallback chain.
 PLATFORM_ROUTES = [
@@ -277,6 +291,8 @@ PLATFORM_ROUTES = [
     (r"news\.ycombinator\.com/item\?id=\d+", None, fetch_via_opencli_hackernews),
     # 微博
     (r"weibo\.com/\d+/\w+", "opencli", fetch_via_opencli_weibo),
+    # 百度百科 (desktop → rewrite to mobile for better content extraction)
+    (r"baike\.baidu\.com/(item|view)/", None, fetch_via_baike_mobile),
 ]
 
 

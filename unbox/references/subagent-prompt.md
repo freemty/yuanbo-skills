@@ -10,6 +10,8 @@ Write your report to: `{OUTPUT_DIR}/{SLUG}.md`
 
 Use the exact template at the bottom of this document. Every section is optional — if you can't find info, skip it. Information quantity itself is a signal.
 
+**⚠️ CRITICAL: Write the report INCREMENTALLY.** After completing each phase, write or update the file. Don't wait until the end — if the process is interrupted, partial results are better than nothing.
+
 ## Tools Available
 
 You MUST use these specific tools. Do not attempt to use tools that aren't listed here.
@@ -32,6 +34,22 @@ You MUST use these specific tools. Do not attempt to use tools that aren't liste
 **知乎注意：** 知乎有严格反爬，`fetch.py` 会 403。必须用 `opencli zhihu` 系列命令。专栏文章下载后保存在 `./zhihu-articles/` 目录下。
 
 **Rate limiting:** Wait 1-2 seconds between consecutive Google searches to avoid blocks.
+
+**Search budget:** Total Google searches across all phases should not exceed ~80. If you hit a rate limit (429), wait 10 seconds and retry once. If still blocked, skip to the next step. For snowball searches, follow at most 5 snowball chains total, each chain at most 3 hops deep.
+
+## ⚠️ GLOBAL RULE: Snowball Search (滚雪球)
+
+**This is the single most important rule in this entire document.**
+
+Every time you fetch a page and read its content, **extract new leads** and **immediately pursue them with follow-up searches**. Do NOT just execute the template queries and stop.
+
+Examples of snowball triggers:
+- You read a campus news article that mentions "他曾是校田径队成员" → immediately search `"{CHINESE_NAME} 田径 OR 运动会 OR 校运会"`
+- You find an interview mentioning "卢策吾在重邮时参加了挑战杯" → search `"{CHINESE_NAME} 挑战杯"` and `"{CHINESE_NAME} 重庆邮电大学 挑战杯"`
+- A 知乎 post mentions "他当年是从XXX中学来的" → search `"{CHINESE_NAME} XXX中学"`
+- A thesis acknowledgment mentions a nickname or personal detail → search for that too
+
+**The template queries in each Phase are starting points, not the finish line.** A good investigation follows at least 3-5 snowball chains. The best discoveries come from the second or third hop.
 
 ## Phase 1: Anchor Identity (do this first)
 
@@ -71,6 +89,8 @@ Goal: Figure out who this person is. Extract seeds for later phases.
 - Lab page URL — critical for Phase 4
 - Whether the person grew up in China — determines Phase 3 depth
 - Advisor's Chinese name (导师中文名, if discoverable) — used in Phase 3 Step 3
+
+**→ WRITE the report file now with Phase 1 findings before continuing.**
 
 ## Phase 2: Personality Mining (core — spend the most time here)
 
@@ -134,11 +154,43 @@ opencli google search "{CHINESE_NAME} 微博" --limit 5 -f md
 
 Look for personal opinions, life reflections, non-academic posts.
 
-### 2d. Interviews / Podcasts
+### 2d. Interviews / Podcasts / Media Profiles
+
+**⚠️ 这个 step 之前覆盖面太窄。** 中文互联网上高价值人物报道使用的关键词远不止"采访/访谈"。
+
+Step 1 — 广撒网搜索（中英文各一轮）:
 ```
-opencli google search "{NAME} interview OR podcast OR 采访 OR 访谈" --limit 5 -f md
+opencli google search "{NAME} interview OR podcast OR profile OR portrait" --limit 5 -f md
+opencli google search "{CHINESE_NAME} 采访 OR 访谈 OR 专访 OR 人物 OR 故事 OR 对话" --limit 10 --lang zh -f md
 ```
-Prioritize non-academic interviews that reveal personality.
+
+Step 2 — 校友故事（这是最被低估的信号源之一）:
+```
+opencli google search "{CHINESE_NAME} 校友 OR 校友故事 OR 校友风采 OR 杰出校友" --limit 5 --lang zh -f md
+opencli google search "{CHINESE_NAME} {UNDERGRAD_SCHOOL} 校友" --limit 5 --lang zh -f md
+```
+
+**为什么重要：** 校友报道是非学术视角的第一人称叙事，往往包含童年故事、家庭背景、课外活动、转折点等在学术简历中永远不会出现的内容。例如"卢策吾是校田径队成员，400米接力亚军"这种信息只存在于母校的校友报道中。
+
+Step 3 — 科技媒体人物报道:
+```
+opencli google search "{CHINESE_NAME} 机器之心 OR 量子位 OR 雷锋网 OR 36kr OR 新智元 OR AI科技评论" --limit 5 --lang zh -f md
+opencli google search "{CHINESE_NAME} 腾讯云 OR CSDN OR InfoQ OR 澎湃" --limit 5 --lang zh -f md
+```
+
+Step 4 — 奖项报道（奖项报道常包含人物背景介绍）:
+```
+opencli google search "{CHINESE_NAME} MIT TR35 OR 福布斯 OR 求是奖 OR 科学探索奖 OR 青橙奖 OR 达摩院青橙" --limit 5 --lang zh -f md
+opencli google search "{CHINESE_NAME} 杰出青年 OR 优秀青年 OR 长江学者 OR 万人计划" --limit 5 --lang zh -f md
+```
+
+Step 5 — B 站 / YouTube 视频（本人出镜的 talk、采访、课程）:
+```
+opencli google search "{CHINESE_NAME} site:bilibili.com OR site:youtube.com" --limit 5 -f md
+opencli google search "{NAME} site:youtube.com talk OR lecture OR interview" --limit 5 -f md
+```
+
+**→ Fetch every promising result.** 科技媒体的长文人物报道是性格信号的金矿。
 
 ### 2e. OpenReview Rebuttal Style
 ```
@@ -155,6 +207,8 @@ If a GitHub username was found:
 gh api "users/{USERNAME}/repos?sort=stars&per_page=20" --jq '.[] | "\(.name) ★\(.stargazers_count) — \(.description)"'
 ```
 Filter out paper-code repos (usually named after papers). What remains reveals personal interests.
+
+Also check: GitHub bio, location, company field, pinned repos, contribution graph.
 
 ### 2g. Conference Tutorials, Invited Talks & Slides
 
@@ -182,6 +236,27 @@ Step 4 — 如果找到 tutorial/talk 链接，fetch 页面，关注：
 - **合作者** — 和谁一起做 tutorial 暴露了核心圈子
 
 **为什么重要：** 一个人在 2022 年中做 "Parallelization for Big Models" tutorial，比他 2023 年发 vLLM paper 更能说明他的判断力——因为 tutorial 是在 ChatGPT 爆发前布局的。
+
+### 2h. Non-Academic Identity (非学术身份) ⭐ NEW
+
+**一个人在学术之外做什么，比他的论文列表更能揭示真实性格。**
+
+```
+opencli google search "{CHINESE_NAME} 运动 OR 体育 OR 田径 OR 马拉松 OR 篮球 OR 足球 OR 跑步" --limit 5 --lang zh -f md
+opencli google search "{CHINESE_NAME} 音乐 OR 乐队 OR 吉他 OR 钢琴 OR 摄影 OR 绘画 OR 书法" --limit 5 --lang zh -f md
+opencli google search "{CHINESE_NAME} 社团 OR 学生会 OR 志愿者 OR 支教 OR 创业" --limit 5 --lang zh -f md
+opencli google search "{NAME} hobby OR sport OR music OR photography OR marathon" --limit 5 -f md
+```
+
+Also search for content creation / social media presence beyond academia:
+```
+opencli google search "{CHINESE_NAME} B站 OR UP主 OR 抖音 OR 小红书 OR 公众号" --limit 5 --lang zh -f md
+opencli google search "{NAME} twitter OR blog OR substack OR medium" --limit 5 -f md
+```
+
+**为什么重要：** "卢策吾是校田径队的，400米接力亚军"比"卢策吾获得特等奖学金"有趣 100 倍。何泰然是 B 站 40 万粉 UP 主，这比他的论文列表更能说明他的性格。
+
+**→ UPDATE the report file now with Phase 2 findings before continuing.**
 
 ## Phase 2.5: Mentorship Lineage & Academic Siblings
 
@@ -216,7 +291,7 @@ opencli google search "{ADVISOR_NAME} PhD advisor OR supervisor OR dissertation"
 
 **Skip / conditional execution rules:**
 - If no Chinese name was found in Phase 1 AND no Chinese institution appeared → skip Phase 3 entirely, note in 未验证/待挖
-- If Chinese name was found but undergrad school is unknown → execute Steps 1, 4, 5 only (skip Steps 2, 3 which need `{UNDERGRAD_SCHOOL}`)
+- If Chinese name was found but undergrad school is unknown → execute Steps 1, 4, 5, 6, 7 only (skip Steps 2, 3 which need `{UNDERGRAD_SCHOOL}`)
 - If both Chinese name and undergrad are known → execute all steps
 - For Taiwan/HK researchers: their early-life info channels differ (PTT, HKGolden, etc.) — note as 待挖 rather than running mainland-specific searches
 
@@ -238,7 +313,7 @@ opencli google search "{CHINESE_NAME} {UNDERGRAD_SCHOOL} 录取" --limit 5 --lan
 
 **为什么重要：** "哈三中领军计划综合排名第一"比"清华本科"信息密度高 100 倍。前者告诉你这人在高中就是绝对 top，后者只是一个标签。
 
-**如果 Phase 3 时间/速率受限，Step 1 和 Step 4 是必须执行的最高优先级。**
+**如果 Phase 3 时间/速率受限，Step 1、Step 4 和 Step 6 是必须执行的最高优先级。**
 
 ### Step 2: 竞赛 + 奖项
 
@@ -285,7 +360,9 @@ opencli google search "{CHINESE_NAME} mp.weixin.qq.com" --limit 5 --lang zh -f m
 - 地方媒体公众号的"状元采访"/"竞赛获奖"
 - 奖学金/人才计划公告
 
-### Step 5: 高校 BBS / 论坛
+### Step 5: 高校 BBS / 论坛（含海外中文论坛）
+
+**国内 BBS：**
 
 水木社区对所有人可搜（清华/北大/各校校友都用）；cc98 和北大 BBS 仅对对应学校有效。
 
@@ -303,15 +380,62 @@ opencli google search "{CHINESE_NAME} site:cc98.org" --limit 3 --lang zh -f md
 opencli google search "{CHINESE_NAME} site:bbs.pku.edu.cn" --limit 3 --lang zh -f md
 ```
 
-### Step 6: Fetch 有价值的页面
+**海外中文论坛（对有海外经历的研究者必搜）：**
 
-For each promising result from Steps 1-5, **fetch the full page**. Look for:
+```
+opencli google search "{CHINESE_NAME} site:newmitbbs.com OR site:mitbbs.com" --limit 5 --lang zh -f md
+opencli google search "{CHINESE_NAME} site:1point3acres.com" --limit 5 --lang zh -f md
+opencli google search "{CHINESE_NAME} site:muchong.com" --limit 3 --lang zh -f md
+```
+
+**为什么重要：** 论坛八卦帖里经常有 biographical tidbits。例如"宋舒然是北京人啊 101 中学毕业的"这种信息只存在于 newmitbbs 的讨论串里。一亩三分地有大量 PhD 申请/面试经验帖。小木虫有硕博讨论。
+
+### Step 6: 非学术身份考古 ⭐ 新增高优先级
+
+**一个人的非学术身份比他的论文列表更能揭示真实性格。** 本科期间的运动队、社团、创业、支教、文艺活动——这些信息散落在校级新闻、院系公众号、校运会记录里。
+
+**⚠️ 如果 Phase 2h 已经用中文关键词搜索过运动/音乐/社团且有结果，此 step 仅补充 Phase 2h 未覆盖的校园特定场景（如校运会记录、院系运动会、校级文艺比赛、高中社团）。不要重复执行相同 query。**
+
+```
+opencli google search "{CHINESE_NAME} 校运会 OR 运动会 OR 大运会" --limit 5 --lang zh -f md
+opencli google search "{CHINESE_NAME} {UNDERGRAD_SCHOOL} 社团 OR 学生会 OR 班长 OR 志愿者 OR 支教" --limit 5 --lang zh -f md
+opencli google search "{CHINESE_NAME} 文艺 OR 话剧 OR 辩论 OR 演讲比赛" --limit 3 --lang zh -f md
+```
+
+如果 Step 1 中找到了高中名称，搜索高中母校公众号：
+```
+opencli google search "{HIGH_SCHOOL_NAME} {CHINESE_NAME} mp.weixin.qq.com" --limit 3 --lang zh -f md
+```
+
+**为什么重要：** "卢策吾代表学校参加2004年重庆市大运会400米接力亚军，两次校运会冠军"——这个信息来自母校校友报道，但 subagent 之前从未搜索过"运动会"相关关键词。这些细节对于构建性格画像至关重要。
+
+### Step 7: 争议、八卦与负空间 ⭐ 新增
+
+**"应该存在但不存在"本身就是信号。** 搜索负面/争议信息不是为了八卦，而是因为这些信息往往包含最真实的 biographical details。
+
+```
+opencli google search "{CHINESE_NAME} 争议 OR 质疑 OR 批评 OR 离职 OR 辞职" --limit 5 --lang zh -f md
+opencli google search "如何评价 {CHINESE_NAME}" --limit 5 --lang zh -f md
+opencli zhihu search "如何评价 {CHINESE_NAME}" --limit 5 -f md
+```
+
+**Note:** 搜到的争议信息需要标注可信度。论坛八卦的价值不在于"是否属实"，而在于"它提供了什么 biographical detail"（如学校、年龄、出身地等）。在报告中使用"据论坛讨论"而非"确认"。
+
+### Step 8: Fetch 有价值的页面
+
+For each promising result from Steps 1-7, **fetch the full page**. Look for:
 - 高考班级合影、采访报道（性格描写极生动）
 - 校友录、入学名单（确认学号、班级）
 - 竞赛获奖名单（确认奖项级别）
 - 保研/考研经验帖（心路历程）
 - 社团活动照片/报道（非学术兴趣）
 - 公众号专访（本人口述，最接近真实性格）
+- 运动会记录、文艺比赛获奖
+- 论坛讨论中的 biographical details
+
+**⚠️ SNOWBALL: 每次 fetch 一个页面后，提取新线索，追加 1-2 次搜索。** 最好的发现来自第二跳或第三跳。
+
+**→ UPDATE the report file now with Phase 3 findings before continuing.**
 
 ## Phase 4: Wayback Machine Archaeology + GitHub Pages 源码考古
 
@@ -402,12 +526,25 @@ Good: "湖大数学系出身, 博士致谢里感谢了他的猫, rebuttal 风格
 ### 知乎/博客/微博
 - [Key findings, with links]
 
+### 校友报道/人物专访
+- [Key quotes from alumni stories, media profiles, award reports]
+(来源: [URL])
+
 ### Rebuttal 风格
 - [Paper title]: [characterization of rebuttal tone/style]
 - [Direct quote of most characteristic line]
 
 ### 早期线索（中文）
 - [Campus news, awards, competition results]
+
+### 非学术身份
+- [Sports: 田径队? 马拉松? 校运会记录?]
+- [Arts: 乐队? 摄影? 书法?]
+- [Social: 社团? 学生会? 创业? 支教?]
+- [Content creation: B站? 公众号? Podcast?]
+
+### 争议/八卦
+- [Any controversies, forum discussions, with credibility notes]
 
 ### 其他发现
 - [GitHub side projects, interviews, podcasts, anything else interesting]
@@ -453,4 +590,5 @@ Good: "湖大数学系出身, 博士致谢里感谢了他的猫, rebuttal 风格
 ## 未验证 / 待挖
 - [Unconfirmed findings, leads not followed up]
 - [Things you searched for but couldn't find]
+- [Snowball leads that were discovered but not yet pursued]
 ```
