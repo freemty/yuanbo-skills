@@ -105,6 +105,9 @@ Print the overview table and the path to `unbox-output/`.
 | 用 `fetch.py` 抓知乎 → 403 | 必须用 `opencli zhihu search/download/question` |
 | 从新闻报道推断本科院校 | 个人主页 bio 页面是 ground truth，优先级最高 |
 | 只搜英文不搜中文 | 中国研究者的早期经历（竞赛、保研）全在中文搜索里 |
+| 不搜高中/高考信息 | 从本科入学年反推高考年，搜 "{中文名} 高中/高考/自主招生"，信息密度远超本科标签 |
+| 忽略微信公众号 | 大量早期信息沉淀在学校/院系/社团公众号，用 Google 搜 "{中文名} mp.weixin.qq.com"（注意：不要用 `site:` 语法，直接作为关键词） |
+| 不查高校 BBS | 水木社区 (newsmth.net) 有入学名单、院系讨论；cc98.org 有浙大信息 |
 | Wayback Machine 是唯一的时光机 | 先查 GitHub Pages 源码仓库的 git log，精确到天 |
 | 只看发表列表 | 性格信号（thesis 致谢、知乎、rebuttal 风格）才是核心 |
 | 忽略 conference tutorials | Tutorial 比 paper 更能看出判断力和思想 flow |

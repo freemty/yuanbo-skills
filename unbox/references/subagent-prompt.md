@@ -65,10 +65,12 @@ Goal: Figure out who this person is. Extract seeds for later phases.
 
 **Key outputs to carry forward:**
 - Chinese name (中文名) — critical for Phase 3
-- Undergrad institution — critical for Phase 3
+- Undergrad institution + **入学年份** — critical for Phase 3 (入学年 = 高考年，用于反推高中阶段)
 - PhD institution + advisor name — critical for Phase 2.5
 - Personal homepage URL — critical for Phase 4
 - Lab page URL — critical for Phase 4
+- Whether the person grew up in China — determines Phase 3 depth
+- Advisor's Chinese name (导师中文名, if discoverable) — used in Phase 3 Step 3
 
 ## Phase 2: Personality Mining (core — spend the most time here)
 
@@ -208,26 +210,108 @@ Traces the advisor-of-advisor chain.
 opencli google search "{ADVISOR_NAME} PhD advisor OR supervisor OR dissertation" --limit 5 -f md
 ```
 
-## Phase 3: Chinese-Language Deep Dive
+## Phase 3: Chinese Early-Life Archaeology (高优先级)
 
-**Skip this phase entirely if no Chinese name was found in Phase 1.**
+**⚠️ 这是最被低估但信息密度最高的阶段。** 一个人 18 岁前的痕迹往往比论文列表更能揭示真实性格。小城市学校公众号、省级竞赛名单、高考状元采访、自主招生公示——这些信息散落在互联网各处，但极有价值。
 
-Use the Chinese name + undergrad institution as search seeds:
+**Skip / conditional execution rules:**
+- If no Chinese name was found in Phase 1 AND no Chinese institution appeared → skip Phase 3 entirely, note in 未验证/待挖
+- If Chinese name was found but undergrad school is unknown → execute Steps 1, 4, 5 only (skip Steps 2, 3 which need `{UNDERGRAD_SCHOOL}`)
+- If both Chinese name and undergrad are known → execute all steps
+- For Taiwan/HK researchers: their early-life info channels differ (PTT, HKGolden, etc.) — note as 待挖 rather than running mainland-specific searches
+
+### Step 0: 反推时间线
+
+从 Phase 1 已知的本科入学年份反推：
+- 本科入学年 = 高考年（如 2012 入学 → 2012 年高考）
+- 高中就读 = 高考年前 3 年（如 2009-2012）
+- 如果知道本科学校，可以推断省份（如清华/北大 → 各省尖子）
+
+### Step 1: 高中 + 高考信息（最早期，最珍贵）⭐ 最高优先级
+
+```
+opencli google search "{CHINESE_NAME} 高中 OR 中学" --limit 10 --lang zh -f md
+opencli google search "{CHINESE_NAME} 高考" --limit 5 --lang zh -f md
+opencli google search "{CHINESE_NAME} 自主招生 OR 领军计划 OR 博雅计划 OR 强基计划" --limit 5 --lang zh -f md
+opencli google search "{CHINESE_NAME} {UNDERGRAD_SCHOOL} 录取" --limit 5 --lang zh -f md
+```
+
+**为什么重要：** "哈三中领军计划综合排名第一"比"清华本科"信息密度高 100 倍。前者告诉你这人在高中就是绝对 top，后者只是一个标签。
+
+**如果 Phase 3 时间/速率受限，Step 1 和 Step 4 是必须执行的最高优先级。**
+
+### Step 2: 竞赛 + 奖项
+
+```
+opencli google search "{CHINESE_NAME} ACM OR 数学竞赛 OR 数学建模 OR 物理竞赛 OR 信息学竞赛 OR NOI OR IOI" --limit 5 --lang zh -f md
+opencli google search "{CHINESE_NAME} 国家奖学金 OR 优秀毕业生 OR 竞赛" --limit 5 --lang zh -f md
+```
+
+### Step 3: 本科阶段
 
 ```
 opencli google search "{CHINESE_NAME} {UNDERGRAD_SCHOOL}" --limit 10 --lang zh -f md
 opencli google search "{CHINESE_NAME} 保研 OR 推免 OR 考研" --limit 5 --lang zh -f md
-opencli google search "{CHINESE_NAME} ACM OR 数学竞赛 OR 数学建模 OR 物理竞赛" --limit 5 --lang zh -f md
 opencli google search "{CHINESE_NAME} {ADVISOR_CHINESE_NAME}" --limit 5 --lang zh -f md
-opencli google search "{CHINESE_NAME} 国家奖学金 OR 优秀毕业生 OR 竞赛" --limit 5 --lang zh -f md
 ```
 
-For each promising result, fetch the full page. Look for:
-- Campus news articles
-- Scholarship / award announcements
-- Competition results
-- BBS / forum posts mentioning them
-- 保研/考研 experience posts
+**⚠️ 院系校友名录 / 官网是 ground truth：** 很多院系有校友网、毕业生名录页面，直接在院系域名搜索：
+```
+opencli google search "{CHINESE_NAME} site:{UNIVERSITY_DOMAIN}" --limit 10 --lang zh -f md
+```
+常见域名模式：
+- 浙大信电: `isee.zju.edu.cn`（校友网 iseexyw 子站有完整毕业生名录）
+- 清华电子: `ee.tsinghua.edu.cn`
+- 北大: `pku.edu.cn`
+- 上交: `sjtu.edu.cn`
+
+这些页面能确认：专业、年级、班级、奖学金、学生工作、集体活动照片。
+
+### Step 4: 微信公众号搜索（关键渠道）⭐ 最高优先级
+
+**大量早期信息沉淀在学校/院系/社团的微信公众号文章里。** Google 已索引了相当多微信公众号内容。
+
+**⚠️ 不要用 `site:mp.weixin.qq.com` 语法——在 opencli google search 中会报错。直接把 `mp.weixin.qq.com` 作为关键词嵌入 query：**
+
+```
+opencli google search "{CHINESE_NAME} {UNDERGRAD_SCHOOL} mp.weixin.qq.com" --limit 5 --lang zh -f md
+opencli google search "{CHINESE_NAME} mp.weixin.qq.com" --limit 5 --lang zh -f md
+```
+
+典型微信公众号信息源：
+- 院系公众号的"优秀毕业生"/"保研经验"专访
+- 社团/学生会公众号的活动报道
+- 高中母校公众号的"校友风采"
+- 地方媒体公众号的"状元采访"/"竞赛获奖"
+- 奖学金/人才计划公告
+
+### Step 5: 高校 BBS / 论坛
+
+水木社区对所有人可搜（清华/北大/各校校友都用）；cc98 和北大 BBS 仅对对应学校有效。
+
+```
+opencli google search "{CHINESE_NAME} site:newsmth.net" --limit 3 --lang zh -f md
+```
+
+仅在本科为浙大时执行：
+```
+opencli google search "{CHINESE_NAME} site:cc98.org" --limit 3 --lang zh -f md
+```
+
+仅在本科为北大时执行（注：Google 索引有限，低期望）：
+```
+opencli google search "{CHINESE_NAME} site:bbs.pku.edu.cn" --limit 3 --lang zh -f md
+```
+
+### Step 6: Fetch 有价值的页面
+
+For each promising result from Steps 1-5, **fetch the full page**. Look for:
+- 高考班级合影、采访报道（性格描写极生动）
+- 校友录、入学名单（确认学号、班级）
+- 竞赛获奖名单（确认奖项级别）
+- 保研/考研经验帖（心路历程）
+- 社团活动照片/报道（非学术兴趣）
+- 公众号专访（本人口述，最接近真实性格）
 
 ## Phase 4: Wayback Machine Archaeology + GitHub Pages 源码考古
 
@@ -304,6 +388,7 @@ Good: "湖大数学系出身, 博士致谢里感谢了他的猫, rebuttal 风格
 - 现任: [current position]
 - 导师: [PhD advisor]
 - 本科: [undergrad school, major, year]
+- 高中: [high school, city, graduation year] (if found)
 - 中文名来源: [how you found the Chinese name]
 
 ## 性格信号
