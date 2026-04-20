@@ -23,6 +23,7 @@ cd ~/code/projects/ybskills
 | web-fetcher | Unified URL fetcher — auto-routes Twitter/YouTube/Bilibili/小红书/GitHub/知乎/Reddit/微博 to best tool, fallback to Jina Reader |
 | unbox | Researcher deep profiling — personality, early career, mentorship lineage, direction evolution, deleted content |
 | unbox-cross-ref | Cross-reference unbox reports — backfill missing info, resolve factual conflicts across all profiles |
+| meta-audit | AI automation maturity audit — L0-L5 scoring, ecosystem benchmarks, Top-3 actions |
 | yuanboizer-zh | Personal style polisher — rewrites compressed drafts to sound like Yuanbo |
 
 ## Third-party References
