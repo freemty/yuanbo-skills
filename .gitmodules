@@ -13,3 +13,6 @@
 [submodule "no-more-fomo"]
 	path = no-more-fomo
 	url = ssh://git@github.com/freemty/no-more-fomo.git
+[submodule "meta-audit"]
+	path = meta-audit
+	url = ssh://git@github.com/freemty/meta-audit.git
