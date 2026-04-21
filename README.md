@@ -5,53 +5,66 @@ Personal Claude Code skills collection by yuanbo.
 ## Install
 
 ```bash
-git clone https://github.com/freemty/yuanbo-skills ~/code/projects/ybskills
+git clone --recurse-submodules https://github.com/freemty/yuanbo-skills ~/code/projects/ybskills
 cd ~/code/projects/ybskills
 ./install.sh
 ```
 
 ## My Skills
 
+### Writing & Style
+
 | Skill | Description |
 |-------|-------------|
-| paper-storyteller | Narrative-driven academic paper writing (Wu/Efros/Liu/Freeman/Isola style) |
-| no-more-fomo | AI daily digest from Twitter, labs, podcasts |
-| writing-agents | Guide for authoring custom Claude Code agents |
-| [cc-navigator](https://github.com/freemty/cc-navigator) | CC workflow navigator — skill/agent/tool recommendation (independent repo) |
-| flipradio-write-skill | FlipRadio style: guided writing + polish (two skills in one submodule) |
-| web-fetcher | Unified URL fetcher — auto-routes Twitter/YouTube/Bilibili/小红书/GitHub/知乎/Reddit/微博 to best tool, fallback to Jina Reader |
-| unbox | Researcher deep profiling — personality, early career, mentorship lineage, direction evolution, deleted content |
-| unbox-cross-ref | Cross-reference unbox reports — backfill missing info, resolve factual conflicts across all profiles |
-| meta-audit | AI automation maturity audit — L0-L5 scoring, ecosystem benchmarks, Top-3 actions |
-| yuanboizer-zh | Personal style polisher — rewrites compressed drafts to sound like Yuanbo |
+| [yuanboizer-zh](yuanboizer-zh/) | Personal style polisher — rewrites compressed drafts to sound like Yuanbo |
+| [flipradio-write-skill](flipradio-write-skill/) | FlipRadio critical style: guided writing + polish (two skills in one) |
+| [paper-storyteller](paper-storyteller/) | Narrative-driven academic paper writing (Wu/Efros/Liu/Freeman/Isola style) |
+| [research-paper-writing](writing-agents/) | Guide for authoring custom Claude Code agents |
 
-## Third-party References
+### Research & Knowledge
 
-Plugins and skill collections I use alongside my own. These are installed via their own systems, not included in this repo.
+| Skill | Description |
+|-------|-------------|
+| [unbox-skills](unbox-skills/) | Researcher deep profiling — personality, early career, mentorship lineage, direction evolution. Includes unbox, unbox-graph, unbox-to-wiki |
+| [selfos](selfos/) | Personal knowledge base — ingest, compile, query wiki, context recovery |
+| [no-more-fomo](no-more-fomo/) | AI daily digest from Twitter KOLs, lab blogs, podcasts, arxiv, HackerNews |
+| [scholar-agent](https://github.com/jiahao-shao1/sjh-skills) | Scholar Inbox CLI — daily paper digest, ratings, deep-read via NotebookLM (from sjh-skills) |
 
-### Plugins (managed via Claude Code plugin system)
+### Academic Visual Identity
 
-| Plugin | Skills | Author | Source |
-|--------|--------|--------|--------|
-| superpowers | 14 skills: brainstorming, TDD, debugging, writing-plans, executing-plans, code review, git worktrees, etc. | claude-plugins-official | Installed via Claude Code plugin system |
-| everything-claude-code | 28 skills: coding-standards, python/golang/django/springboot patterns, security-review, eval-harness, etc. | Last Strike | Installed via Claude Code plugin system |
-| labmate | 5 agents: domain-expert, exp-manager, project-advisor, slides-maker, viz-frontend + 13 hooks | labmate-marketplace | Installed via Claude Code plugin system |
+| Skill | Description |
+|-------|-------------|
+| [paper-style](paper-style/) | Paper color theme system — 5 themes for figures, tables, diagrams |
+| [beamer-style](beamer-style/) | Beamer slide theme system — shares the same 5-theme color system |
 
-### Skill Collections (installed manually)
+### Productivity
 
-| Collection | Description | Author | Source |
-|------------|-------------|--------|--------|
-| sjh-skills | Research workflow skills (scholar-agent, research-paper-writing, fars-system, hle-solver, etc.) | jiahao-shao1 (嘉豪) | [jiahao-shao1/sjh-skills](https://github.com/jiahao-shao1/sjh-skills) |
-| baoyu-skills | Content generation skills (humanizer, Humanizer-zh, notebooklm, nano-banana, etc.) | JimLiu (宝玉) | [JimLiu/baoyu-skills](https://github.com/JimLiu/baoyu-skills) |
-| ljg-skills | Learning & writing skills | lijigang | [lijigang/ljg-skills](https://github.com/lijigang/ljg-skills) |
+| Skill | Description |
+|-------|-------------|
+| [weekly-report](weekly-report/) | Weekly progress report for managers |
+| [web-fetcher](web-fetcher/) | Unified URL fetcher — auto-routes Twitter/YouTube/Bilibili/小红书/GitHub etc. |
+| [meta-audit](meta-audit/) | AI automation maturity audit — L0-L5 scoring, ecosystem benchmarks, Top-3 actions |
+| [labmate](labmate/) | Research harness for Claude Code — experiments, papers, knowhow, agents (independent plugin) |
 
-### Individual Skills (installed via find-skills / manual)
+## Third-party Dependencies
 
-| Skill | Description | Source |
-|-------|-------------|--------|
-| find-skills | Skill discovery and installation | [nicepkg/claude-code-skill](https://github.com/nicepkg/claude-code-skill) |
-| notion-lifeos | Notion LifeOS PARA system integration | [jiahao-shao1/openclaw-skill-notion-lifeos](https://github.com/jiahao-shao1/openclaw-skill-notion-lifeos) |
-| agent-reach | Multi-platform internet access tools | [nicepkg/claude-code-skill](https://github.com/nicepkg/claude-code-skill) |
+Installed automatically by `install.sh`:
+
+| Skill | Source |
+|-------|--------|
+| notion-lifeos | [jiahao-shao1/openclaw-skill-notion-lifeos](https://github.com/jiahao-shao1/openclaw-skill-notion-lifeos) |
+| proactive-agent | [halthelobster/proactive-agent](https://github.com/halthelobster/proactive-agent) |
+
+## Plugins I Use
+
+Managed via Claude Code plugin system, not included in this repo.
+
+| Plugin | What it does |
+|--------|-------------|
+| superpowers | Brainstorming, TDD, debugging, plans, code review, git worktrees (14 skills) |
+| plugin-dev | Plugin/skill/agent/hook development helpers |
+| chrome-devtools-mcp | Browser automation via Chrome DevTools Protocol |
+| huggingface-skills | HuggingFace papers, datasets, model training, Gradio, transformers.js |
 
 ## License
 
