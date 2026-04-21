@@ -1,0 +1,3 @@
+[submodule "unbox-skills"]
+	path = unbox-skills
+	url = git@github.com:freemty/unbox-skills.git
