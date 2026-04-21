@@ -19,16 +19,15 @@ cd ~/code/projects/ybskills
 | [yuanboizer-zh](yuanboizer-zh/) | Personal style polisher — rewrites compressed drafts to sound like Yuanbo |
 | [flipradio-write-skill](flipradio-write-skill/) | FlipRadio critical style: guided writing + polish (two skills in one) |
 | [paper-storyteller](paper-storyteller/) | Narrative-driven academic paper writing (Wu/Efros/Liu/Freeman/Isola style) |
-| [research-paper-writing](writing-agents/) | Guide for authoring custom Claude Code agents |
+| [writing-agents](writing-agents/) | Guide for authoring custom Claude Code agent markdown files |
 
 ### Research & Knowledge
 
 | Skill | Description |
 |-------|-------------|
 | [unbox-skills](unbox-skills/) | Researcher deep profiling — personality, early career, mentorship lineage, direction evolution. Includes unbox, unbox-graph, unbox-to-wiki |
-| [selfos](selfos/) | Personal knowledge base — ingest, compile, query wiki, context recovery |
+| [selfos](selfos/) | Personal knowledge base — ingest, compile, query wiki, context recovery *(private)* |
 | [no-more-fomo](no-more-fomo/) | AI daily digest from Twitter KOLs, lab blogs, podcasts, arxiv, HackerNews |
-| [scholar-agent](https://github.com/jiahao-shao1/sjh-skills) | Scholar Inbox CLI — daily paper digest, ratings, deep-read via NotebookLM (from sjh-skills) |
 
 ### Academic Visual Identity
 
