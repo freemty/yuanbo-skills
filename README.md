@@ -42,6 +42,7 @@ cd ~/code/projects/ybskills
 |-------|-------------|
 | [weekly-report](weekly-report/) | Weekly progress report for managers |
 | [web-fetcher](web-fetcher/) | Unified URL fetcher — auto-routes Twitter/YouTube/Bilibili/小红书/GitHub etc. |
+| [cc-navigator](cc-navigator/) | Claude Code workflow navigator — recommends the right skill/agent/tool from 11 sources |
 | [meta-audit](meta-audit/) | AI automation maturity audit — L0-L5 scoring, ecosystem benchmarks, Top-3 actions |
 | [labmate](labmate/) | Research harness for Claude Code — experiments, papers, knowhow, agents (independent plugin) |
 

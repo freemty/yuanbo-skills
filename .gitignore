@@ -2,7 +2,6 @@ node_modules/
 .DS_Store
 *.log
 docs/superpowers/
-cc-navigator/
 
 # Python
 .venv/
