@@ -4,3 +4,9 @@
 [submodule "labmate"]
 	path = labmate
 	url = git@github.com:freemty/labmate.git
+[submodule "paper-style"]
+	path = paper-style
+	url = git@github.com:freemty/paper-style.git
+[submodule "beamer-style"]
+	path = beamer-style
+	url = ssh://git@github.com/freemty/beamer-style.git
