@@ -1,0 +1,35 @@
+{
+  "date": "2026-03-26",
+  "window": "7d",
+  "metrics": {
+    "commits": 7,
+    "contributors": 1,
+    "prs_merged": 0,
+    "insertions": 15817,
+    "deletions": 623,
+    "net_loc": 15194,
+    "test_loc": 0,
+    "test_ratio": 0,
+    "active_days": 2,
+    "sessions": 5,
+    "deep_sessions": 0,
+    "avg_session_minutes": 3,
+    "loc_per_session_hour": 0,
+    "feat_pct": 0.43,
+    "fix_pct": 0,
+    "peak_hour": 23,
+    "ai_assisted_commits": 6
+  },
+  "authors": {
+    "freemty": {
+      "commits": 7,
+      "insertions": 15817,
+      "deletions": 623,
+      "test_ratio": 0,
+      "top_area": "no-more-fomo/"
+    }
+  },
+  "version_range": [],
+  "streak_days": 0,
+  "tweetable": "Week of Mar 19: 7 commits (solo), 15.8k LOC, 0% tests, 0 PRs, peak: 11pm | Streak: 0d"
+}
