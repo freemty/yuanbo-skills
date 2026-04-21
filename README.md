@@ -18,8 +18,7 @@ cd ~/code/projects/ybskills
 | no-more-fomo | AI daily digest from Twitter, labs, podcasts |
 | writing-agents | Guide for authoring custom Claude Code agents |
 | [cc-navigator](https://github.com/freemty/cc-navigator) | CC workflow navigator — skill/agent/tool recommendation (independent repo) |
-| flipradio-write | Guided writing in FlipRadio critical public intellectual style |
-| flipradio-polish | Polish articles against FlipRadio 10-dimension style framework |
+| flipradio-write-skill | FlipRadio style: guided writing + polish (two skills in one submodule) |
 | web-fetcher | Unified URL fetcher — auto-routes Twitter/YouTube/Bilibili/小红书/GitHub/知乎/Reddit/微博 to best tool, fallback to Jina Reader |
 | unbox | Researcher deep profiling — personality, early career, mentorship lineage, direction evolution, deleted content |
 | unbox-cross-ref | Cross-reference unbox reports — backfill missing info, resolve factual conflicts across all profiles |

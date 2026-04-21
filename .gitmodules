@@ -9,19 +9,19 @@
 	url = git@github.com:freemty/paper-style.git
 [submodule "beamer-style"]
 	path = beamer-style
-	url = ssh://git@github.com/freemty/beamer-style.git
+	url = git@github.com:freemty/beamer-style.git
 [submodule "no-more-fomo"]
 	path = no-more-fomo
-	url = ssh://git@github.com/freemty/no-more-fomo.git
+	url = git@github.com:freemty/no-more-fomo.git
 [submodule "meta-audit"]
 	path = meta-audit
-	url = ssh://git@github.com/freemty/meta-audit.git
+	url = git@github.com:freemty/meta-audit.git
 [submodule "selfos"]
 	path = selfos
-	url = ssh://github.com/freemty/selfos-private.git
+	url = git@github.com:freemty/selfos-private.git
 [submodule "paper-storyteller"]
 	path = paper-storyteller
-	url = ssh://git@github.com/freemty/paper-storyteller.git
+	url = git@github.com:freemty/paper-storyteller.git
 [submodule "flipradio-write-skill"]
 	path = flipradio-write-skill
-	url = ssh://git@github.com/freemty/flipradio-write-skill.git
+	url = git@github.com:freemty/flipradio-write-skill.git
