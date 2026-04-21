@@ -1,3 +1,6 @@
 [submodule "unbox-skills"]
 	path = unbox-skills
 	url = git@github.com:freemty/unbox-skills.git
+[submodule "labmate"]
+	path = labmate
+	url = git@github.com:freemty/labmate.git
