@@ -19,3 +19,6 @@
 [submodule "selfos"]
 	path = selfos
 	url = ssh://github.com/freemty/selfos-private.git
+[submodule "paper-storyteller"]
+	path = paper-storyteller
+	url = ssh://git@github.com/freemty/paper-storyteller.git
