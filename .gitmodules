@@ -22,3 +22,6 @@
 [submodule "paper-storyteller"]
 	path = paper-storyteller
 	url = ssh://git@github.com/freemty/paper-storyteller.git
+[submodule "flipradio-write-skill"]
+	path = flipradio-write-skill
+	url = ssh://git@github.com/freemty/flipradio-write-skill.git
