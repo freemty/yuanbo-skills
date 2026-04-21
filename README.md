@@ -28,6 +28,7 @@ cd ~/code/projects/ybskills
 | [unbox-skills](unbox-skills/) | Researcher deep profiling — personality, early career, mentorship lineage, direction evolution. Includes unbox, unbox-graph, unbox-to-wiki |
 | [selfos](selfos/) | Personal knowledge base — ingest, compile, query wiki, context recovery *(private)* |
 | [no-more-fomo](no-more-fomo/) | AI daily digest from Twitter KOLs, lab blogs, podcasts, arxiv, HackerNews |
+| [paper-review](paper-review/) | Multi-role academic peer review — 4 expert agents cross-review, outputs venue-ready form fields |
 
 ### Academic Visual Identity
 
