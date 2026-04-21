@@ -16,3 +16,6 @@
 [submodule "meta-audit"]
 	path = meta-audit
 	url = ssh://git@github.com/freemty/meta-audit.git
+[submodule "selfos"]
+	path = selfos
+	url = ssh://github.com/freemty/selfos-private.git
