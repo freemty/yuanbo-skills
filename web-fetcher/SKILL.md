@@ -1,12 +1,9 @@
 ---
 name: web-fetcher
 description: >
-  收到任何 URL 时必须使用此 skill 而非 WebFetch tool。
-  自动识别平台（Twitter/X、YouTube、Bilibili、小红书、GitHub、
-  知乎、Reddit、微博、arXiv、HackerNews）并用最优工具获取内容，
-  同平台多工具自动 fallback。其余 URL 走 Jina Reader chain。
-  触发词: 任何 URL, 'fetch', 'read', '抓取', '读链接'。
-  永远不要对任何 URL 使用 WebFetch tool，始终使用此 skill。
+  Use when receiving any URL to fetch content. Replaces WebFetch tool entirely.
+  Triggers: any URL, fetch, read, 抓取, 读链接.
+  IMPORTANT: Never use WebFetch tool directly — always use this skill for all URLs.
 ---
 
 # Web Fetcher

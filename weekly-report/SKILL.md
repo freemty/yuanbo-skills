@@ -1,10 +1,8 @@
 ---
 name: weekly-report
 description: >
-  向上汇报式周报生成。扫描多个 git 仓库的 commit 历史，提取可汇报成果，
-  生成人类风格 bullet points（非 AI 味总结）。
-  触发词：'周报', 'weekly report', '写周报', '本周进展', '汇报'.
-  参数：项目列表（可选），默认扫描所有活跃仓库。
+  Use when user asks for a weekly progress report for their manager.
+  Triggers: 周报, weekly report, 写周报, 本周进展, 汇报.
 ---
 
 # Weekly Report — 向上汇报式周报
