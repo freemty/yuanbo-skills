@@ -10,3 +10,6 @@
 [submodule "beamer-style"]
 	path = beamer-style
 	url = ssh://git@github.com/freemty/beamer-style.git
+[submodule "no-more-fomo"]
+	path = no-more-fomo
+	url = ssh://git@github.com/freemty/no-more-fomo.git
