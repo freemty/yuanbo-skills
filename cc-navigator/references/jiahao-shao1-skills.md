@@ -63,18 +63,6 @@ Agent 模式追求速度 (0.1s)，Sentinel 模式保证可靠性 (1.5s)。自动
 ### 4. 零依赖远程部署
 集群端 agent 仅 ~100 行 Python + stdlib，解决了 GPU 服务器环境受限的问题。
 
-## 与我们现有 skill 的对比
-
-| 需求 | jiahao-shao1 | 我们已有 |
-|------|-------------|---------|
-| 论文阅读 | scholar-agent (Scholar Inbox + NotebookLM) | notebooklm skill, rope2sink |
-| GPU 集群 | remote-cluster-agent (MCP + Mutagen) | server-setup, fars-autotrain |
-| 终端编排 | cmux | cmux (同源) |
-| 每日总结 | daily-summary | no-more-fomo (偏新闻) |
-| 生活管理 | notion-lifeos | notion-lifeos (同源) |
-| 网页抓取 | web-fetcher (5 级降级) | agent-reach, WebFetch |
-| 工作流导航 | 无 | cc-navigator |
-
 ## 推荐关注
 
 1. **remote-cluster-agent** — 最独特的贡献，解决了 CC 远程执行的核心痛点
