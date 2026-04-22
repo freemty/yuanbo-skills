@@ -49,6 +49,14 @@ Each skill directory must contain:
 
 - `docs/plugins/landscape.md` — 插件总览索引（类似 labmate 的 papers/landscape.md）
 - `docs/plugins/{name}.md` — 每个插件/skill/MCP server 的独立笔记
+- `docs/outputs-convention.md` — Skill 产出物目录约定（`~/outputs/` 结构 + symlink 兼容）
+
+## Knowhow
+
+- `docs/knowhow/infrastructure/` — Servers, networking, disk, GPU issues
+- `docs/knowhow/toolchain/` — CLI tools, docker, conda/pip, framework tips
+- `docs/knowhow/debug-solutions/` — Error investigation paths and fixes
+- `docs/knowhow/runbooks/` — Step-by-step operational procedures
 
 ## Conventions
 

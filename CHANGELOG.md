@@ -7,6 +7,13 @@ All notable changes to yuanbo-skills.
 - **paper-review**: convert from inline directory to submodule (`freemty/paper-review`)
 - **CLAUDE.md**: create project-level guidance for future Claude Code sessions
 - Clean up stale root files (`TODO.md`, `weekly-report-2026-03-26.md`)
+- **docs/plugins**: expand huggingface-skills notes (11 skills 清单 + 工程实践借鉴 + gstack 条目)
+- **docs/outputs-convention**: establish `~/outputs/` convention for skill output directories + symlink compatibility
+- **housekeeping**: remove 8 scattered submodule copies from `~/code/projects/` (now only in yuanbo-skills submodules)
+- **housekeeping**: consolidate 6 output directories into `~/outputs/` (no-more-fomo, unbox, weekly-report, zhihu-articles, gemini-exporter, maqianzu-wiki)
+- **selfos**: merge public template + private worktree into single `~/selfOS/` repo, update README clone path
+- **selfos**: ⚠️ `worktree remove --force` 导致 gitignored 源数据丢失（notion/claude/gemini exports），需重新导出
+- **docs/knowhow**: add 3 runbooks (worktree-to-standalone, consolidate-output-dirs, cleanup-scattered-submodules)
 
 ## 2026-04-21
 

@@ -67,6 +67,13 @@ Managed via Claude Code plugin system, not included in this repo.
 | chrome-devtools-mcp | Browser automation via Chrome DevTools Protocol |
 | huggingface-skills | HuggingFace papers, datasets, model training, Gradio, transformers.js |
 
+## Related
+
+| Repo | Description |
+|------|-------------|
+| [cc-research-playbook](https://github.com/freemty/cc-research-playbook) | AI Researcher 的 Claude Code 实践指南（组会 slides） |
+| [wechat-to-agent](https://github.com/freemty/wechat-to-agent) | 微信聊天记录 → AI Agent 数据平台（MCP Server） |
+
 ## License
 
 MIT
