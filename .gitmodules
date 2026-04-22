@@ -13,8 +13,8 @@
 [submodule "skills/paper-style"]
 	path = skills/paper-style
 	url = git@github.com:freemty/paper-style.git
-[submodule "plugins/flipradio-write-skill"]
-	path = plugins/flipradio-write-skill
+[submodule "skills/flipradio-write-skill"]
+	path = skills/flipradio-write-skill
 	url = git@github.com:freemty/flipradio-write-skill.git
 [submodule "plugins/labmate"]
 	path = plugins/labmate
