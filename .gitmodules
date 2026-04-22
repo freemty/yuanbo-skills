@@ -1,30 +1,30 @@
-[submodule "unbox-skills"]
-	path = unbox-skills
-	url = git@github.com:freemty/unbox-skills.git
-[submodule "labmate"]
-	path = labmate
-	url = git@github.com:freemty/labmate.git
-[submodule "paper-style"]
-	path = paper-style
-	url = git@github.com:freemty/paper-style.git
-[submodule "beamer-style"]
-	path = beamer-style
+[submodule "skills/beamer-style"]
+	path = skills/beamer-style
 	url = git@github.com:freemty/beamer-style.git
-[submodule "no-more-fomo"]
-	path = no-more-fomo
+[submodule "skills/no-more-fomo"]
+	path = skills/no-more-fomo
 	url = git@github.com:freemty/no-more-fomo.git
-[submodule "meta-audit"]
-	path = meta-audit
-	url = git@github.com:freemty/meta-audit.git
-[submodule "selfos"]
-	path = selfos
-	url = git@github.com:freemty/selfos-private.git
-[submodule "paper-storyteller"]
-	path = paper-storyteller
-	url = git@github.com:freemty/paper-storyteller.git
-[submodule "flipradio-write-skill"]
-	path = flipradio-write-skill
-	url = git@github.com:freemty/flipradio-write-skill.git
-[submodule "paper-review"]
-	path = paper-review
+[submodule "skills/paper-review"]
+	path = skills/paper-review
 	url = git@github.com:freemty/paper-review.git
+[submodule "skills/paper-storyteller"]
+	path = skills/paper-storyteller
+	url = git@github.com:freemty/paper-storyteller.git
+[submodule "skills/paper-style"]
+	path = skills/paper-style
+	url = git@github.com:freemty/paper-style.git
+[submodule "plugins/flipradio-write-skill"]
+	path = plugins/flipradio-write-skill
+	url = git@github.com:freemty/flipradio-write-skill.git
+[submodule "plugins/labmate"]
+	path = plugins/labmate
+	url = git@github.com:freemty/labmate.git
+[submodule "plugins/meta-audit"]
+	path = plugins/meta-audit
+	url = git@github.com:freemty/meta-audit.git
+[submodule "plugins/unbox-skills"]
+	path = plugins/unbox-skills
+	url = git@github.com:freemty/unbox-skills.git
+[submodule "projects/selfos"]
+	path = projects/selfos
+	url = git@github.com:freemty/selfos-private.git

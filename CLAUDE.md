@@ -4,17 +4,27 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## What This Is
 
-A monorepo of personal Claude Code skills. Each top-level directory is one skill — either a git submodule (independent repo) or an inline directory tracked directly in this repo.
+A monorepo of personal Claude Code skills, plugins, and projects. Organized into three top-level directories by type.
 
 ## Repo Layout
 
-Skills are installed by `install.sh`, which symlinks every directory containing a `SKILL.md` into `~/.claude/skills/`. Directories without `SKILL.md` (like `labmate`, `meta-audit`, `selfos`) are plugin/project repos included as submodules but not symlinked as skills.
+```
+skills/          Single-skill directories (each has SKILL.md)
+plugins/         Multi-skill plugins (may have .claude-plugin/, nested skills)
+projects/        Standalone projects (selfos)
+docs/            Plugin notes, knowhow, conventions
+scripts/         Build & validation scripts
+```
+
+Skills are installed by `install.sh`, which symlinks every directory containing a `SKILL.md` (in `skills/` and `plugins/`, including nested) into `~/.claude/skills/`.
 
 **Submodules** (have their own GitHub repo under `freemty/`):
-beamer-style, flipradio-write-skill, labmate, meta-audit, no-more-fomo, paper-review, paper-storyteller, paper-style, selfos, unbox-skills
+- skills: beamer-style, no-more-fomo, paper-review, paper-storyteller, paper-style
+- plugins: flipradio-write-skill, labmate, meta-audit, unbox-skills
+- projects: selfos
 
 **Inline directories** (tracked directly in this repo):
-cc-navigator, web-fetcher, weekly-report, writing-agents, yuanboizer-zh
+- skills: cc-navigator, web-fetcher, weekly-report, writing-agents, yuanboizer-zh
 
 ## Common Operations
 
@@ -29,13 +39,10 @@ git clone --recurse-submodules git@github.com:freemty/yuanbo-skills.git
 git submodule update --remote --merge
 
 # Add a new skill as submodule
-git submodule add git@github.com:freemty/<name>.git <name>
+git submodule add git@github.com:freemty/<name>.git skills/<name>
 
-# Convert an inline directory to submodule:
-# 1. Create repo on GitHub
-# 2. cd <dir> && git init && git remote add origin ... && git add -A && git commit && git push
-# 3. Back in root: git rm -rf <dir> && git submodule add <url> <dir>
-# 4. Restore files: cd <dir> && git restore .
+# Add a new plugin as submodule
+git submodule add git@github.com:freemty/<name>.git plugins/<name>
 ```
 
 ## Skill Anatomy
