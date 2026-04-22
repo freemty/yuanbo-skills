@@ -25,3 +25,6 @@
 [submodule "flipradio-write-skill"]
 	path = flipradio-write-skill
 	url = git@github.com:freemty/flipradio-write-skill.git
+[submodule "paper-review"]
+	path = paper-review
+	url = git@github.com:freemty/paper-review.git
