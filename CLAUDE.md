@@ -45,6 +45,11 @@ Each skill directory must contain:
 - `README.md` — human-facing docs for the GitHub repo page.
 - `references/` (optional) — supporting data files the skill reads at runtime.
 
+## Docs
+
+- `docs/plugins/landscape.md` — 插件总览索引（类似 labmate 的 papers/landscape.md）
+- `docs/plugins/{name}.md` — 每个插件/skill/MCP server 的独立笔记
+
 ## Conventions
 
 - Skill descriptions use the CSO (Context-Situation-Outcome) format for triggering: describe *when* to use the skill, not *what* it does.
