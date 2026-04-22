@@ -9,12 +9,13 @@
 | [superpowers](superpowers.md) | anthropics/superpowers | workflow | 开发全流程 14 skills，brainstorm + plan + execute 三段式 |
 | [plugin-dev](plugin-dev.md) | anthropics/plugin-dev | tooling | plugin/skill/agent/hook 开发脚手架 |
 | [chrome-devtools-mcp](chrome-devtools-mcp.md) | anthropics/chrome-devtools-mcp | browser | Chrome DevTools Protocol 浏览器自动化 |
-| [huggingface-skills](huggingface-skills.md) | anthropics/huggingface-skills | ml | HF 全家桶：papers, datasets, training, Gradio |
+| [huggingface-skills](huggingface-skills.md) | huggingface/skills | ml | HF 全家桶 11 skills：papers, datasets, training, Gradio, eval |
 
 ## Third-party Skills
 
 | Name | Source | Category | Notes |
 |------|--------|----------|-------|
+| [gstack](gstack.md) | garrytan/gstack | workflow | YC CEO 的 23 skill sprint 流程：Think → Plan → Build → Review → Test → Ship → Reflect |
 | [notion-lifeos](notion-lifeos.md) | jiahao-shao1/openclaw-skill-notion-lifeos | productivity | Notion 个人系统读写 |
 | [proactive-agent](proactive-agent.md) | halthelobster/proactive-agent | workflow | 让 Claude Code 主动发起行动 |
 
