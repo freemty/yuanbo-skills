@@ -19,12 +19,12 @@ scripts/         Build & validation scripts
 Skills are installed by `install.sh`, which symlinks every directory containing a `SKILL.md` (in `skills/` and `plugins/`, including nested) into `~/.claude/skills/`.
 
 **Submodules** (have their own GitHub repo under `freemty/`):
-- skills: beamer-style, flipradio-write-skill, no-more-fomo, paper-storyteller, paper-style
+- skills: beamer-style, cc-navigator, flipradio-write-skill, no-more-fomo, paper-storyteller, paper-style, writing-agents
 - plugins: labmate, meta-audit, paper-review, unbox-skills
 - projects: selfos
 
 **Inline directories** (tracked directly in this repo):
-- skills: cc-navigator, web-fetcher, weekly-report, writing-agents, yuanboizer-zh
+- skills: web-fetcher, weekly-report, yuanboizer-zh
 
 ## Common Operations
 
@@ -64,6 +64,7 @@ Each skill directory must contain:
 ## Guides
 
 - `docs/guides/generate-readme.md` — README skill 表格自动生成脚本使用指南
+- `docs/guides/skills-sh-publishing.md` — skills.sh 上架规范：repo 结构、SKILL.md/README 模板、标准化 checklist
 
 ## Knowhow
 
