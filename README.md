@@ -12,12 +12,14 @@ cd ~/code/projects/ybskills
 
 ## Skills
 
+<!-- BEGIN SKILLS -->
+
 ### Writing & Style
 
 | Skill | Description |
 |-------|-------------|
 | [yuanboizer-zh](skills/yuanboizer-zh/) | Personal style polisher — rewrites compressed drafts to sound like Yuanbo |
-| [flipradio-write-skill](plugins/flipradio-write-skill/) | FlipRadio critical style: guided writing + polish (two skills in one) |
+| [flipradio-write-skill](skills/flipradio-write-skill/) | FlipRadio critical style: guided writing + polish (two skills in one) |
 | [paper-storyteller](skills/paper-storyteller/) | Narrative-driven academic paper writing (Wu/Efros/Liu/Freeman/Isola style) |
 | [writing-agents](skills/writing-agents/) | Guide for authoring custom Claude Code agent markdown files |
 
@@ -46,12 +48,13 @@ cd ~/code/projects/ybskills
 | [cc-navigator](skills/cc-navigator/) | Claude Code workflow navigator — recommends the right skill/agent/tool from 11 sources |
 | [meta-audit](plugins/meta-audit/) | AI automation maturity audit — L0-L5 scoring, ecosystem benchmarks, Top-3 actions |
 | [labmate](plugins/labmate/) | Research harness for Claude Code — experiments, papers, knowhow, agents (independent plugin) |
+<!-- END SKILLS -->
 
 ## Repo Structure
 
 ```
-skills/          Single-skill directories (10)
-plugins/         Multi-skill plugins (4)
+skills/          Single-skill directories (11)
+plugins/         Multi-skill plugins (3)
 projects/        Standalone projects (1: selfos)
 docs/            Plugin notes, knowhow, conventions
 scripts/         Build & validation scripts

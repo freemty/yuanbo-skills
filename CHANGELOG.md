@@ -4,6 +4,8 @@ All notable changes to yuanbo-skills.
 
 ## 2026-04-22
 
+- **flipradio-write-skill**: move from `plugins/` to `skills/` (pure skill, no plugin manifest)
+- **scripts/generate_readme.py**: auto-generate README skill tables from SKILLS dict, replace between `<!-- BEGIN/END SKILLS -->` markers
 - **paper-review**: convert from inline directory to submodule (`freemty/paper-review`)
 - **CLAUDE.md**: create project-level guidance for future Claude Code sessions
 - Clean up stale root files (`TODO.md`, `weekly-report-2026-03-26.md`)

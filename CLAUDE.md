@@ -19,8 +19,8 @@ scripts/         Build & validation scripts
 Skills are installed by `install.sh`, which symlinks every directory containing a `SKILL.md` (in `skills/` and `plugins/`, including nested) into `~/.claude/skills/`.
 
 **Submodules** (have their own GitHub repo under `freemty/`):
-- skills: beamer-style, no-more-fomo, paper-review, paper-storyteller, paper-style
-- plugins: flipradio-write-skill, labmate, meta-audit, unbox-skills
+- skills: beamer-style, flipradio-write-skill, no-more-fomo, paper-review, paper-storyteller, paper-style
+- plugins: labmate, meta-audit, unbox-skills
 - projects: selfos
 
 **Inline directories** (tracked directly in this repo):
@@ -43,6 +43,9 @@ git submodule add git@github.com:freemty/<name>.git skills/<name>
 
 # Add a new plugin as submodule
 git submodule add git@github.com:freemty/<name>.git plugins/<name>
+
+# Regenerate README skill tables from scripts/generate_readme.py
+python3 scripts/generate_readme.py --write
 ```
 
 ## Skill Anatomy
@@ -57,6 +60,10 @@ Each skill directory must contain:
 - `docs/plugins/landscape.md` — 插件总览索引（类似 labmate 的 papers/landscape.md）
 - `docs/plugins/{name}.md` — 每个插件/skill/MCP server 的独立笔记
 - `docs/outputs-convention.md` — Skill 产出物目录约定（`~/outputs/` 结构 + symlink 兼容）
+
+## Guides
+
+- `docs/guides/generate-readme.md` — README skill 表格自动生成脚本使用指南
 
 ## Knowhow
 
