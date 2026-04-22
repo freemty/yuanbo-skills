@@ -4,9 +4,6 @@
 [submodule "skills/no-more-fomo"]
 	path = skills/no-more-fomo
 	url = git@github.com:freemty/no-more-fomo.git
-[submodule "skills/paper-review"]
-	path = skills/paper-review
-	url = git@github.com:freemty/paper-review.git
 [submodule "skills/paper-storyteller"]
 	path = skills/paper-storyteller
 	url = git@github.com:freemty/paper-storyteller.git
@@ -28,3 +25,6 @@
 [submodule "projects/selfos"]
 	path = projects/selfos
 	url = git@github.com:freemty/selfos-private.git
+[submodule "plugins/paper-review"]
+	path = plugins/paper-review
+	url = git@github.com:freemty/paper-review.git

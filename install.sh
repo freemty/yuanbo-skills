@@ -47,8 +47,8 @@ for search_dir in "$SCRIPT_DIR/skills" "$SCRIPT_DIR/plugins"; do
   done
 done
 
-# Also check for nested skills inside plugins (e.g. plugins/unbox-skills/unbox/)
-for plugin_dir in "$SCRIPT_DIR/plugins"/*/; do
+# Also check for nested skills (e.g. plugins/unbox-skills/unbox/, skills/paper-review/review-review/)
+for plugin_dir in "$SCRIPT_DIR/skills"/*/ "$SCRIPT_DIR/plugins"/*/; do
   [ ! -d "$plugin_dir" ] && continue
   for nested_skill in "$plugin_dir"/*/; do
     [ ! -f "$nested_skill/SKILL.md" ] && continue

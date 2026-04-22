@@ -32,7 +32,6 @@ SKILLS = {
     "flipradio-write-skill": {
         "category": "Writing & Style",
         "description": "FlipRadio critical style: guided writing + polish (two skills in one)",
-        "type": "plugin",
     },
     "paper-storyteller": {
         "category": "Writing & Style",
@@ -58,7 +57,8 @@ SKILLS = {
     },
     "paper-review": {
         "category": "Research & Knowledge",
-        "description": "Multi-role academic peer review — 4 expert agents cross-review, outputs venue-ready form fields",
+        "description": "Multi-role academic peer review — 4 expert agents cross-review, outputs venue-ready form fields. Includes review-review audit",
+        "type": "plugin",
     },
     "paper-style": {
         "category": "Academic Visual Identity",

@@ -19,8 +19,8 @@ scripts/         Build & validation scripts
 Skills are installed by `install.sh`, which symlinks every directory containing a `SKILL.md` (in `skills/` and `plugins/`, including nested) into `~/.claude/skills/`.
 
 **Submodules** (have their own GitHub repo under `freemty/`):
-- skills: beamer-style, flipradio-write-skill, no-more-fomo, paper-review, paper-storyteller, paper-style
-- plugins: labmate, meta-audit, unbox-skills
+- skills: beamer-style, flipradio-write-skill, no-more-fomo, paper-storyteller, paper-style
+- plugins: labmate, meta-audit, paper-review, unbox-skills
 - projects: selfos
 
 **Inline directories** (tracked directly in this repo):
