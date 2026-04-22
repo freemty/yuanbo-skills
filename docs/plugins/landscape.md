@@ -18,6 +18,7 @@
 | [gstack](gstack.md) | garrytan/gstack | workflow | YC CEO 的 23 skill sprint 流程：Think → Plan → Build → Review → Test → Ship → Reflect |
 | [notion-lifeos](notion-lifeos.md) | jiahao-shao1/openclaw-skill-notion-lifeos | productivity | Notion 个人系统读写 |
 | [proactive-agent](proactive-agent.md) | halthelobster/proactive-agent | workflow | 让 Claude Code 主动发起行动 |
+| [zarazhangrui](zarazhangrui.md) | zarazhangrui (12 repos) | content-pipeline | 内容转化全家桶：podcast, slides, ebook, meeting→tasks, codebase→course |
 
 ## MCP Servers
 
