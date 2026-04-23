@@ -53,8 +53,8 @@ cd ~/code/projects/ybskills
 ## Repo Structure
 
 ```
-skills/          Single-skill directories (11)
-plugins/         Multi-skill plugins (3)
+skills/          Single-skill directories (10)
+plugins/         Multi-skill plugins (4)
 projects/        Standalone projects (1: selfos)
 docs/            Plugin notes, knowhow, conventions
 scripts/         Build & validation scripts

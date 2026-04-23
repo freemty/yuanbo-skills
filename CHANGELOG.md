@@ -2,6 +2,11 @@
 
 All notable changes to yuanbo-skills.
 
+## 2026-04-23
+
+- **meta-audit/hook-recipes**: add sub-skill with 10 curated hook templates (PostToolUse type-check/lint/format, PreToolUse guards, project-level templates) — closes the "audit finds gap → now what?" loop
+- **meta-audit**: update plugin.json to register hook-recipes, update SKILL.md action template to reference `/hook-recipes`, update README with recipes table
+
 ## 2026-04-22
 
 ### skills.sh Publishing (Batch 1)

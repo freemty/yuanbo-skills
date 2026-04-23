@@ -28,3 +28,9 @@
 [submodule "plugins/paper-review"]
 	path = plugins/paper-review
 	url = git@github.com:freemty/paper-review.git
+[submodule "skills/cc-navigator"]
+	path = skills/cc-navigator
+	url = git@github.com:freemty/cc-navigator.git
+[submodule "skills/writing-agents"]
+	path = skills/writing-agents
+	url = git@github.com:freemty/writing-agents.git
