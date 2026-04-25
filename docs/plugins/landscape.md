@@ -20,6 +20,15 @@
 | [proactive-agent](proactive-agent.md) | halthelobster/proactive-agent | workflow | 让 Claude Code 主动发起行动 |
 | [zarazhangrui](zarazhangrui.md) | zarazhangrui (12 repos) | content-pipeline | 内容转化全家桶：podcast, slides, ebook, meeting→tasks, codebase→course |
 
+## Peer Skill Collections / Research Harness
+
+对 yuanbo-skills 同构、或其背后 hardware（harness / session 协议）值得参考的 repo。
+
+| Name | Source | Category | Notes |
+|------|--------|----------|-------|
+| [sjh-skills](sjh-skills.md) | jiahao-shao1/sjh-skills | peer-skills | 同构 replica：按 research workflow stage 切 15 个 skill，plugin marketplace 分发，内置 context-audit |
+| [evolve-bench](evolve-bench.md) | Sisyphe-lee/evolve_bench | research-harness | replica 背后的 hardware：light entry + two-stage closure + file is state，可迁移的 harness/ 模板 |
+
 ## MCP Servers
 
 | Name | Category | Notes |

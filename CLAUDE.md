@@ -57,8 +57,8 @@ Each skill directory must contain:
 
 ## Docs
 
-- `docs/plugins/landscape.md` — 插件总览索引（类似 labmate 的 papers/landscape.md）
-- `docs/plugins/{name}.md` — 每个插件/skill/MCP server 的独立笔记
+- `docs/plugins/landscape.md` — 插件 / 同类 skill 合集 / research harness / MCP server 总览索引
+- `docs/plugins/{name}.md` — 每个条目的独立笔记：plugin / third-party skill / MCP server / peer skill collection / research harness
 - `docs/outputs-convention.md` — Skill 产出物目录约定（`~/outputs/` 结构 + symlink 兼容）
 
 ## Guides
