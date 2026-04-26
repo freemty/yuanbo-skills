@@ -7,6 +7,10 @@ Codex-specific guidance lives in `AGENTS.md`.
 
 A monorepo of personal Claude Code skills, plugins, and projects. Organized into three top-level directories by type.
 
+**Related repos:**
+- [`freemty/ai-dotfiles`](https://github.com/freemty/ai-dotfiles) — 跨机器 AI CLI + shell 配置同步（Stow-based）。装新机器时先跑它的 `install.sh` + `bootstrap.sh`（后者会自动 clone 并装 yuanbo-skills）
+- [`freemty/cc-switch`](https://github.com/freemty/cc-switch) — 密钥/登录态管理
+
 ## Repo Layout
 
 ```
