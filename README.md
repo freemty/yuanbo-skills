@@ -1,13 +1,70 @@
 # yuanbo-skills
 
-Personal Claude Code skills collection by yuanbo.
+Personal agent skills collection by yuanbo, with Claude Code and Codex support.
 
 ## Install
+
+### Claude Code
 
 ```bash
 git clone --recurse-submodules https://github.com/freemty/yuanbo-skills ~/code/projects/ybskills
 cd ~/code/projects/ybskills
 ./install.sh
+```
+
+This links every public skill into `~/.claude/skills/`.
+
+### Codex
+
+Tell Codex:
+
+```text
+Fetch and follow instructions from https://raw.githubusercontent.com/freemty/yuanbo-skills/refs/heads/main/.codex/INSTALL.md
+```
+
+Or manually:
+
+```bash
+git clone --recurse-submodules https://github.com/freemty/yuanbo-skills ~/.codex/yuanbo-skills
+cd ~/.codex/yuanbo-skills
+./install.sh --target codex
+```
+
+This links every public skill into `~/.agents/skills/`.
+
+Codex-installable skill keys:
+
+```text
+analyze-experiment
+beamer-style
+cc-navigator
+commit-changelog
+flipradio-polish
+flipradio-write
+hook-recipes
+init-project
+meta-audit
+monitor
+new-experiment
+no-more-fomo
+paper-review
+paper-storyteller
+paper-style
+read-paper
+review-review
+survey-literature
+todo
+unbox
+unbox-graph
+unbox-to-wiki
+update-docs
+update-knowhow
+update-project-skill
+visualize
+web-fetcher
+weekly-report
+writing-agents
+yuanboizer-zh
 ```
 
 ## Skills
@@ -56,6 +113,8 @@ cd ~/code/projects/ybskills
 skills/          Single-skill directories (10)
 plugins/         Multi-skill plugins (4)
 projects/        Standalone projects (1: selfos)
+.codex/          Codex install instructions
+.agents/plugins/ Codex local plugin marketplace metadata
 docs/            Plugin notes, knowhow, conventions
 scripts/         Build & validation scripts
 ```

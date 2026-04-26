@@ -1,6 +1,7 @@
 # CLAUDE.md
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+Codex-specific guidance lives in `AGENTS.md`.
 
 ## What This Is
 
@@ -16,7 +17,11 @@ docs/            Plugin notes, knowhow, conventions
 scripts/         Build & validation scripts
 ```
 
-Skills are installed by `install.sh`, which symlinks every directory containing a `SKILL.md` (in `skills/` and `plugins/`, including nested) into `~/.claude/skills/`.
+Skills are installed by `install.sh`, which symlinks every directory containing a `SKILL.md` (in `skills/` and `plugins/`, including nested) into the selected agent's skill directory.
+
+- Claude target: `./install.sh --target claude` -> `~/.claude/skills/`
+- Codex target: `./install.sh --target codex` -> `~/.agents/skills/`
+- Both: `./install.sh --target all`
 
 **Submodules** (have their own GitHub repo under `freemty/`):
 - skills: beamer-style, cc-navigator, flipradio-write-skill, no-more-fomo, paper-storyteller, paper-style, writing-agents
@@ -34,6 +39,9 @@ git clone --recurse-submodules git@github.com:freemty/yuanbo-skills.git
 
 # Install skills (symlink to ~/.claude/skills/)
 ./install.sh
+
+# Install skills for Codex (symlink to ~/.agents/skills/)
+./install.sh --target codex
 
 # Update all submodules to latest
 git submodule update --remote --merge
@@ -60,11 +68,14 @@ Each skill directory must contain:
 - `docs/plugins/landscape.md` — 插件 / 同类 skill 合集 / research harness / MCP server 总览索引
 - `docs/plugins/{name}.md` — 每个条目的独立笔记：plugin / third-party skill / MCP server / peer skill collection / research harness
 - `docs/outputs-convention.md` — Skill 产出物目录约定（`~/outputs/` 结构 + symlink 兼容）
+- `docs/install-codex.md` — Codex CLI 安装步骤、skill keys、手动安装/卸载流程
 
 ## Guides
 
+- `docs/guides/codex-support.md` — Claude/Codex 双安装、Codex skill keys、插件 manifest/marketplace 维护指南
 - `docs/guides/generate-readme.md` — README skill 表格自动生成脚本使用指南
 - `docs/guides/skills-sh-publishing.md` — skills.sh 上架规范：repo 结构、SKILL.md/README 模板、标准化 checklist
+- `docs/guides/skill-validation.md` — SKILL.md 契约检查 + repo 卫生规范（validate_skills.py + CI）
 
 ## Knowhow
 

@@ -3,6 +3,43 @@ node_modules/
 *.log
 docs/superpowers/
 
+# Agent runtime dirs (install.sh targets / local tool state — not checked in)
+.adal/
+.agents/
+.augment/
+.claude/
+.codebuddy/
+.codex/
+.commandcode/
+.continue/
+.crush/
+.factory/
+.goose/
+.iflow/
+.junie/
+.kilocode/
+.kiro/
+.kode/
+.mcpjam/
+.mux/
+.neovate/
+.openhands/
+.pi/
+.pochi/
+.qoder/
+.qwen/
+.roo/
+.trae/
+.vibe/
+.windsurf/
+.zencoder/
+
+# Local state & scratch
+.labmate-hook-state.json
+skills-lock.json
+index.html
+index.html.1
+
 # Python
 .venv/
 __pycache__/
