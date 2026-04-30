@@ -1,0 +1,108 @@
+/*
+ * Swiss Knife Design Tokens — Drop-in replacement
+ *
+ * Replace any project's design-tokens.css with this file to apply
+ * the Swiss Knife Red visual identity.
+ *
+ * Usage:
+ *   @import url("design-tokens-override.css");
+ *   — or —
+ *   cp this file over existing design-tokens.css
+ *
+ * Maintains same variable names for API compatibility.
+ */
+
+/* ── Light Mode ── */
+[data-theme="light"], :root {
+  --bg:             #FFFFFF;
+  --bg-secondary:   #FAFAFA;
+  --surface:        #FFFFFF;
+  --surface-warm:   #FAFAFA;
+  --border:         #E0E0E0;
+
+  --text:           #000000;
+  --text-secondary: #333333;
+  --text-muted:     #666666;
+
+  --accent:         #C6011F;
+  --accent-hover:   #A50019;
+
+  --heat-low:       #FAFAFA;
+  --heat-mid:       #E0E0E0;
+  --heat-high:      #C6011F;
+
+  --green:          #1B7340;
+  --green-dim:      #E8F5E9;
+  --yellow:         #F9A825;
+  --yellow-dim:     #FFF8E1;
+  --red:            #C6011F;
+  --red-dim:        #FFEBEE;
+  --gray:           #666666;
+
+  --baseline-bg:    #F5F5F5;
+  --baseline-border:#E0E0E0;
+
+  --radius:         4px;
+  --shadow:         0 1px 2px rgba(0,0,0,0.04);
+}
+
+/* ── Dark Mode ── */
+[data-theme="dark"] {
+  --bg:             #0A0A0A;
+  --bg-secondary:   #111111;
+  --surface:        #111111;
+  --surface-warm:   #1A1A1A;
+  --border:         #222222;
+
+  --text:           #F0F0F0;
+  --text-secondary: #B0B0B0;
+  --text-muted:     #777777;
+
+  --accent:         #E53935;
+  --accent-hover:   #FF5252;
+
+  --heat-low:       #1A1A1A;
+  --heat-mid:       #333333;
+  --heat-high:      #E53935;
+
+  --green:          #4CAF50;
+  --green-dim:      #1B5E20;
+  --yellow:         #FFC107;
+  --yellow-dim:     #4A3800;
+  --red:            #E53935;
+  --red-dim:        #4A0000;
+  --gray:           #777777;
+
+  --baseline-bg:    #1A1A1A;
+  --baseline-border:#333333;
+
+  --radius:         4px;
+  --shadow:         0 1px 3px rgba(0,0,0,0.3);
+}
+
+/* ── Typography (Swiss Knife) ── */
+:root {
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-mono: "JetBrains Mono", "SF Mono", Menlo, monospace;
+  --font-display: 'EB Garamond', Georgia, serif;
+  --font-size-xs:   11px;
+  --font-size-sm:   12px;
+  --font-size-base: 13px;
+  --font-size-md:   15px;
+  --font-size-lg:   20px;
+}
+
+/* ── Shared Reset ── */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font-sans);
+  background: var(--bg);
+  color: var(--text);
+  font-size: var(--font-size-md);
+  line-height: 1.6;
+}
