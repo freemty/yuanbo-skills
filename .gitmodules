@@ -34,3 +34,6 @@
 [submodule "skills/writing-agents"]
 	path = skills/writing-agents
 	url = git@github.com:freemty/writing-agents.git
+[submodule "plugins/papermate"]
+	path = plugins/papermate
+	url = git@github.com:freemty/papermate.git
