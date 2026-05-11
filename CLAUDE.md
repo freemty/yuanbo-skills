@@ -29,7 +29,7 @@ Skills are installed by `install.sh`, which symlinks every directory containing 
 
 **Submodules** (have their own GitHub repo under `freemty/`):
 - skills: beamer-style, cc-navigator, flipradio-write-skill, no-more-fomo, paper-storyteller, paper-style, writing-agents
-- plugins: labmate, meta-audit, paper-review, unbox-skills
+- plugins: labmate, meta-audit, paper-review, papermate, unbox-skills
 - projects: selfos
 
 **Inline directories** (tracked directly in this repo):
