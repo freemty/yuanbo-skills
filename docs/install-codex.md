@@ -22,7 +22,7 @@ Enable `yuanbo-skills` in Codex via native skill discovery.
    ./install.sh --target codex
    ```
 
-   This links every `SKILL.md` found under `skills/` and `plugins/` into `~/.agents/skills/`.
+   This links every `SKILL.md` found under `skills/`, `plugins/`, and bundled project skill directories into `~/.agents/skills/`.
 
 3. Restart Codex to discover the skills.
 
@@ -35,20 +35,37 @@ analyze-experiment
 beamer-style
 cc-navigator
 commit-changelog
+compile-check
+defuddle
+digest
+figure-qa
 flipradio-polish
 flipradio-write
 hook-recipes
 init-project
+json-canvas
 meta-audit
 monitor
 new-experiment
 no-more-fomo
+obsidian-bases
+obsidian-cli
+obsidian-markdown
 paper-review
 paper-storyteller
 paper-style
+paper-writing-qa
+pre-submit-challenge
+project-skill
 read-paper
 review-review
+section-guard
+selfos
+selfos-completion
 survey-literature
+swiss-knife-design
+sync-paper
+thought
 todo
 unbox
 unbox-graph
@@ -70,11 +87,16 @@ If you do not want to run the installer:
 ```bash
 git clone --recurse-submodules https://github.com/freemty/yuanbo-skills.git ~/.codex/yuanbo-skills
 mkdir -p ~/.agents/skills
-find ~/.codex/yuanbo-skills/skills ~/.codex/yuanbo-skills/plugins -path '*/.*' -prune -o -name SKILL.md -print0 |
-  while IFS= read -r -d '' skill_md; do
-    skill_dir="$(dirname "$skill_md")"
-    ln -sf "$skill_dir" ~/.agents/skills/"$(basename "$skill_dir")"
-  done
+{
+  find ~/.codex/yuanbo-skills/skills ~/.codex/yuanbo-skills/plugins \
+    -path '*/.*' -prune -o \( -name SKILL.md -o -name skill.md \) -print0
+  find ~/.codex/yuanbo-skills/projects/selfos/.claude/skills \
+    \( -name SKILL.md -o -name skill.md \) -print0
+} |
+while IFS= read -r -d '' skill_md; do
+  skill_dir="$(dirname "$skill_md")"
+  ln -sf "$skill_dir" ~/.agents/skills/"$(basename "$skill_dir")"
+done
 ```
 
 ## Install a Single Skill
@@ -100,6 +122,7 @@ This repo also includes Codex plugin manifests:
 - `plugins/labmate/.codex-plugin/plugin.json`
 - `plugins/meta-audit/.codex-plugin/plugin.json`
 - `plugins/paper-review/.codex-plugin/plugin.json`
+- `plugins/papermate/.codex-plugin/plugin.json`
 - `plugins/unbox-skills/.codex-plugin/plugin.json`
 
 The local marketplace index is `.agents/plugins/marketplace.json`. Skill symlinks are still the most portable Codex install path; plugin manifests provide metadata for Codex builds that support local plugin marketplaces.

@@ -5,7 +5,10 @@ docs/superpowers/
 
 # Agent runtime dirs (install.sh targets / local tool state — not checked in)
 .adal/
-.agents/
+.agents/*
+!.agents/plugins/
+.agents/plugins/*
+!.agents/plugins/marketplace.json
 .augment/
 .claude/
 .codebuddy/

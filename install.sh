@@ -2,7 +2,8 @@
 set -euo pipefail
 
 # ybskills installer
-# Creates symlinks for every SKILL.md under skills/ and plugins/.
+# Creates symlinks for every SKILL.md under skills/, plugins/, and bundled
+# project skill directories.
 # Defaults to Claude Code (~/.claude/skills); pass --target codex for
 # OpenAI Codex CLI native skill discovery (~/.agents/skills).
 
@@ -104,7 +105,14 @@ install_target() {
     else
       skipped=$((skipped + 1))
     fi
-  done < <(find "$SCRIPT_DIR/skills" "$SCRIPT_DIR/plugins" -path '*/.*' -prune -o -path '*/SKILL.md' -print0 2>/dev/null | sort -z)
+  done < <(
+    {
+      find "$SCRIPT_DIR/skills" "$SCRIPT_DIR/plugins" \
+        -path '*/.*' -prune -o \( -name 'SKILL.md' -o -name 'skill.md' \) -print0 2>/dev/null
+      find "$SCRIPT_DIR/projects/selfos/.claude/skills" \
+        \( -name 'SKILL.md' -o -name 'skill.md' \) -print0 2>/dev/null
+    } | sort -z
+  )
 
   echo ""
   echo "Skills: $installed linked, $skipped unchanged/skipped"
