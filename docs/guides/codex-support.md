@@ -1,16 +1,17 @@
-# Codex Support Guide
+# Multi-Platform Support Guide
 
-This repo supports both Claude Code and OpenAI Codex CLI from the same skill and plugin sources.
+This repo supports Claude Code, OpenAI Codex CLI, and Google Antigravity from the same skill and plugin sources. All three platforms use the Agent Skills open standard (agentskills.io) — the same `SKILL.md` files work everywhere without modification.
 
 ## Overview
 
-Claude and Codex use different discovery paths:
+Each platform discovers skills from a different directory:
 
 | Agent | Skill directory | Install command |
 |-------|-----------------|-----------------|
 | Claude Code | `~/.claude/skills/` | `./install.sh --target claude` |
 | Codex CLI | `~/.agents/skills/` | `./install.sh --target codex` |
-| Both | both directories | `./install.sh --target all` |
+| Google Antigravity | `~/.gemini/antigravity/skills/` | `./install.sh --target antigravity` |
+| All three | all directories | `./install.sh --target all` |
 
 The default remains Claude-compatible:
 
@@ -29,6 +30,20 @@ cd ~/.codex/yuanbo-skills
 ```
 
 Restart Codex after installation so it reloads `~/.agents/skills/`.
+
+## Antigravity Installation
+
+For a fresh Google Antigravity install:
+
+```bash
+git clone --recurse-submodules https://github.com/freemty/yuanbo-skills.git ~/.antigravity/yuanbo-skills
+cd ~/.antigravity/yuanbo-skills
+./install.sh --target antigravity
+```
+
+Restart Antigravity (or `agy` CLI) after installation so it reloads `~/.gemini/antigravity/skills/`.
+
+Antigravity also supports workspace-level skills at `.agents/skills/` inside your project root — the same path Codex uses.
 
 ## Installable Skill Keys
 
@@ -88,7 +103,7 @@ yuanboizer-zh
 
 Claude plugin metadata stays in each plugin's `.claude-plugin/plugin.json`.
 
-Codex plugin metadata lives beside it:
+Codex and Antigravity plugin metadata lives beside it:
 
 ```text
 plugins/labmate/.codex-plugin/plugin.json
@@ -98,13 +113,15 @@ plugins/papermate/.codex-plugin/plugin.json
 plugins/unbox-skills/.codex-plugin/plugin.json
 ```
 
+Antigravity uses the same `plugin.json` format as Codex, so the `.codex-plugin/` manifests are directly compatible with both platforms.
+
 The repo-local marketplace index is:
 
 ```text
 .agents/plugins/marketplace.json
 ```
 
-Skill symlinks are still the most portable Codex path. The `.codex-plugin` manifests and marketplace file are metadata for Codex builds that support local plugin marketplaces.
+Skill symlinks are still the most portable cross-platform path. The `.codex-plugin` manifests and marketplace file are metadata for builds that support local plugin marketplaces.
 
 ## Verification
 
@@ -137,7 +154,8 @@ No output means all listed skills are installed.
 
 ## Maintenance Notes
 
-- When adding a public skill, ensure it has `SKILL.md` and rerun `./install.sh --target codex`.
-- When adding a plugin, add both `.claude-plugin/plugin.json` and `.codex-plugin/plugin.json` if it should appear in both ecosystems.
+- When adding a public skill, ensure it has `SKILL.md` and rerun `./install.sh --target all`.
+- When adding a plugin, add both `.claude-plugin/plugin.json` and `.codex-plugin/plugin.json` if it should appear in all ecosystems. The `.codex-plugin/` manifest is shared by Codex and Antigravity.
 - Do not install hidden template skills globally. The installer intentionally prunes paths matching `*/.*`.
-- If an existing target in `~/.agents/skills/` is a real directory rather than a symlink, the installer skips it instead of overwriting user-managed content.
+- If an existing target directory is a real directory rather than a symlink, the installer skips it instead of overwriting user-managed content.
+- Keep Claude, Codex, and Antigravity install docs in sync when changing install behavior.

@@ -1,6 +1,6 @@
 # yuanbo-skills
 
-Personal agent skills collection by yuanbo, with Claude Code and Codex support.
+Personal agent skills collection by yuanbo. Compatible with **Claude Code**, **OpenAI Codex**, and **Google Antigravity**.
 
 ## Install
 
@@ -32,7 +32,29 @@ cd ~/.codex/yuanbo-skills
 
 This links every public skill into `~/.agents/skills/`.
 
-Codex-installable skill keys:
+### Google Antigravity
+
+Tell Antigravity (agy CLI or desktop app):
+
+```text
+Fetch and follow instructions from https://raw.githubusercontent.com/freemty/yuanbo-skills/refs/heads/main/.antigravity/INSTALL.md
+```
+
+Or manually:
+
+```bash
+git clone --recurse-submodules https://github.com/freemty/yuanbo-skills ~/.antigravity/yuanbo-skills
+cd ~/.antigravity/yuanbo-skills
+./install.sh --target antigravity
+```
+
+This links every public skill into `~/.gemini/antigravity/skills/`.
+
+### Installable Skill Keys
+
+All three platforms install the same set of skills from the same SKILL.md files (Agent Skills open standard).
+
+Skill keys:
 
 ```text
 analyze-experiment
@@ -120,13 +142,14 @@ yuanboizer-zh
 ## Repo Structure
 
 ```
-skills/          Single-skill directories (13)
-plugins/         Multi-skill plugins (5)
-projects/        Standalone projects (1: selfos)
-.codex/          Codex install instructions
-.agents/plugins/ Codex local plugin marketplace metadata
-docs/            Plugin notes, knowhow, conventions
-scripts/         Build & validation scripts
+skills/            Single-skill directories (13)
+plugins/           Multi-skill plugins (5)
+projects/          Standalone projects (1: selfos)
+.codex/            Codex install instructions
+.antigravity/      Antigravity install instructions
+.agents/plugins/   Codex/Antigravity local plugin marketplace metadata
+docs/              Plugin notes, knowhow, conventions
+scripts/           Build & validation scripts
 ```
 
 ## Third-party Dependencies

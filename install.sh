@@ -5,19 +5,21 @@ set -euo pipefail
 # Creates symlinks for every SKILL.md under skills/, plugins/, and bundled
 # project skill directories.
 # Defaults to Claude Code (~/.claude/skills); pass --target codex for
-# OpenAI Codex CLI native skill discovery (~/.agents/skills).
+# OpenAI Codex CLI (~/.agents/skills) or --target antigravity for
+# Google Antigravity (~/.gemini/antigravity/skills).
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 TARGET="claude"
 
 usage() {
   cat <<'EOF'
-Usage: ./install.sh [--target claude|codex|all]
+Usage: ./install.sh [--target claude|codex|antigravity|all]
 
 Targets:
-  claude   Link skills into ~/.claude/skills (default)
-  codex    Link skills into ~/.agents/skills
-  all      Install both Claude and Codex skill links
+  claude        Link skills into ~/.claude/skills (default)
+  codex         Link skills into ~/.agents/skills
+  antigravity   Link skills into ~/.gemini/antigravity/skills
+  all           Install Claude, Codex, and Antigravity skill links
 EOF
 }
 
@@ -44,7 +46,7 @@ while [ "$#" -gt 0 ]; do
 done
 
 case "$TARGET" in
-  claude|codex|all) ;;
+  claude|codex|antigravity|all) ;;
   *)
     echo "Invalid target: $TARGET" >&2
     usage >&2
@@ -56,6 +58,7 @@ skill_target_dir() {
   case "$1" in
     claude) printf '%s\n' "$HOME/.claude/skills" ;;
     codex) printf '%s\n' "$HOME/.agents/skills" ;;
+    antigravity) printf '%s\n' "$HOME/.gemini/antigravity/skills" ;;
   esac
 }
 
@@ -123,6 +126,7 @@ install_target() {
   case "$target_name" in
     claude) echo "Done. Run 'claude' to use your skills." ;;
     codex) echo "Done. Restart Codex to discover your skills." ;;
+    antigravity) echo "Done. Restart Antigravity or agy CLI to discover your skills." ;;
   esac
   echo ""
 }
@@ -152,11 +156,12 @@ install_third_party() {
 }
 
 case "$TARGET" in
-  claude|codex)
+  claude|codex|antigravity)
     install_target "$TARGET"
     ;;
   all)
     install_target claude
     install_target codex
+    install_target antigravity
     ;;
 esac

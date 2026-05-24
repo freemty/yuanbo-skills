@@ -25,7 +25,8 @@ Skills are installed by `install.sh`, which symlinks every directory containing 
 
 - Claude target: `./install.sh --target claude` -> `~/.claude/skills/`
 - Codex target: `./install.sh --target codex` -> `~/.agents/skills/`
-- Both: `./install.sh --target all`
+- Antigravity target: `./install.sh --target antigravity` -> `~/.gemini/antigravity/skills/`
+- All three: `./install.sh --target all`
 
 **Submodules** (have their own GitHub repo under `freemty/`):
 - skills: beamer-style, cc-navigator, flipradio-write-skill, no-more-fomo, paper-storyteller, paper-style, writing-agents
@@ -46,6 +47,9 @@ git clone --recurse-submodules git@github.com:freemty/yuanbo-skills.git
 
 # Install skills for Codex (symlink to ~/.agents/skills/)
 ./install.sh --target codex
+
+# Install skills for Antigravity (symlink to ~/.gemini/antigravity/skills/)
+./install.sh --target antigravity
 
 # Update all submodules to latest
 git submodule update --remote --merge
@@ -73,10 +77,11 @@ Each skill directory must contain:
 - `docs/plugins/{name}.md` — 每个条目的独立笔记：plugin / third-party skill / MCP server / peer skill collection / research harness
 - `docs/outputs-convention.md` — Skill 产出物目录约定（`~/outputs/` 结构 + symlink 兼容）
 - `docs/install-codex.md` — Codex CLI 安装步骤、skill keys、手动安装/卸载流程
+- `docs/install-antigravity.md` — Google Antigravity 安装步骤、路径说明、hooks 兼容性
 
 ## Guides
 
-- `docs/guides/codex-support.md` — Claude/Codex 双安装、Codex skill keys、插件 manifest/marketplace 维护指南
+- `docs/guides/codex-support.md` — Claude/Codex/Antigravity 三平台安装、skill keys、插件 manifest/marketplace 维护指南
 - `docs/guides/generate-readme.md` — README skill 表格自动生成脚本使用指南
 - `docs/guides/skills-sh-publishing.md` — skills.sh 上架规范：repo 结构、SKILL.md/README 模板、标准化 checklist
 - `docs/guides/skill-validation.md` — SKILL.md 契约检查 + repo 卫生规范（validate_skills.py + CI）

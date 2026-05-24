@@ -12,19 +12,36 @@ docs/            Plugin notes, knowhow, conventions
 scripts/         Build and validation scripts
 ```
 
-## Codex Support
+## Platform Support
+
+This repo supports three AI agent platforms from the same SKILL.md sources (Agent Skills open standard):
+
+| Platform | Skill directory | Install command |
+|----------|-----------------|-----------------|
+| Claude Code | `~/.claude/skills/` | `./install.sh --target claude` (default) |
+| OpenAI Codex | `~/.agents/skills/` | `./install.sh --target codex` |
+| Google Antigravity | `~/.gemini/antigravity/skills/` | `./install.sh --target antigravity` |
+| All three | all directories | `./install.sh --target all` |
+
+### Codex
 
 - Codex discovers skills from `~/.agents/skills/`.
-- Install this repo for Codex with `./install.sh --target codex`.
-- Codex-specific install notes live in `.codex/INSTALL.md`.
-- Codex plugin metadata lives in `.codex-plugin/plugin.json` inside plugin directories.
-- Marketplace metadata for local Codex plugin discovery lives in `.agents/plugins/marketplace.json`.
+- Install notes live in `.codex/INSTALL.md`.
+- Plugin metadata lives in `.codex-plugin/plugin.json` inside plugin directories.
+- Marketplace metadata lives in `.agents/plugins/marketplace.json`.
 
-## Claude Support
+### Google Antigravity
+
+- Antigravity discovers skills from `~/.gemini/antigravity/skills/` (global) or `.agents/skills/` (workspace).
+- Install notes live in `.antigravity/INSTALL.md`.
+- Plugin metadata reuses `.codex-plugin/plugin.json` (same format).
+- Workspace-level `.agents/skills/` is shared with Codex — same path, same format.
+
+### Claude Code
 
 - Claude Code discovers skills from `~/.claude/skills/`.
-- Install this repo for Claude with `./install.sh --target claude` or simply `./install.sh`.
-- Claude plugin metadata lives in `.claude-plugin/plugin.json` inside plugin directories.
+- Install with `./install.sh --target claude` or simply `./install.sh`.
+- Plugin metadata lives in `.claude-plugin/plugin.json` inside plugin directories.
 
 ## Skill Conventions
 
@@ -38,6 +55,6 @@ scripts/         Build and validation scripts
 
 - Read the existing `SKILL.md` before modifying a skill.
 - Update README tables when adding or renaming public skills.
-- Keep Claude and Codex install docs in sync when changing install behavior.
+- Keep Claude, Codex, and Antigravity install docs in sync when changing install behavior.
 - Do not remove or rename a skill directory without confirming because it breaks existing symlinks.
 - Do not hardcode secrets, API keys, or tokens.
