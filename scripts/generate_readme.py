@@ -90,6 +90,19 @@ SKILLS = {
         "description": "Research harness for Claude Code — experiments, papers, knowhow, agents (independent plugin)",
         "type": "plugin",
     },
+    "papermate": {
+        "category": "Research & Knowledge",
+        "description": "Paper writing QA pipeline — section guard, figure QA, compile check, pre-submit challenge",
+        "type": "plugin",
+    },
+    "swiss-knife-design": {
+        "category": "Productivity",
+        "description": "Personal web design system — project pages, dashboards, leaderboards, slides with consistent visual identity",
+    },
+    "transcribe": {
+        "category": "Productivity",
+        "description": "Audio transcription — speech-to-text via Whisper for meetings, voice memos, recordings",
+    },
 }
 
 TYPE_TO_DIR = {

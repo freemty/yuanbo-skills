@@ -39,9 +39,10 @@ analyze-experiment
 beamer-style
 cc-navigator
 commit-changelog
+compile-check
+figure-qa
 flipradio-polish
 flipradio-write
-hook-recipes
 init-project
 meta-audit
 monitor
@@ -50,10 +51,16 @@ no-more-fomo
 paper-review
 paper-storyteller
 paper-style
+paper-writing-qa
+pre-submit-challenge
 read-paper
 review-review
+section-guard
 survey-literature
+swiss-knife-design
+sync-paper
 todo
+transcribe
 unbox
 unbox-graph
 unbox-to-wiki
@@ -88,6 +95,7 @@ yuanboizer-zh
 | [selfos](projects/selfos/) | Personal knowledge base — ingest, compile, query wiki, context recovery *(private)* |
 | [no-more-fomo](skills/no-more-fomo/) | AI daily digest from Twitter KOLs, lab blogs, podcasts, arxiv, HackerNews |
 | [paper-review](plugins/paper-review/) | Multi-role academic peer review — 4 expert agents cross-review, outputs venue-ready form fields. Includes review-review audit |
+| [papermate](plugins/papermate/) | Paper writing QA pipeline — section guard, figure QA, compile check, pre-submit challenge |
 
 ### Academic Visual Identity
 
@@ -105,13 +113,15 @@ yuanboizer-zh
 | [cc-navigator](skills/cc-navigator/) | Claude Code workflow navigator — recommends the right skill/agent/tool from 11 sources |
 | [meta-audit](plugins/meta-audit/) | AI automation maturity audit — L0-L5 scoring, ecosystem benchmarks, Top-3 actions |
 | [labmate](plugins/labmate/) | Research harness for Claude Code — experiments, papers, knowhow, agents (independent plugin) |
+| [swiss-knife-design](skills/swiss-knife-design/) | Personal web design system — project pages, dashboards, leaderboards, slides with consistent visual identity |
+| [transcribe](skills/transcribe/) | Audio transcription — speech-to-text via Whisper for meetings, voice memos, recordings |
 <!-- END SKILLS -->
 
 ## Repo Structure
 
 ```
-skills/          Single-skill directories (10)
-plugins/         Multi-skill plugins (4)
+skills/          Single-skill directories (13)
+plugins/         Multi-skill plugins (5)
 projects/        Standalone projects (1: selfos)
 .codex/          Codex install instructions
 .agents/plugins/ Codex local plugin marketplace metadata

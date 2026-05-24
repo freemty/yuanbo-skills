@@ -33,7 +33,7 @@ Skills are installed by `install.sh`, which symlinks every directory containing 
 - projects: selfos
 
 **Inline directories** (tracked directly in this repo):
-- skills: web-fetcher, weekly-report, yuanboizer-zh
+- skills: swiss-knife-design, transcribe, web-fetcher, weekly-report, yuanboizer-zh
 
 ## Common Operations
 
