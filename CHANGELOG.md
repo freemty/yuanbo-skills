@@ -2,6 +2,73 @@
 
 All notable changes to yuanbo-skills.
 
+## 2026-05-25
+
+### 新增
+- **antigravity**: add Google Antigravity as third install target (`./install.sh --target antigravity`)
+- **docs/install-antigravity.md**: full install guide for Antigravity (manual, single-skill, hooks, verify)
+
+### 变更
+- **README**: update intro to reflect three-platform support (Claude Code / Codex / Antigravity)
+- **CLAUDE.md**: add antigravity target path, index new docs
+- **AGENTS.md**: update for three-platform scope
+- **docs/guides/codex-support.md**: expand to cover all three platforms
+
+## 2026-05-24
+
+### 变更
+- **README**: add papermate, swiss-knife-design, transcribe to skill tables; update Codex skill keys (add papermate sub-skills); update repo structure counts
+- **CLAUDE.md**: add swiss-knife-design, transcribe to inline directories list
+- **.codex/INSTALL.md**: sync skill keys + add papermate to plugin manifest list
+- **scripts/generate_readme.py**: add papermate, swiss-knife-design, transcribe to SKILLS dict
+
+### 其他
+- **submodules**: bump unbox-skills (entity subagent prompt), no-more-fomo (process/sources), papermate (.codex-plugin), selfos (5/08-5/24 batch)
+
+## 2026-05-19
+
+### 新增
+- **transcribe**: add audio transcription skill (speech-to-text via Whisper)
+- **papermate**: add as submodule (`freemty/papermate`) — paper writing QA pipeline with 6 sub-skills (compile-check, figure-qa, paper-writing-qa, pre-submit-challenge, section-guard, sync-paper)
+- **.agents/plugins/marketplace.json**: Codex local plugin marketplace index
+
+### 变更
+- **install.sh**: expand skill discovery to selfos project skills + Codex marketplace metadata
+
+## 2026-05-11
+
+- **CLAUDE.md**: add papermate to submodules list
+- **labmate**: bump pointer — CLAUDE.md sync
+
+## 2026-05-09
+
+- **labmate**: bump pointer — unified update-docs + knowledge maintenance hooks
+
+## 2026-04-30
+
+### 新增
+- **swiss-knife-design**: add personal web design system skill (project pages, dashboards, leaderboards, slides with consistent visual identity)
+
+## 2026-04-26
+
+### 新增
+- **caveman**: add ultra-compressed communication mode skill (lite/full/ultra + wenyan variants)
+- **ci**: add SKILL.md contract validation workflow (`validate_skills.py` + GitHub Actions)
+- **docs/install-codex.md**: Codex CLI install guide, skill keys, manual install/uninstall
+
+### 变更
+- **AGENTS.md**: new file — Codex-specific project guidance
+- Codex support across all plugins: `.codex-plugin/plugin.json` manifests for labmate, meta-audit, paper-review, unbox-skills
+- **docs**: add Related repos section (ai-dotfiles, cc-switch)
+
+### 其他
+- Archive sjh-skills and evolve_bench design philosophies in `docs/plugins/`
+- **unbox**: bump pointer — output to `~/outputs/unbox/` per convention
+
+## 2026-04-25
+
+- **docs**: archive sjh-skills and evolve_bench philosophies
+
 ## 2026-04-23
 
 - **meta-audit/hook-recipes**: add sub-skill with 10 curated hook templates (PostToolUse type-check/lint/format, PreToolUse guards, project-level templates) — closes the "audit finds gap → now what?" loop
