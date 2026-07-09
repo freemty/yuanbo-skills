@@ -10,6 +10,9 @@ All notable changes to yuanbo-skills.
 
 ### 变更
 - **beamer-style**: add a `research` layout for black/gray paper talks, reading groups, and research surveys.
+- **install.sh**: support both `SKILL.md` and `skill.md`, prefer public skills over bundled project skills on duplicate names, and keep local installs working when optional third-party clones fail.
+- **validate_skills.py**: validate bundled project skills and lowercase skill files while avoiding symlink traversal.
+- **docs**: sync Codex/Antigravity install guides and generated skill READMEs with the multi-platform skill surface.
 
 ## 2026-05-25
 

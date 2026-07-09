@@ -1,6 +1,6 @@
 # Multi-Platform Support Guide
 
-This repo supports Claude Code, OpenAI Codex CLI, and Google Antigravity from the same skill and plugin sources. All three platforms use the Agent Skills open standard (agentskills.io) — the same `SKILL.md` files work everywhere without modification.
+This repo supports Claude Code, OpenAI Codex CLI, and Google Antigravity from the same skill and plugin sources. All three platforms use the Agent Skills open standard (agentskills.io) — the same `SKILL.md`/`skill.md` files work everywhere without modification.
 
 ## Overview
 
@@ -47,40 +47,37 @@ Antigravity also supports workspace-level skills at `.agents/skills/` inside you
 
 ## Installable Skill Keys
 
-The installer links every public `SKILL.md` under `skills/`, `plugins/`, and bundled project skill directories, excluding hidden directories such as plugin-internal `.claude/` templates.
+The installer links every public `SKILL.md`/`skill.md` under `skills/`, `plugins/`, and bundled project skill directories, excluding hidden directories such as plugin-internal `.claude/` templates. Public `skills/` and `plugins/` entries take precedence over bundled project skills when names collide.
 
 ```text
+academic-writing
 analyze-experiment
 beamer-style
 cc-navigator
+clone-web
 commit-changelog
 compile-check
-defuddle
+de-ai
 digest
 figure-qa
 flipradio-polish
 flipradio-write
 hook-recipes
 init-project
-json-canvas
+interview
 meta-audit
 monitor
 new-experiment
 no-more-fomo
-obsidian-bases
-obsidian-cli
-obsidian-markdown
+paper-plot
 paper-review
 paper-storyteller
 paper-style
 paper-writing-qa
 pre-submit-challenge
-project-skill
 read-paper
 review-review
 section-guard
-selfos
-selfos-completion
 survey-literature
 swiss-knife-design
 sync-paper
@@ -95,6 +92,8 @@ update-project-skill
 visualize
 web-fetcher
 weekly-report
+wiki
+wiki-help
 writing-agents
 yuanboizer-zh
 ```
@@ -145,8 +144,8 @@ python3 -m json.tool plugins/unbox-skills/.codex-plugin/plugin.json >/tmp/unbox-
 Check every public skill is visible to Codex:
 
 ```bash
-for s in analyze-experiment beamer-style cc-navigator commit-changelog compile-check defuddle digest figure-qa flipradio-polish flipradio-write hook-recipes init-project json-canvas meta-audit monitor new-experiment no-more-fomo obsidian-bases obsidian-cli obsidian-markdown paper-review paper-storyteller paper-style paper-writing-qa pre-submit-challenge project-skill read-paper review-review section-guard selfos selfos-completion survey-literature swiss-knife-design sync-paper thought todo unbox unbox-graph unbox-to-wiki update-docs update-knowhow update-project-skill visualize web-fetcher weekly-report writing-agents yuanboizer-zh; do
-  test -f "$HOME/.agents/skills/$s/SKILL.md" || echo "MISSING $s"
+for s in academic-writing analyze-experiment beamer-style cc-navigator clone-web commit-changelog compile-check de-ai digest figure-qa flipradio-polish flipradio-write hook-recipes init-project interview meta-audit monitor new-experiment no-more-fomo paper-plot paper-review paper-storyteller paper-style paper-writing-qa pre-submit-challenge read-paper review-review section-guard survey-literature swiss-knife-design sync-paper thought todo transcribe unbox unbox-graph unbox-to-wiki update-docs update-knowhow update-project-skill visualize web-fetcher weekly-report wiki wiki-help writing-agents yuanboizer-zh; do
+  test -f "$HOME/.agents/skills/$s/SKILL.md" || test -f "$HOME/.agents/skills/$s/skill.md" || echo "MISSING $s"
 done
 ```
 

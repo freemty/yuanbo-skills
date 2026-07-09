@@ -2,8 +2,8 @@
 set -euo pipefail
 
 # ybskills installer
-# Creates symlinks for every SKILL.md under skills/, plugins/, and bundled
-# project skill directories.
+# Creates symlinks for every SKILL.md/skill.md under skills/, plugins/, and
+# bundled project skill directories.
 # Defaults to Claude Code (~/.claude/skills); pass --target codex for
 # OpenAI Codex CLI (~/.agents/skills) or --target antigravity for
 # Google Antigravity (~/.gemini/antigravity/skills).
@@ -89,7 +89,7 @@ link_skill_dir() {
 
 install_target() {
   local target_name="$1"
-  local skills_dir installed skipped skill_md skill_dir
+  local skills_dir installed skipped skill_md skill_dir skill_name seen_skill_names
 
   skills_dir="$(skill_target_dir "$target_name")"
   mkdir -p "$skills_dir"
@@ -100,21 +100,29 @@ install_target() {
 
   installed=0
   skipped=0
+  seen_skill_names=""
 
   while IFS= read -r -d '' skill_md; do
     skill_dir="$(dirname "$skill_md")"
+    skill_name="$(basename "$skill_dir")"
+    case " $seen_skill_names " in
+      *" $skill_name "*)
+        echo "  WARNING: duplicate skill name '$skill_name' at $skill_dir, skipping"
+        skipped=$((skipped + 1))
+        continue
+        ;;
+    esac
+    seen_skill_names="$seen_skill_names $skill_name"
     if link_skill_dir "$skill_dir" "$skills_dir"; then
       installed=$((installed + 1))
     else
       skipped=$((skipped + 1))
     fi
   done < <(
-    {
-      find "$SCRIPT_DIR/skills" "$SCRIPT_DIR/plugins" \
-        -path '*/.*' -prune -o \( -name 'SKILL.md' -o -name 'skill.md' \) -print0 2>/dev/null
-      find "$SCRIPT_DIR/projects/selfos/.claude/skills" \
-        \( -name 'SKILL.md' -o -name 'skill.md' \) -print0 2>/dev/null
-    } | sort -z
+    find "$SCRIPT_DIR/skills" "$SCRIPT_DIR/plugins" \
+      -path '*/.*' -prune -o \( -name 'SKILL.md' -o -name 'skill.md' \) -print0 2>/dev/null | sort -z
+    find "$SCRIPT_DIR/projects/selfos/.claude/skills" \
+      \( -name 'SKILL.md' -o -name 'skill.md' \) -print0 2>/dev/null | sort -z
   )
 
   echo ""
@@ -144,8 +152,12 @@ install_third_party() {
       return
     fi
     echo "  Cloning: $name"
-    git clone --depth 1 "$url" "$target" 2>/dev/null
-    tp_installed=$((tp_installed + 1))
+    if git clone --depth 1 "$url" "$target"; then
+      tp_installed=$((tp_installed + 1))
+    else
+      echo "  WARNING: failed to clone $name from $url; continuing"
+      tp_skipped=$((tp_skipped + 1))
+    fi
   }
 
   clone_dep "proactive-agent" "https://github.com/halthelobster/proactive-agent.git"

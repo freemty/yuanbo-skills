@@ -39,7 +39,7 @@ SKILLS = {
     },
     "writing-agents": {
         "category": "Writing & Style",
-        "description": "Guide for authoring custom Claude Code agent markdown files",
+        "description": "Guide for authoring custom coding-agent subagent markdown files",
     },
     "unbox-skills": {
         "category": "Research & Knowledge",
@@ -68,6 +68,10 @@ SKILLS = {
         "category": "Academic Visual Identity",
         "description": "Beamer slide theme system — shares the same 5-theme color system",
     },
+    "research-slides": {
+        "category": "Academic Visual Identity",
+        "description": "Research Beamer workflow — paper-native figures, citations, restrained style, and rendered PDF QA",
+    },
     "weekly-report": {
         "category": "Productivity",
         "description": "Weekly progress report for managers",
@@ -78,7 +82,7 @@ SKILLS = {
     },
     "cc-navigator": {
         "category": "Productivity",
-        "description": "Claude Code workflow navigator — recommends the right skill/agent/tool from 11 sources",
+        "description": "Agent workflow navigator — recommends the right skill, agent, tool, or workflow",
     },
     "meta-audit": {
         "category": "Productivity",
@@ -87,7 +91,7 @@ SKILLS = {
     },
     "labmate": {
         "category": "Productivity",
-        "description": "Research harness for Claude Code — experiments, papers, knowhow, agents (independent plugin)",
+        "description": "Research harness for AI coding agents — experiments, papers, knowhow, and project memory",
         "type": "plugin",
     },
     "papermate": {
@@ -102,6 +106,10 @@ SKILLS = {
     "transcribe": {
         "category": "Productivity",
         "description": "Audio transcription — speech-to-text via Whisper for meetings, voice memos, recordings",
+    },
+    "clone-web": {
+        "category": "Productivity",
+        "description": "Local webpage cloning and visual archive workflow",
     },
 }
 
@@ -122,8 +130,11 @@ def find_skill_md(name: str, meta: dict) -> Path | None:
     rel = resolve_path(name, meta)
     candidates = [
         ROOT / rel / "SKILL.md",
+        ROOT / rel / "skill.md",
         *(ROOT / rel).glob("*/SKILL.md"),
+        *(ROOT / rel).glob("*/skill.md"),
         *(ROOT / rel).glob("**/SKILL.md"),
+        *(ROOT / rel).glob("**/skill.md"),
     ]
     return next((c for c in candidates if c.exists()), None)
 
@@ -141,11 +152,16 @@ def validate() -> list[str]:
         if not base.is_dir():
             continue
         for d in sorted(base.iterdir()):
-            if not d.is_dir():
+            if not d.is_dir() or d.is_symlink():
                 continue
-            has_skill = (d / "SKILL.md").exists() or any(d.glob("*/SKILL.md"))
+            has_skill = (
+                (d / "SKILL.md").exists()
+                or (d / "skill.md").exists()
+                or any(d.glob("*/SKILL.md"))
+                or any(d.glob("*/skill.md"))
+            )
             if has_skill and d.name not in SKILLS:
-                warnings.append(f"UNLISTED: {d.name} has SKILL.md but is not in SKILLS dict")
+                warnings.append(f"UNLISTED: {d.name} has a skill file but is not in SKILLS dict")
 
     for cat in {m["category"] for m in SKILLS.values()}:
         if cat not in CATEGORIES:

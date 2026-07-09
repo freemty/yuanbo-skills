@@ -65,11 +65,11 @@ Serif "Y" + red dot (bottom-right). Used as favicon (inline SVG) and nav logo (2
 For projects with `design-tokens.css`: copy `templates/design-tokens-override.css` over it. Same variable names, instant brand switch.
 
 ```bash
-cp ~/.claude/skills/swiss-knife-design/templates/design-tokens-override.css \
+cp <swiss-knife-design-dir>/templates/design-tokens-override.css \
    path/to/shared/design-tokens.css
 ```
 
-For new pages: read `templates/base.css` for full implementation reference.
+`<swiss-knife-design-dir>` is the directory containing this `SKILL.md` after installation, for example `~/.agents/skills/swiss-knife-design` in Codex or `~/.claude/skills/swiss-knife-design` in Claude Code. For new pages, read `templates/base.css` for full implementation reference.
 
 ## Common Mistakes
 

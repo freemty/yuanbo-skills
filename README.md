@@ -52,24 +52,31 @@ This links every public skill into `~/.gemini/antigravity/skills/`.
 
 ### Installable Skill Keys
 
-All three platforms install the same set of skills from the same SKILL.md files (Agent Skills open standard).
+All three platforms install the same set of skills from the same `SKILL.md`/`skill.md` files (Agent Skills open standard). Public `skills/` and `plugins/` entries take precedence over bundled project skills when names collide.
 
 Skill keys:
 
 ```text
+academic-writing
 analyze-experiment
 beamer-style
 cc-navigator
+clone-web
 commit-changelog
 compile-check
+de-ai
+digest
 figure-qa
 flipradio-polish
 flipradio-write
+hook-recipes
 init-project
+interview
 meta-audit
 monitor
 new-experiment
 no-more-fomo
+paper-plot
 paper-review
 paper-storyteller
 paper-style
@@ -82,6 +89,7 @@ section-guard
 survey-literature
 swiss-knife-design
 sync-paper
+thought
 todo
 transcribe
 unbox
@@ -93,6 +101,8 @@ update-project-skill
 visualize
 web-fetcher
 weekly-report
+wiki
+wiki-help
 writing-agents
 yuanboizer-zh
 ```
@@ -108,7 +118,7 @@ yuanboizer-zh
 | [yuanboizer-zh](skills/yuanboizer-zh/) | Personal style polisher — rewrites compressed drafts to sound like Yuanbo |
 | [flipradio-write-skill](skills/flipradio-write-skill/) | FlipRadio critical style: guided writing + polish (two skills in one) |
 | [paper-storyteller](skills/paper-storyteller/) | Narrative-driven academic paper writing (Wu/Efros/Liu/Freeman/Isola style) |
-| [writing-agents](skills/writing-agents/) | Guide for authoring custom Claude Code agent markdown files |
+| [writing-agents](skills/writing-agents/) | Guide for authoring custom coding-agent subagent markdown files |
 
 ### Research & Knowledge
 
@@ -134,11 +144,12 @@ yuanboizer-zh
 |-------|-------------|
 | [weekly-report](skills/weekly-report/) | Weekly progress report for managers |
 | [web-fetcher](skills/web-fetcher/) | Unified URL fetcher — auto-routes Twitter/YouTube/Bilibili/小红书/GitHub etc. |
-| [cc-navigator](skills/cc-navigator/) | Claude Code workflow navigator — recommends the right skill/agent/tool from 11 sources |
+| [cc-navigator](skills/cc-navigator/) | Agent workflow navigator — recommends the right skill, agent, tool, or workflow |
 | [meta-audit](plugins/meta-audit/) | AI automation maturity audit — L0-L5 scoring, ecosystem benchmarks, Top-3 actions |
-| [labmate](plugins/labmate/) | Research harness for Claude Code — experiments, papers, knowhow, agents (independent plugin) |
+| [labmate](plugins/labmate/) | Research harness for AI coding agents — experiments, papers, knowhow, and project memory |
 | [swiss-knife-design](skills/swiss-knife-design/) | Personal web design system — project pages, dashboards, leaderboards, slides with consistent visual identity |
 | [transcribe](skills/transcribe/) | Audio transcription — speech-to-text via Whisper for meetings, voice memos, recordings |
+| [clone-web](skills/clone-web/) | Local webpage cloning and visual archive workflow |
 <!-- END SKILLS -->
 
 ## Repo Structure
@@ -156,7 +167,7 @@ scripts/           Build & validation scripts
 
 ## Third-party Dependencies
 
-Installed automatically by `install.sh`:
+Attempted automatically by `install.sh`. If a network clone fails, local skills still install and the dependency is reported as a warning.
 
 | Skill | Source |
 |-------|--------|
@@ -165,7 +176,7 @@ Installed automatically by `install.sh`:
 
 ## External Plugins
 
-Managed via Claude Code plugin system, not included in this repo.
+Managed via platform-specific plugin systems, not included in this repo.
 
 | Plugin | What it does |
 |--------|-------------|

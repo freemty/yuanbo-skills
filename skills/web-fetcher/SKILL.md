@@ -8,16 +8,22 @@ description: >
 
 # Web Fetcher
 
-收到 URL 时运行：
+收到 URL 时运行。先定位本 skill 的安装目录；常见位置：
+
+- Codex / workspace skills: `~/.agents/skills/web-fetcher`
+- Claude Code: `~/.claude/skills/web-fetcher`
+- Antigravity global: `~/.gemini/antigravity/skills/web-fetcher`
+
+命令中用实际目录替换 `<web-fetcher-dir>`：
 
 ```bash
-python3 ~/.claude/skills/web-fetcher/scripts/fetch.py <url>
+python3 <web-fetcher-dir>/scripts/fetch.py <url>
 ```
 
 保存到文件：
 
 ```bash
-python3 ~/.claude/skills/web-fetcher/scripts/fetch.py <url> -o output.md
+python3 <web-fetcher-dir>/scripts/fetch.py <url> -o output.md
 ```
 
 ## 自动路由
