@@ -77,6 +77,7 @@ paper-writing-qa
 pre-submit-challenge
 read-paper
 review-review
+research-slides
 section-guard
 survey-literature
 swiss-knife-design
@@ -125,6 +126,7 @@ yuanboizer-zh
 |-------|-------------|
 | [paper-style](skills/paper-style/) | Paper color theme system — 5 themes for figures, tables, diagrams |
 | [beamer-style](skills/beamer-style/) | Beamer slide theme system — shares the same 5-theme color system |
+| [research-slides](skills/research-slides/) | Research Beamer workflow — paper-native figures, citations, restrained style, and rendered PDF QA |
 
 ### Productivity
 
@@ -142,7 +144,7 @@ yuanboizer-zh
 ## Repo Structure
 
 ```
-skills/            Single-skill directories (13)
+skills/            Single-skill directories (14)
 plugins/           Multi-skill plugins (5)
 projects/          Standalone projects (1: selfos)
 .codex/            Codex install instructions

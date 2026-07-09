@@ -34,7 +34,7 @@ Skills are installed by `install.sh`, which symlinks every directory containing 
 - projects: selfos
 
 **Inline directories** (tracked directly in this repo):
-- skills: swiss-knife-design, transcribe, web-fetcher, weekly-report, yuanboizer-zh
+- skills: research-slides, swiss-knife-design, transcribe, web-fetcher, weekly-report, yuanboizer-zh
 
 ## Common Operations
 
@@ -85,6 +85,7 @@ Each skill directory must contain:
 - `docs/guides/generate-readme.md` — README skill 表格自动生成脚本使用指南
 - `docs/guides/skills-sh-publishing.md` — skills.sh 上架规范：repo 结构、SKILL.md/README 模板、标准化 checklist
 - `docs/guides/skill-validation.md` — SKILL.md 契约检查 + repo 卫生规范（validate_skills.py + CI）
+- `docs/guides/research-slides.md` — Research slide workflow: restrained Beamer style, paper figures/tables, citations, source credits, and rendered PDF QA
 
 ## Knowhow
 

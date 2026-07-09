@@ -58,3 +58,7 @@ This repo supports three AI agent platforms from the same SKILL.md sources (Agen
 - Keep Claude, Codex, and Antigravity install docs in sync when changing install behavior.
 - Do not remove or rename a skill directory without confirming because it breaks existing symlinks.
 - Do not hardcode secrets, API keys, or tokens.
+
+## Guides
+
+- `docs/guides/research-slides.md` — Research slide workflow: restrained Beamer style, paper figures/tables, citations, source credits, and rendered PDF QA

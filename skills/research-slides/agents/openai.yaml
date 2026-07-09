@@ -1,0 +1,4 @@
+interface:
+  display_name: "Research Slides"
+  short_description: "Research talk structure and Beamer polish"
+  default_prompt: "Use $research-slides to turn these paper notes into a restrained research Beamer talk."

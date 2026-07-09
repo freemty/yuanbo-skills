@@ -2,6 +2,15 @@
 
 All notable changes to yuanbo-skills.
 
+## 2026-07-09
+
+### 新增
+- **research-slides**: add a restrained research Beamer workflow with paper-native figures/tables, citation rules, source credits, and rendered PDF QA scripts.
+- **docs/guides/research-slides.md**: document the workflow, Beamer/style boundary, file map, and verification loop.
+
+### 变更
+- **beamer-style**: add a `research` layout for black/gray paper talks, reading groups, and research surveys.
+
 ## 2026-05-25
 
 ### 新增
