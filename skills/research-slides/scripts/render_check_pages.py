@@ -22,6 +22,8 @@ def main() -> int:
     args = parse_args()
     last = args.last or args.first
     args.out.mkdir(parents=True, exist_ok=True)
+    for stale in args.out.glob("page-*.png"):
+        stale.unlink()
     prefix = args.out / "page"
     cmd = [
         "pdftoppm",

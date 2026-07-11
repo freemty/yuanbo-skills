@@ -2,6 +2,13 @@
 
 All notable changes to yuanbo-skills.
 
+## 2026-07-11
+
+### 变更
+- **research-slides**: add `paper`, `idea`, `survey`, and `repair` modes; encode the causal-story, evidence-ladder, de-AI, citation, and paper-figure conventions recovered from the parallel-decoding deck and slide corpus.
+- **research-slides**: make the starter self-contained, add a source manifest, preserve transparent figure crops, remove stale render artifacts, and add deterministic XeLaTeX/log/asset/page checks.
+- **docs/guides/research-slides.md**: document the four modes, multi-agent evidence split, source contract, and rendered regression workflow.
+
 ## 2026-07-09
 
 ### 新增

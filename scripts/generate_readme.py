@@ -70,7 +70,7 @@ SKILLS = {
     },
     "research-slides": {
         "category": "Academic Visual Identity",
-        "description": "Research Beamer workflow — paper-native figures, citations, restrained style, and rendered PDF QA",
+        "description": "Multi-mode research Beamer workflow — audience-first story, source-native evidence, and rendered QA",
     },
     "weekly-report": {
         "category": "Productivity",

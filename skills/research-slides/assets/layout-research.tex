@@ -1,0 +1,96 @@
+% Restrained, self-contained Beamer layout for research talks.
+
+\usetheme{default}
+\usecolortheme{default}
+\RequirePackage{hyperref}
+
+\newlength{\rsProgressDone}
+\newlength{\rsProgressRemain}
+
+\usefonttheme{professionalfonts}
+\setbeamerfont{title}{size=\Large,series=\bfseries}
+\setbeamerfont{frametitle}{size=\large,series=\bfseries}
+\setbeamerfont{framesubtitle}{size=\normalsize,series=\mdseries}
+\setbeamerfont{author}{size=\normalsize}
+\setbeamerfont{date}{size=\small}
+\setbeamerfont{section title}{size=\Large,series=\bfseries}
+\setbeamerfont{footline}{size=\tiny}
+
+\setbeamercolor{normal text}{fg=black!86,bg=white}
+\setbeamercolor{title}{fg=black!88}
+\setbeamercolor{frametitle}{fg=black!88}
+\setbeamercolor{subtitle}{fg=black!55}
+\setbeamercolor{structure}{fg=black!78}
+\setbeamercolor{author}{fg=black!60}
+\setbeamercolor{date}{fg=black!60}
+\setbeamercolor{section in toc}{fg=black!78}
+\setbeamercolor{subsection in toc}{fg=black!58}
+\hypersetup{colorlinks=true,linkcolor=black!75,urlcolor=black!75,citecolor=black!75}
+
+\setbeamertemplate{navigation symbols}{}
+\setbeamersize{text margin left=7mm,text margin right=7mm}
+
+\setbeamertemplate{frametitle}{%
+  \vskip6pt%
+  \usebeamerfont{frametitle}\usebeamercolor[fg]{frametitle}\insertframetitle%
+  \ifx\insertframesubtitle\empty\else
+    \\[2pt]\usebeamerfont{framesubtitle}\usebeamercolor[fg]{subtitle}\insertframesubtitle%
+  \fi
+  \vskip4pt%
+  {\color{black!78}\hrule height 0.45pt}%
+  \vskip6pt%
+}
+
+\setbeamertemplate{footline}{%
+  \nointerlineskip%
+  \pgfmathsetmacro{\progressfrac}{\insertframenumber/\inserttotalframenumber}%
+  \pgfmathsetlength{\rsProgressDone}{\progressfrac\paperwidth}%
+  \pgfmathsetlength{\rsProgressRemain}{\paperwidth-\rsProgressDone}%
+  \hbox to\paperwidth{%
+    {\color{black!72}\rule{\rsProgressDone}{1pt}}%
+    {\color{black!12}\rule{\rsProgressRemain}{1pt}}%
+  }%
+  \vskip2pt%
+  \hbox to\paperwidth{\hfill\usebeamerfont{footline}\color{black!42}\insertframenumber\,/\,\inserttotalframenumber\hspace{8pt}}%
+  \vskip4pt%
+}
+
+\setbeamertemplate{title page}{%
+  \vfill
+  \begin{flushleft}
+    {\usebeamerfont{title}\usebeamercolor[fg]{title}\inserttitle}\\[18pt]
+    {\usebeamerfont{author}\usebeamercolor[fg]{author}\insertauthor}\\[4pt]
+    {\usebeamerfont{date}\usebeamercolor[fg]{date}\insertdate}
+  \end{flushleft}
+  \vfill
+}
+
+\newcommand{\sectiondivider}{%
+  \begin{frame}[plain,noframenumbering]
+    \vfill
+    \begin{center}
+      {\usebeamerfont{section title}\color{black!82}\insertsectionhead}
+    \end{center}
+    \vfill
+  \end{frame}
+}
+
+\setbeamertemplate{itemize item}{\small\raise1pt\hbox{\textbullet}}
+\setbeamertemplate{itemize subitem}{\scriptsize\raise1pt\hbox{--}}
+\setbeamertemplate{itemize subsubitem}{\scriptsize\raise1pt\hbox{$\cdot$}}
+\setbeamercolor{itemize item}{fg=black!80}
+\setbeamercolor{itemize subitem}{fg=black!65}
+\setbeamercolor{itemize subsubitem}{fg=black!55}
+
+\providecommand{\paperlink}[2]{\href{#2}{#1}}
+\providecommand{\arxivcite}[1]{\paperlink{arXiv:#1}{https://arxiv.org/abs/#1}}
+\providecommand{\stdcite}[3]{#1, \paperlink{\emph{#2}}{https://arxiv.org/abs/#3}, \arxivcite{#3}}
+\providecommand{\webcite}[2]{\paperlink{#1}{#2}}
+\providecommand{\citesep}{\\[-0.1em]}
+\providecommand{\slidecite}[1]{%
+  \par\vfill\noindent%
+  \begin{minipage}{0.96\textwidth}%
+    \tiny\color{black!38}\raggedright #1\par%
+  \end{minipage}%
+  \vspace{0.35em}%
+}

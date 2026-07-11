@@ -2,15 +2,11 @@
 
 \usepackage{amsmath,amssymb,array,booktabs,mathtools}
 \usepackage{graphicx,hyperref}
-\usepackage{tikz}
-\usetikzlibrary{arrows.meta,positioning}
 
 \input{layout-research}
 
 \title{Talk Title}
-\subtitle{}
 \author{Your Name}
-\institute{}
 \date{Month YYYY}
 
 \newcommand{\cExample}{\stdcite{Author et al.}{Paper Title}{2501.00001}}
@@ -26,36 +22,121 @@
 \end{frame}
 
 \section{Motivation}
+\sectiondivider
 
-\begin{frame}{One precise claim}
+\begin{frame}{Define the process before naming the bottleneck}
+  \vfill
   \begin{center}
-    \large One sentence that states the problem and why it matters.
+    {\large known inputs}\hspace{1.0em}$\longrightarrow$\hspace{1.0em}
+    {\large model step}\hspace{1.0em}$\longrightarrow$\hspace{1.0em}
+    {\large output}
+
+    \vspace{1.1cm}
+    {\color{black!52}Use a direct teaching figure when the process is unfamiliar.}
   \end{center}
+  \vfill
+  \slidecite{Figure source: \cExample}
+\end{frame}
+
+\begin{frame}{The observed failure makes the method necessary}
+  \vspace{0.5cm}
+  \begin{columns}[T,totalwidth=\textwidth]
+    \begin{column}{0.47\textwidth}
+      \large What the system does now
+
+      \vspace{0.5cm}
+      \begin{itemize}
+        \item one concrete behavior
+        \item one measured bottleneck
+      \end{itemize}
+    \end{column}
+    \begin{column}{0.47\textwidth}
+      \large Why the obvious fix fails
+
+      \vspace{0.5cm}
+      \begin{itemize}
+        \item one violated dependency
+        \item one resulting cost
+      \end{itemize}
+    \end{column}
+  \end{columns}
   \slidecite{\cExample}
 \end{frame}
 
 \section{Core Paper}
+\sectiondivider
 
-\begin{frame}{Paper Title:\\[-0.15em] \normalsize method in one phrase}
+\begin{frame}{Paper Title:\\[-0.1em] \normalsize mechanism in one phrase}
+  \vfill
   \begin{center}
-    \small \textbf{TLDR:} one mechanism plus one consequence.
+    \IfFileExists{figs/paper-overview.pdf}{%
+      \includegraphics[width=0.78\textwidth,height=0.48\textheight,keepaspectratio]{figs/paper-overview.pdf}%
+    }{%
+      {\large\color{black!45}\emph{Place the paper's source-native method figure here.}}%
+    }
+
+    \vspace{0.45cm}
+    \large The method makes one precise move and changes one outcome.
   \end{center}
-  \vspace{0.4em}
-  \begin{center}
-    \fbox{\parbox[c][4.1cm][c]{0.78\textwidth}{\centering paper figure goes here}}
-  \end{center}
+  \vfill
   \slidecite{Figure source: \cExample}
 \end{frame}
 
+\begin{frame}{The main result establishes the performance claim}
+  \vspace{0.35cm}
+  \begin{center}
+    \begin{tabular}{lrr}
+      \toprule
+      Method & Quality & Throughput \\
+      \midrule
+      Baseline & 71.2 & 42 \\
+      Proposed & 71.3 & \textbf{96} \\
+      \bottomrule
+    \end{tabular}
+  \end{center}
+
+  \vspace{0.75cm}
+  \begin{center}
+    \large $2.3\times$ throughput at matched quality under the reported setting.
+  \end{center}
+  \slidecite{Table source: \cExample}
+\end{frame}
+
+\begin{frame}{The ablation tests whether the distinctive choice matters}
+  \vspace{0.35cm}
+  \begin{center}
+    \begin{tabular}{lr}
+      \toprule
+      Variant & Target metric \\
+      \midrule
+      Full method & \textbf{96} \\
+      without distinctive component & 63 \\
+      \bottomrule
+    \end{tabular}
+  \end{center}
+
+  \vspace{0.75cm}
+  \begin{center}
+    \large Removing the component erases most of the gain.
+  \end{center}
+  \slidecite{Table source: \cExample}
+\end{frame}
+
+\section{Takeaways}
+
+\begin{frame}{Takeaways}
+  \vspace{0.6cm}
+  \begin{enumerate}
+    \item The pressure is one concrete bottleneck.
+    \item The method changes one computational or statistical contract.
+    \item The result holds under explicit conditions.
+    \item The ablation identifies which design choice earns the gain.
+  \end{enumerate}
+\end{frame}
+
 \begin{frame}{References}
-  \tiny
-  \begin{columns}[T,totalwidth=\textwidth]
-    \begin{column}{0.49\textwidth}
-      \cExample
-    \end{column}
-    \begin{column}{0.49\textwidth}
-    \end{column}
-  \end{columns}
+  \scriptsize
+  \cExample
 \end{frame}
 
 \end{document}

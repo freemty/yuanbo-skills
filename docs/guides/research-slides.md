@@ -1,61 +1,91 @@
 # Research Slides Skill
 
-`research-slides` is the human-facing workflow for making restrained, source-backed research talks. It captures the style decisions from recent Beamer deck work: sparse language, paper-native figures and tables, real citations, and rendered PDF QA before reporting a slide edit as done.
+`research-slides` builds research talks as audience-model updates rather than decorated paper summaries. It preserves the restrained Beamer surface developed in recent decks: sparse language, source-native evidence, standard clickable citations, and rendered PDF QA.
 
-## When to Use
+## Four modes
 
-Use `research-slides` when a task asks for:
+| Mode | Use it for | Default story |
+| --- | --- | --- |
+| `paper` | one anchor paper | why it should work -> prior failure -> method -> main result -> ablation/application |
+| `idea` | a concept, hypothesis, or proposal | define object -> observed pressure -> failed obvious fix -> hypothesis -> evidence -> evaluation |
+| `survey` | a field trend or paper cluster | common pressure -> comparison lens -> evidence ladders -> disagreements -> frontier |
+| `repair` | an existing `.tex`/PDF deck | baseline -> page/source map -> minimal patch -> neighbor regression -> full scan |
 
-- a paper-reading talk, literature survey, or research group presentation;
-- converting paper notes into a Beamer deck;
-- revising a technical deck for style, section order, citations, or figure quality;
-- checking a compiled PDF for layout problems such as overlap, low-resolution figures, or footnote crowding.
+The mode changes the story, not the visual identity. New decks use the bundled black/gray layout; repairs preserve the existing deck's template.
 
-Use `beamer-style` for the low-level LaTeX layout and color system. Use `research-slides` for the talk story, paper-figure workflow, source-credit rules, and visual QA loop.
+## Design contract
 
-## Design Contract
+- Cover: title, speaker, and date only.
+- Add a table of contents after the cover for multi-section talks.
+- Define an unfamiliar process before presenting its bottleneck or solution.
+- Give each slide one claim and one dominant source-backed object.
+- Paper overview: exact paper title, original method figure, one TLDR; no metric dump.
+- Core paper: method, main result, and ablation/application are separate evidence obligations.
+- Secondary paper: one source-native figure plus one TLDR and citation.
+- Deck surface: white canvas with black/gray type and rules; source figures may retain their native color.
+- Historical slide corpora inform storytelling and QA, not the active palette. New explicit preferences and the named current reference deck override older visual habits.
+- Avoid filler prose, decorative cards, red accents, gratuitous arrows, dashed networks, and internal shorthand in titles.
+- End with one four-sentence takeaway slide and one or two dense reference pages.
 
-Research slides should read like evidence-backed arguments, not decorated summaries.
+## Source contract
 
-- Cover slide: title, speaker, date only.
-- Table of contents: add after the cover when the talk has multiple sections.
-- Sections: name the conceptual role, such as motivation, method family, core paper, systems, takeaway, or backup.
-- Paper pages: put the paper title in the slide title and make the paper's own figure or table the center of the slide.
-- Result pages: show the result table or plot first, then add one takeaway sentence.
-- Citations: put concise slide-level citations in semi-transparent bottom-left text; put full clickable links on the final References slide.
-- Online figures: credit the exact source URL below the figure, not only the blog name.
-- Visual style: black/gray by default; let paper figures carry color.
+Prefer evidence in this order:
 
-## File Map
+1. figure/table from arXiv source;
+2. high-resolution crop from the paper PDF;
+3. authoritative project page or teaching blog;
+4. minimal redraw only when the original cannot teach the point.
 
-| Path | Purpose |
-|------|---------|
-| `skills/research-slides/SKILL.md` | Runtime workflow and routing instructions |
-| `skills/research-slides/references/visual-style.md` | Visual density, color, layout, and anti-AI-slop rules |
-| `skills/research-slides/references/writing-rules.md` | Title, TLDR, bullet, and section-name rules |
-| `skills/research-slides/references/paper-slide-patterns.md` | How many slides each paper type deserves |
-| `skills/research-slides/references/citation-and-source-credit.md` | Footnote, source-credit, and references-list format |
-| `skills/research-slides/references/figure-extraction-workflow.md` | Extracting figures from PDFs, arXiv source, and blogs |
-| `skills/research-slides/assets/research-main.tex` | Minimal starter Beamer deck using `layout-research` |
-| `skills/beamer-style/templates/layout-research.tex` | Restrained black/gray Beamer layout |
+Every external asset must appear in `source-manifest.tsv` with its exact URL, figure/table number, page, crop, and supported claim. Slide footnotes use `Author et al., Title, arXiv:id`; each source gets its own clickable line.
 
-## Standard Workflow
-
-1. Decide the talk spine before editing individual slides.
-2. For each core paper, extract the central figure or table instead of redrawing it from scratch.
-3. Write one TLDR sentence that states mechanism plus consequence.
-4. Add slide-level citations with author, paper title, and arXiv URL or exact source URL.
-5. Compile with XeLaTeX.
-6. Render changed pages to PNG and inspect them before finalizing.
+## Initialize a deck
 
 ```bash
-latexmk -xelatex -interaction=nonstopmode main.tex
-rg -n "(^!|LaTeX Error|Package .* Error|Overfull|Undefined control sequence)" main.log
-skills/research-slides/scripts/render_check_pages.py main.pdf --first 1 --last 8 --out /tmp/research-slides-rendered
+python3 skills/research-slides/scripts/init_research_deck.py /tmp/my-talk
 ```
 
-## Maintenance
+This creates:
 
-When the talk style changes in a real deck, update the relevant reference file instead of expanding `SKILL.md`. Keep `SKILL.md` as the compact router; put detailed examples and house rules in `references/`.
+- `main.tex`;
+- a self-contained `layout-research.tex`;
+- `source-manifest.tsv`;
+- `figs/`.
 
-When changing `layout-research`, compile `skills/research-slides/assets/research-main.tex` in a temporary directory and inspect the rendered pages. This catches the main failure modes: hidden color leakage from Beamer defaults, footnotes colliding with the progress bar, and dense references pages.
+No separate `beamer-style` install is required. Use `beamer-style` only when changing to another theme.
+
+## Multi-agent workflow
+
+For a substantial talk, run read-only agents in parallel for story, evidence, style history, and rendered QA. Evidence agents return a strict record: claim, source URL, figure/table number, page, crop, and caveat. Keep one coordinator as the only writer of `main.tex`; do not let multiple agents reorder a deck concurrently.
+
+## Deterministic QA
+
+```bash
+python3 skills/research-slides/scripts/check_deck.py path/to/main.tex --pages 7,12-14
+```
+
+The checker:
+
+1. runs XeLaTeX twice;
+2. fails on LaTeX errors, undefined references/citations, overfull boxes, and missing static assets;
+3. reports hyperlink warnings and dynamic asset paths;
+4. renders selected pages into a clean directory.
+
+The final step is visual: inspect changed pages and adjacent pages for overlap, blur, clipping, unreadable paper labels, citation collisions, and broken rhythm. Compilation success alone is not completion.
+
+## File map
+
+| Path | Purpose |
+| --- | --- |
+| `skills/research-slides/SKILL.md` | compact mode router and hard gates |
+| `skills/research-slides/references/story-modes.md` | paper, idea, survey, and repair story spines |
+| `skills/research-slides/references/paper-slide-patterns.md` | evidence allocation for core and secondary papers |
+| `skills/research-slides/references/visual-style.md` | visual hierarchy and anti-AI-slop rules |
+| `skills/research-slides/references/writing-rules.md` | titles, TLDRs, formulas, metrics, and endings |
+| `skills/research-slides/references/citation-and-source-credit.md` | clickable citation and source format |
+| `skills/research-slides/references/figure-extraction-workflow.md` | source-native asset workflow |
+| `skills/research-slides/references/multi-agent-workflow.md` | read-only agent split and merge gate |
+| `skills/research-slides/references/qa-workflow.md` | baseline and rendered regression loop |
+| `skills/research-slides/assets/` | self-contained starter layout, deck, and source manifest |
+| `skills/research-slides/scripts/` | initialization, cropping, compilation, and rendering tools |
+
+When the house style changes in a real deck, update the relevant reference file rather than expanding `SKILL.md`. Keep the router short and the behavioral rules testable.

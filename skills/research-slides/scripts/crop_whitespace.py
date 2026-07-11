@@ -28,10 +28,14 @@ def main() -> int:
     else:
         raise SystemExit("provide output path or --in-place")
 
-    image = Image.open(args.input).convert("RGB")
-    bg = Image.new("RGB", image.size, (255, 255, 255))
-    diff = ImageChops.difference(image, bg).convert("L")
-    mask = diff.point(lambda p: 255 if p > args.threshold else 0)
+    image = Image.open(args.input)
+    rgba = image.convert("RGBA")
+    white = Image.new("RGBA", rgba.size, (255, 255, 255, 255))
+    composite = Image.alpha_composite(white, rgba).convert("RGB")
+    diff = ImageChops.difference(composite, Image.new("RGB", image.size, "white")).convert("L")
+    ink = diff.point(lambda p: 255 if p > args.threshold else 0)
+    visible = rgba.getchannel("A").point(lambda p: 255 if p > 0 else 0)
+    mask = ImageChops.multiply(ink, visible)
     bbox = mask.getbbox()
     if bbox is None:
         image.save(out)
