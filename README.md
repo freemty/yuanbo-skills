@@ -27,10 +27,16 @@ Or manually:
 ```bash
 git clone --recurse-submodules https://github.com/freemty/yuanbo-skills ~/.codex/yuanbo-skills
 cd ~/.codex/yuanbo-skills
+codex plugin marketplace add ~/.codex/yuanbo-skills
+codex plugin add labmate@yuanbo-skills
 ./install.sh --target codex
 ```
 
-This links every public skill into `~/.agents/skills/`.
+Codex plugins are the recommended path for multi-skill packages such as
+Labmate. The installer links standalone skills into `~/.agents/skills/` and
+skips plugin-owned skills by default, preventing duplicate registration. Older
+Codex builds without plugin support can opt into legacy links with
+`--include-plugin-skills`.
 
 ### Google Antigravity
 
@@ -52,7 +58,10 @@ This links every public skill into `~/.gemini/antigravity/skills/`.
 
 ### Installable Skill Keys
 
-All three platforms install the same set of skills from the same `SKILL.md`/`skill.md` files (Agent Skills open standard). Public `skills/` and `plugins/` entries take precedence over bundled project skills when names collide.
+All three platforms use the same `SKILL.md`/`skill.md` sources (Agent Skills
+open standard). Claude Code and Antigravity link all skills. Codex links
+standalone skills and loads plugin-owned skills through its marketplace by
+default.
 
 Skill keys:
 

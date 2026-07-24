@@ -2,24 +2,34 @@
 set -euo pipefail
 
 # ybskills installer
-# Creates symlinks for every SKILL.md/skill.md under skills/, plugins/, and
-# bundled project skill directories.
+# Creates symlinks for SKILL.md/skill.md directories under skills/, plugins/,
+# and bundled project skill directories. Codex skips plugin-owned skills by
+# default so an installed plugin is not registered a second time.
 # Defaults to Claude Code (~/.claude/skills); pass --target codex for
 # OpenAI Codex CLI (~/.agents/skills) or --target antigravity for
 # Google Antigravity (~/.gemini/antigravity/skills).
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 TARGET="claude"
+INCLUDE_PLUGIN_SKILLS=0
+PRUNE_PLUGIN_SKILL_LINKS=0
 
 usage() {
   cat <<'EOF'
-Usage: ./install.sh [--target claude|codex|antigravity|all]
+Usage: ./install.sh [--target claude|codex|antigravity|all] [options]
 
 Targets:
   claude        Link skills into ~/.claude/skills (default)
-  codex         Link skills into ~/.agents/skills
+  codex         Link standalone skills into ~/.agents/skills
   antigravity   Link skills into ~/.gemini/antigravity/skills
   all           Install Claude, Codex, and Antigravity skill links
+
+Codex options:
+  --include-plugin-skills       Also link skills owned by Codex plugins.
+                                Use only as a legacy fallback without plugins.
+  --prune-plugin-skill-links    Remove symlinks into this repository's plugin
+                                skills before installing. Real directories and
+                                standalone skill links are never removed.
 EOF
 }
 
@@ -31,6 +41,14 @@ while [ "$#" -gt 0 ]; do
       ;;
     --target=*)
       TARGET="${1#*=}"
+      shift
+      ;;
+    --include-plugin-skills)
+      INCLUDE_PLUGIN_SKILLS=1
+      shift
+      ;;
+    --prune-plugin-skill-links)
+      PRUNE_PLUGIN_SKILL_LINKS=1
       shift
       ;;
     -h|--help)
@@ -62,6 +80,54 @@ skill_target_dir() {
   esac
 }
 
+plugin_root_for_skill() {
+  local skill_dir="$1"
+  local relative plugin_name plugin_root
+
+  case "$skill_dir" in
+    "$SCRIPT_DIR"/plugins/*)
+      relative="${skill_dir#"$SCRIPT_DIR/plugins/"}"
+      plugin_name="${relative%%/*}"
+      plugin_root="$SCRIPT_DIR/plugins/$plugin_name"
+      if [ -f "$plugin_root/.codex-plugin/plugin.json" ]; then
+        printf '%s\n' "$plugin_root"
+        return 0
+      fi
+      ;;
+  esac
+  return 1
+}
+
+prune_codex_plugin_skill_links() {
+  local target_root="$1"
+  local link current link_dir resolved_parent plugin_root removed
+
+  removed=0
+  for link in "$target_root"/*; do
+    [ -L "$link" ] || continue
+    current="$(readlink "$link")"
+    case "$current" in
+      /*) ;;
+      *)
+        link_dir="$(dirname "$link")"
+        resolved_parent="$(
+          cd "$link_dir/$(dirname "$current")" 2>/dev/null && pwd -P
+        )" || resolved_parent=""
+        if [ -n "$resolved_parent" ]; then
+          current="$resolved_parent/$(basename "$current")"
+        fi
+        ;;
+    esac
+    if plugin_root="$(plugin_root_for_skill "$current")"; then
+      rm -- "$link"
+      echo "  Pruned plugin skill link: $(basename "$link") (from $plugin_root)"
+      removed=$((removed + 1))
+    fi
+  done
+  echo "Plugin skill links: $removed pruned"
+  echo ""
+}
+
 link_skill_dir() {
   local skill_dir="$1"
   local target_root="$2"
@@ -89,7 +155,7 @@ link_skill_dir() {
 
 install_target() {
   local target_name="$1"
-  local skills_dir installed skipped skill_md skill_dir skill_name seen_skill_names
+  local skills_dir installed skipped plugin_skipped skill_md skill_dir skill_name seen_skill_names
 
   skills_dir="$(skill_target_dir "$target_name")"
   mkdir -p "$skills_dir"
@@ -98,13 +164,26 @@ install_target() {
   echo "Target: $skills_dir"
   echo ""
 
+  if [ "$target_name" = "codex" ] && [ "$PRUNE_PLUGIN_SKILL_LINKS" -eq 1 ]; then
+    prune_codex_plugin_skill_links "$skills_dir"
+  fi
+
   installed=0
   skipped=0
+  plugin_skipped=0
   seen_skill_names=""
 
   while IFS= read -r -d '' skill_md; do
     skill_dir="$(dirname "$skill_md")"
     skill_name="$(basename "$skill_dir")"
+
+    if [ "$target_name" = "codex" ] &&
+       [ "$INCLUDE_PLUGIN_SKILLS" -eq 0 ] &&
+       plugin_root_for_skill "$skill_dir" >/dev/null; then
+      plugin_skipped=$((plugin_skipped + 1))
+      continue
+    fi
+
     case " $seen_skill_names " in
       *" $skill_name "*)
         echo "  WARNING: duplicate skill name '$skill_name' at $skill_dir, skipping"
@@ -127,6 +206,13 @@ install_target() {
 
   echo ""
   echo "Skills: $installed linked, $skipped unchanged/skipped"
+  if [ "$target_name" = "codex" ]; then
+    if [ "$INCLUDE_PLUGIN_SKILLS" -eq 1 ]; then
+      echo "Codex plugin skills: included in legacy symlink mode"
+    else
+      echo "Codex plugin skills: $plugin_skipped skipped (install plugins instead)"
+    fi
+  fi
   echo ""
 
   install_third_party "$skills_dir"
