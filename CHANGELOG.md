@@ -7,6 +7,8 @@ All notable changes to yuanbo-skills.
 ### 变更
 - **Labmate**: advance the plugin pointer to the portable agent routing, complete Codex lifecycle hooks, explicit skill policies, platform-neutral templates, and cross-platform release parity commits.
 - **Codex install**: make the plugin marketplace the default path for plugin-owned skills; retain `--include-plugin-skills` only for legacy hosts and document plugin-versus-symlink migration.
+- **research-slides**: make the current Speculative Decoding deck's black palette plus minimal Metropolis layout the self-contained default for new decks; keep `layout-research` as an explicit compatibility option.
+- **research-slides**: move citation helpers into the starter deck, copy all default style assets during initialization, and add a regression test for the generated template contract.
 
 ### 修复
 - **install.sh**: skip Codex plugin skills by default and add `--prune-plugin-skill-links`, which removes only repository-managed symlinks while preserving real directories and standalone skills.

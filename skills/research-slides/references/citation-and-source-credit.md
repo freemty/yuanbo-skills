@@ -14,7 +14,7 @@ Keep footnotes semi-transparent and bottom-left. Put each source on its own line
 
 ## Beamer Macros
 
-The `beamer-style` `layout-research` template provides:
+The bundled `research-main.tex` starter provides:
 
 ```latex
 \paperlink{label}{url}

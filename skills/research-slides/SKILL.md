@@ -5,7 +5,7 @@ description: Use when creating or revising Beamer research talks, single-paper p
 
 # Research Slides
 
-Build an evidence-backed argument in which each slide changes one audience belief. Use the restrained bundled Beamer layout; let source figures carry the visual detail.
+Build an evidence-backed argument in which each slide changes one audience belief. New decks default to the bundled Speculative-Decoding visual system: its black palette and minimal Metropolis layout. Let source figures carry the visual detail.
 
 ## Route the task
 
@@ -33,7 +33,8 @@ Infer the mode when clear and state it briefly. Ask only when audience, duration
 - Explain the object and failure before naming the solution.
 - Give core papers method, main-result, and ablation/application evidence; compress secondary papers to one sourced slide.
 - Prefer the paper's figure/table, then an authoritative teaching figure, then a minimal redraw.
-- Keep a white canvas with black/gray type and rules. Do not fill whitespace with cards, colors, arrows, or prose.
+- For new decks, keep the bundled black Metropolis default: `beamer-colors.tex` with `\beamerthemename=black` plus `layout-metropolis.tex`. Keep its white canvas, black/gray type, thin title rule, automatic section pages, and bottom progress bar.
+- Do not fill whitespace with cards, colors, arrows, or prose.
 - Treat historical slide corpora as evidence of storytelling habits, not as palette or layout authority. The newest explicit visual preference wins.
 - Put each source on its own clickable citation line and finish with a dense reference list.
 - Never report completion from a successful compile alone; inspect rendered pages for overlap, blur, clipping, and citation collisions.
@@ -45,4 +46,4 @@ Infer the mode when clear and state it briefly. Ask only when audience, duration
 - `scripts/check_deck.py`: compile, scan logs/assets, and render selected pages.
 - `references/worked-example.md`: example storyboard for an idea-to-survey talk.
 
-Use `beamer-style` only when the user requests another theme or layout. This skill's bundled starter is self-contained.
+Use `beamer-style` only when the user requests another theme or layout. Do not silently substitute `layout-research` for the default. This skill's bundled starter is self-contained.

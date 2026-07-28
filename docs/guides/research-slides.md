@@ -1,6 +1,6 @@
 # Research Slides Skill
 
-`research-slides` builds research talks as audience-model updates rather than decorated paper summaries. It preserves the restrained Beamer surface developed in recent decks: sparse language, source-native evidence, standard clickable citations, and rendered PDF QA.
+`research-slides` builds research talks as audience-model updates rather than decorated paper summaries. Its default starter now matches the current Speculative Decoding deck: the bundled black palette plus minimal Metropolis layout, with sparse language, source-native evidence, standard clickable citations, and rendered PDF QA.
 
 ## Four modes
 
@@ -11,7 +11,7 @@
 | `survey` | a field trend or paper cluster | common pressure -> comparison lens -> evidence ladders -> disagreements -> frontier |
 | `repair` | an existing `.tex`/PDF deck | baseline -> page/source map -> minimal patch -> neighbor regression -> full scan |
 
-The mode changes the story, not the visual identity. New decks use the bundled black/gray layout; repairs preserve the existing deck's template.
+The mode changes the story, not the visual identity. New decks use `beamer-colors.tex` with the black theme and `layout-metropolis.tex`; repairs preserve the existing deck's template.
 
 ## Design contract
 
@@ -47,11 +47,12 @@ python3 skills/research-slides/scripts/init_research_deck.py /tmp/my-talk
 This creates:
 
 - `main.tex`;
-- a self-contained `layout-research.tex`;
+- the default `beamer-colors.tex` and `layout-metropolis.tex` pair;
+- a legacy `layout-research.tex` compatibility option;
 - `source-manifest.tsv`;
 - `figs/`.
 
-No separate `beamer-style` install is required. Use `beamer-style` only when changing to another theme.
+No separate `beamer-style` install is required. Use `beamer-style` only when changing to another theme or layout; do not replace the default pair unless requested.
 
 ## Multi-agent workflow
 

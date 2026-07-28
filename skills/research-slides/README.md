@@ -2,7 +2,7 @@
 
 Multi-mode workflow for restrained, source-backed Beamer decks.
 
-Use `paper`, `idea`, `survey`, or `repair` mode to create and revise talks from papers, concepts, experiments, or literature notes. The skill bundles a self-contained black/gray Beamer layout, source manifest, figure workflow, and deterministic compile/render checks.
+Use `paper`, `idea`, `survey`, or `repair` mode to create and revise talks from papers, concepts, experiments, or literature notes. New decks use the self-contained black palette and minimal Metropolis layout from the Speculative Decoding deck. The skill also bundles a legacy `layout-research` option, source manifest, figure workflow, and deterministic compile/render checks.
 
 ## Quick start
 
