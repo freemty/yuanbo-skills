@@ -4,6 +4,10 @@ All notable changes to yuanbo-skills.
 
 ## Unreleased
 
+### 变更
+- **research-slides**: add the Speculative Decoding deck as the default structural reference profile for new talks, including its act map, four governing dials, evidence cadence, cross-topic slot mapping, and anti-copy boundary.
+- **research-slides**: document one-entry invocation through `$research-slides` on Codex and `/research-slides` on Claude Code.
+
 ### 修复
 - fix(codex): avoid duplicate plugin skill installs
 

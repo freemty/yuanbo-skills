@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Regression test for the generated Research Slides starter."""
+"""Regression test for the Research Slides profile and generated starter."""
 
 from __future__ import annotations
 
@@ -17,6 +17,27 @@ def require(text: str, needle: str, source: Path) -> None:
 def main() -> int:
     skill_dir = Path(__file__).resolve().parent.parent
     initializer = skill_dir / "scripts" / "init_research_deck.py"
+    skill_md = (skill_dir / "SKILL.md").read_text(encoding="utf-8")
+    profile_path = skill_dir / "references" / "speculative-decoding-reference-profile.md"
+    profile = profile_path.read_text(encoding="utf-8")
+    openai_yaml = (skill_dir / "agents" / "openai.yaml").read_text(encoding="utf-8")
+
+    require(skill_md, "references/speculative-decoding-reference-profile.md", skill_dir / "SKILL.md")
+    require(skill_md, "For every new deck", skill_dir / "SKILL.md")
+    require(openai_yaml, "Speculative Decoding reference profile", skill_dir / "agents" / "openai.yaml")
+
+    for invariant in (
+        "Memory bandwidth versus idle compute",
+        "Draft quality versus draft cost",
+        "Causality versus parallelism",
+        "Per-request speed versus system throughput",
+        "Cross-topic slot mapping",
+        "Never fabricate a symmetry",
+        "SD-specific facts, labels, formulas, or paper names",
+        "idea + survey",
+        "4–6 to methods/evidence",
+    ):
+        require(profile, invariant, profile_path)
 
     with tempfile.TemporaryDirectory(prefix="research-slides-template-") as temp_dir:
         deck_dir = Path(temp_dir)
@@ -59,7 +80,7 @@ def main() -> int:
         require(layout_tex, r"\setbeamertemplate{footline}", deck_dir / "layout-metropolis.tex")
         require(layout_tex, r"\setbeamertemplate{frametitle}", deck_dir / "layout-metropolis.tex")
 
-    print("research-slides template contract: PASS")
+    print("research-slides profile and template contract: PASS")
     return 0
 
 

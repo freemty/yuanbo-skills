@@ -16,7 +16,16 @@ Mode: `idea` with embedded `survey` evidence. Audience: ML researchers outside s
 
 This ordering is problem-driven. Paper names enter only after the audience understands the shared pressure.
 
-## Speculative-decoding subsection
+## Reference-deck trade-offs
+
+The full reference deck used four global dials:
+
+1. **Memory bandwidth versus idle compute.**
+2. **Draft quality versus draft cost.**
+3. **Causality versus parallelism.**
+4. **Per-request speed versus system throughput.**
+
+The speculative-decoding subsection compresses them into two local tensions:
 
 Introduce two trade-offs before the individual papers and recover them once at the subsection ending:
 

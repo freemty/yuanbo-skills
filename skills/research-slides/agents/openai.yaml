@@ -1,4 +1,4 @@
 interface:
   display_name: "Research Slides"
-  short_description: "Build source-backed research Beamer talks"
-  default_prompt: "Use $research-slides to turn these sources into a restrained, audience-first research Beamer talk."
+  short_description: "Build SD-profile research Beamer talks"
+  default_prompt: "Use $research-slides to turn these sources into a research Beamer talk using the bundled Speculative Decoding reference profile."
