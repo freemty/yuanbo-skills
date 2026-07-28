@@ -2,6 +2,12 @@
 
 All notable changes to yuanbo-skills.
 
+## 2026-07-28
+
+### 变更
+- **research-slides**: make the current Speculative Decoding deck's black palette plus minimal Metropolis layout the self-contained default for new decks; keep `layout-research` as an explicit compatibility option.
+- **research-slides**: move citation helpers into the starter deck, copy all default style assets during initialization, and add a regression test for the generated template contract.
+
 ## 2026-07-11
 
 ### 变更

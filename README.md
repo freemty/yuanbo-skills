@@ -136,7 +136,7 @@ yuanboizer-zh
 |-------|-------------|
 | [paper-style](skills/paper-style/) | Paper color theme system — 5 themes for figures, tables, diagrams |
 | [beamer-style](skills/beamer-style/) | Beamer slide theme system — shares the same 5-theme color system |
-| [research-slides](skills/research-slides/) | Multi-mode research Beamer workflow — audience-first story, source-native evidence, and rendered QA |
+| [research-slides](skills/research-slides/) | Multi-mode research Beamer workflow — black Metropolis default, source-native evidence, and rendered QA |
 
 ### Productivity
 

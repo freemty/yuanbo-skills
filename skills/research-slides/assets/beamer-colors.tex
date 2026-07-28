@@ -1,0 +1,85 @@
+% ============================================================
+% Beamer Color System — Speculative Decoding black theme
+% ============================================================
+
+\providecommand{\beamerthemename}{black}
+
+\RequirePackage{xifthen}
+
+% Keep the public theme selector compatible with the source deck. Its current
+% variants intentionally resolve to the same monochrome academic palette.
+\newcommand{\usemonochrometheme}{%
+  \definecolor{themePrimary}{HTML}{111111}%
+  \definecolor{themeSecondary}{HTML}{444444}%
+  \definecolor{themeTertiary}{HTML}{000000}%
+  \definecolor{themeLight}{HTML}{B8B8B8}%
+  \definecolor{themeSilver}{HTML}{E6E6E6}%
+  \definecolor{themeBg}{HTML}{FAFAFA}%
+  \definecolor{themeBorder}{HTML}{D7D7D7}%
+  \definecolor{themeAlert}{HTML}{111111}%
+  \definecolor{themeExample}{HTML}{111111}%
+}
+
+\ifthenelse{\equal{\beamerthemename}{black}}{\usemonochrometheme}{%
+\ifthenelse{\equal{\beamerthemename}{blue}}{\usemonochrometheme}{%
+\ifthenelse{\equal{\beamerthemename}{gold}}{\usemonochrometheme}{%
+\ifthenelse{\equal{\beamerthemename}{green}}{\usemonochrometheme}{%
+\ifthenelse{\equal{\beamerthemename}{purple}}{\usemonochrometheme}{%
+  \PackageError{beamer-colors}{Unknown theme '\beamerthemename'.%
+    Valid themes: black, blue, gold, green, purple}{}
+}}}}}
+
+\setbeamercolor{structure}{fg=themePrimary}
+\setbeamercolor{palette primary}{bg=themePrimary,fg=white}
+\setbeamercolor{palette secondary}{bg=themeSecondary,fg=white}
+\setbeamercolor{palette tertiary}{bg=themeTertiary,fg=white}
+\setbeamercolor{palette quaternary}{bg=themePrimary!80!black,fg=white}
+
+\setbeamercolor{title}{fg=themePrimary}
+\setbeamercolor{frametitle}{fg=themePrimary}
+\setbeamercolor{subtitle}{fg=themeSecondary}
+\setbeamercolor{author}{fg=themePrimary!80!black}
+\setbeamercolor{institute}{fg=themeSecondary}
+\setbeamercolor{date}{fg=themeSecondary}
+
+\setbeamercolor{normal text}{fg=black!84,bg=white}
+\setbeamercolor{alerted text}{fg=themeAlert}
+\setbeamercolor{example text}{fg=themeExample}
+
+\setbeamercolor{block title}{bg=themePrimary,fg=white}
+\setbeamercolor{block body}{bg=themeSilver!40}
+\setbeamercolor{block title alerted}{bg=themeAlert,fg=white}
+\setbeamercolor{block body alerted}{bg=themeAlert!8}
+\setbeamercolor{block title example}{bg=themeExample,fg=white}
+\setbeamercolor{block body example}{bg=themeExample!8}
+
+\setbeamercolor{itemize item}{fg=themePrimary}
+\setbeamercolor{itemize subitem}{fg=themeSecondary}
+\setbeamercolor{itemize subsubitem}{fg=themeSecondary!70}
+\setbeamercolor{enumerate item}{fg=themePrimary}
+\setbeamercolor{enumerate subitem}{fg=themeSecondary}
+
+\setbeamercolor{section in toc}{fg=themePrimary}
+\setbeamercolor{subsection in toc}{fg=themeSecondary}
+\setbeamercolor{footnote mark}{fg=themePrimary}
+\setbeamercolor{caption name}{fg=themePrimary}
+
+\definecolor{positive}{HTML}{111111}
+\definecolor{negative}{gray}{0.42}
+\definecolor{emphasis}{HTML}{111111}
+\definecolor{neutral}{gray}{0.55}
+
+\newcommand{\pos}[1]{\textcolor{positive}{#1}}
+\newcommand{\con}[1]{\textcolor{negative}{#1}}
+\newcommand{\HL}[1]{\textcolor{emphasis}{#1}}
+
+\makeatletter
+\@ifpackageloaded{hyperref}{%
+  \hypersetup{
+    colorlinks=true,
+    linkcolor=black!75,
+    urlcolor=black!75,
+    citecolor=black!75,
+  }%
+}{}
+\makeatother

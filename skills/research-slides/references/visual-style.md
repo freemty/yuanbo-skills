@@ -2,7 +2,8 @@
 
 ## Canonical research mode
 
-- The visual reference is the restrained LaTeX/Beamer mode: 16:9, white canvas, black/gray type and rules, and no accent color by default.
+- The named visual reference is the current Speculative Decoding deck. New decks use its exact pairing: `beamer-colors.tex` with the `black` theme and `layout-metropolis.tex`.
+- The resulting surface is 16:9, white canvas, black/gray type and rules, no accent color, left-aligned titles, automatic section pages, and a thin bottom progress bar.
 - Historical Keynote/PPT corpora are useful for recovering story order, paper-reading habits, and progressive builds. Do not infer the current visual template from their color frequency, cover collages, logos, or decoration.
 - Resolve conflicts in this order: newest explicit user preference, current named reference deck, then historical corpus. Mature preferences override earlier habits.
 - Source-native paper figures may retain their colors; the surrounding slide should remain neutral.
@@ -25,6 +26,7 @@
 ## Layout
 
 - Keep title, rule, body, footnote, and progress bar aligned across slides.
+- Use the bundled Metropolis title page, frame-title rule, section-page behavior, and footline by default. `layout-research.tex` remains a compatibility option, not the default.
 - Use wide paper figures when the figure is the point. Use two columns only when the comparison is the point.
 - Use arrows only when both endpoints are named and the arrow expresses a dependency the audience must follow.
 - Avoid decorative dashed paths, arbitrary flow networks, and hand-drawn replacements for usable paper figures.

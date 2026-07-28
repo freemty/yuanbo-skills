@@ -1,0 +1,78 @@
+% ============================================================
+% Layout: Metropolis — Modern minimal, no external dependencies
+% Recreates the metropolis aesthetic using standard beamer.
+% ============================================================
+
+\usetheme{default}
+\usecolortheme{default}
+
+\newlength{\bsProgressDone}
+\newlength{\bsProgressRemain}
+
+% ---- Typography ----
+\usefonttheme{professionalfonts}
+\setbeamerfont{title}{size=\Large,series=\bfseries}
+\setbeamerfont{frametitle}{size=\large,series=\bfseries}
+\setbeamerfont{framesubtitle}{size=\normalsize,series=\mdseries}
+\setbeamerfont{author}{size=\normalsize}
+\setbeamerfont{institute}{size=\small}
+\setbeamerfont{date}{size=\small}
+\setbeamerfont{section title}{size=\Large,series=\bfseries}
+\setbeamerfont{footline}{size=\tiny}
+
+% ---- Remove navigation ----
+\setbeamertemplate{navigation symbols}{}
+
+% ---- Frame title: left-aligned, clean ----
+\setbeamertemplate{frametitle}{%
+  \vskip6pt%
+  \usebeamerfont{frametitle}\usebeamercolor[fg]{frametitle}\insertframetitle%
+  \ifx\insertframesubtitle\empty\else
+    \\[2pt]\usebeamerfont{framesubtitle}\usebeamercolor[fg]{subtitle}\insertframesubtitle%
+  \fi
+  \vskip4pt%
+  {\color{themePrimary}\hrule height 0.45pt}%
+  \vskip6pt%
+}
+
+% ---- Footline: thin progress bar + page number ----
+\setbeamertemplate{footline}{%
+  \nointerlineskip%
+  \pgfmathsetmacro{\progressfrac}{\insertframenumber/\inserttotalframenumber}%
+  \pgfmathsetlength{\bsProgressDone}{\progressfrac\paperwidth}%
+  \pgfmathsetlength{\bsProgressRemain}{\paperwidth-\bsProgressDone}%
+  \hbox to\paperwidth{%
+    {\color{themePrimary!75}\rule{\bsProgressDone}{1pt}}%
+    {\color{themeBorder!65}\rule{\bsProgressRemain}{1pt}}%
+  }%
+  \vskip2pt%
+  \hbox to\paperwidth{\hfill\usebeamerfont{footline}\textcolor{black!45}{\insertframenumber\,/\,\inserttotalframenumber}\hspace{8pt}}%
+  \vskip4pt%
+}
+
+% ---- Title page: minimal ----
+\setbeamertemplate{title page}{%
+  \vfill
+  \begin{flushleft}
+    {\usebeamerfont{title}\usebeamercolor[fg]{title}\inserttitle}\\[18pt]
+    {\usebeamerfont{author}\textcolor{black!60}{\insertauthor}}\\[4pt]
+    {\usebeamerfont{date}\textcolor{black!60}{\insertdate}}
+  \end{flushleft}
+  \vfill
+}
+
+% ---- Section page ----
+\AtBeginSection{%
+  \begin{frame}[plain,noframenumbering]
+    \vfill
+    \begin{center}
+      {\usebeamerfont{section title}\usebeamercolor[fg]{structure}\insertsectionhead}
+    \end{center}
+    \vfill
+  \end{frame}
+}
+
+% ---- Itemize: clean circles ----
+\setbeamertemplate{itemize item}{\small\raise1pt\hbox{\textbullet}}
+\setbeamertemplate{itemize subitem}{\scriptsize\raise1pt\hbox{--}}
+\setbeamertemplate{itemize subsubitem}{\scriptsize\raise1pt\hbox{$\cdot$}}

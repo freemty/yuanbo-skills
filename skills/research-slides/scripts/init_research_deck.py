@@ -29,10 +29,14 @@ def main() -> int:
     args.target.mkdir(parents=True, exist_ok=True)
     (args.target / "figs").mkdir(exist_ok=True)
     copy_file(assets / "research-main.tex", args.target / "main.tex", args.force)
+    copy_file(assets / "beamer-colors.tex", args.target / "beamer-colors.tex", args.force)
+    copy_file(assets / "layout-metropolis.tex", args.target / "layout-metropolis.tex", args.force)
     copy_file(assets / "layout-research.tex", args.target / "layout-research.tex", args.force)
     copy_file(assets / "source-manifest.tsv", args.target / "source-manifest.tsv", args.force)
 
     print(args.target / "main.tex")
+    print(args.target / "beamer-colors.tex")
+    print(args.target / "layout-metropolis.tex")
     print(args.target / "layout-research.tex")
     print(args.target / "source-manifest.tsv")
     return 0

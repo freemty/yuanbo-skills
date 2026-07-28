@@ -2,12 +2,35 @@
 
 \usepackage{amsmath,amssymb,array,booktabs,mathtools}
 \usepackage{graphicx,hyperref}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,positioning}
 
-\input{layout-research}
+% Default visual identity: the black Metropolis style used by the
+% Speculative Decoding research deck.
+\input{beamer-colors}
+\input{layout-metropolis}
 
 \title{Talk Title}
 \author{Your Name}
 \date{Month YYYY}
+
+\newcommand{\paperlink}[2]{\href{#2}{#1}}
+\newcommand{\arxivcite}[1]{\paperlink{arXiv:#1}{https://arxiv.org/abs/#1}}
+\newcommand{\stdcite}[3]{#1, \emph{#2}, \arxivcite{#3}}
+\newcommand{\webcite}[2]{\paperlink{#1}{#2}}
+\newcommand{\citesep}{\\[-0.1em]}
+\newcommand{\slidecite}[1]{%
+  \begin{tikzpicture}[remember picture,overlay]
+    \node[
+      anchor=south west,
+      align=left,
+      text width=0.92\paperwidth,
+      inner sep=0pt,
+      font=\tiny,
+      text=black!38
+    ] at ([xshift=0.68cm,yshift=0.72cm]current page.south west) {\raggedright #1\par};
+  \end{tikzpicture}%
+}
 
 \newcommand{\cExample}{\stdcite{Author et al.}{Paper Title}{2501.00001}}
 
@@ -22,7 +45,6 @@
 \end{frame}
 
 \section{Motivation}
-\sectiondivider
 
 \begin{frame}{Define the process before naming the bottleneck}
   \vfill
@@ -64,7 +86,6 @@
 \end{frame}
 
 \section{Core Paper}
-\sectiondivider
 
 \begin{frame}{Paper Title:\\[-0.1em] \normalsize mechanism in one phrase}
   \vfill
