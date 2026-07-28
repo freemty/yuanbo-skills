@@ -2,6 +2,11 @@
 
 All notable changes to yuanbo-skills.
 
+## Unreleased
+
+### 修复
+- fix(codex): avoid duplicate plugin skill installs
+
 ## 2026-07-28
 
 ### 变更
