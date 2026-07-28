@@ -2,6 +2,18 @@
 
 All notable changes to yuanbo-skills.
 
+## 2026-07-28
+
+### 变更
+- **Labmate**: advance the plugin pointer to the portable agent routing, complete Codex lifecycle hooks, explicit skill policies, platform-neutral templates, and cross-platform release parity commits.
+- **Codex install**: make the plugin marketplace the default path for plugin-owned skills; retain `--include-plugin-skills` only for legacy hosts and document plugin-versus-symlink migration.
+
+### 修复
+- **install.sh**: skip Codex plugin skills by default and add `--prune-plugin-skill-links`, which removes only repository-managed symlinks while preserving real directories and standalone skills.
+
+### 构建与工具链
+- **CI/tests**: validate both plugin manifests, package version changes, Codex install defaults, legacy links, and safe pruning behavior.
+
 ## 2026-07-11
 
 ### 变更
