@@ -13,6 +13,19 @@
 
 The mode changes the story, not the visual identity. New decks use `beamer-colors.tex` with the black theme and `layout-metropolis.tex`; repairs preserve the existing deck's template.
 
+## Default SD reference profile
+
+Every new `paper`, `idea`, or `survey` deck first loads `references/speculative-decoding-reference-profile.md`. It transfers the SD deck's act structure, source-derived governing tensions, evidence allocation, cross-topic slot mapping, callbacks, and reveal cadence. The profile explicitly separates reusable structure from SD-specific facts.
+
+Minimal invocation:
+
+```text
+Codex:      $research-slides 用这些材料做一套 20 分钟 research talk
+Claude Code: /research-slides 用这些材料做一套 20 分钟 research talk
+```
+
+The skill infers mode and uses the SD profile by default. Call `beamer-style` only to override the visual theme or layout.
+
 ## Design contract
 
 - Cover: title, speaker, and date only.
@@ -79,6 +92,7 @@ The final step is visual: inspect changed pages and adjacent pages for overlap, 
 | --- | --- |
 | `skills/research-slides/SKILL.md` | compact mode router and hard gates |
 | `skills/research-slides/references/story-modes.md` | paper, idea, survey, and repair story spines |
+| `skills/research-slides/references/speculative-decoding-reference-profile.md` | default SD-derived act map, trade-offs, evidence cadence, and cross-topic mapping |
 | `skills/research-slides/references/paper-slide-patterns.md` | evidence allocation for core and secondary papers |
 | `skills/research-slides/references/visual-style.md` | visual hierarchy and anti-AI-slop rules |
 | `skills/research-slides/references/writing-rules.md` | titles, TLDRs, formulas, metrics, and endings |
