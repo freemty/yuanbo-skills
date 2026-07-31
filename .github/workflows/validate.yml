@@ -17,9 +17,15 @@ jobs:
           python-version: "3.11"
       - name: Validate SKILL.md contracts
         run: python3 scripts/validate_skills.py
+      - name: Validate context-engineering contracts
+        run: bash tests/test-context-audit.sh
       - name: Validate installer behavior
         run: bash tests/test-install.sh
       - name: Validate Labmate platform parity
         run: |
           bash plugins/labmate/tests/test-hooks.sh
           bash plugins/labmate/tests/test-platform-compat.sh
+          bash plugins/labmate/tests/test-context-contract.sh
+          bash plugins/labmate/tests/test-scripts.sh
+          bash plugins/labmate/tests/test-codex-plugin-smoke.sh
+          python3 plugins/labmate/scripts/sync-version.py --check

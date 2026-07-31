@@ -1,102 +1,28 @@
-# CLAUDE.md
+# yuanbo-skills
 
-This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
-Codex-specific guidance lives in `AGENTS.md`.
+Monorepo of portable Agent Skills, multi-skill plugins, and bundled projects.
 
-## What This Is
+## Gotchas
 
-A monorepo of personal Claude Code skills, plugins, and projects. Organized into three top-level directories by type.
+- Many entries under `skills/`, `plugins/`, and `projects/` are independent git
+  submodules. Commit a changed submodule before updating the outer gitlink.
+- Preserve unrelated dirty submodules and untracked files.
+- Shared SKILL.md bodies must remain portable. Claude-specific named-agent
+  schema belongs in host references or `.claude-plugin` metadata.
+- Skill descriptions are discovery triggers. Deterministic mutations belong in
+  scripts/tools; deep knowledge belongs in references; quality boundaries
+  belong in tests or rubrics.
+- Do not duplicate install commands, skill catalogs, or repository file trees
+  here; load the relevant guide when changing those surfaces.
 
-**Related repos:**
-- [`freemty/ai-dotfiles`](https://github.com/freemty/ai-dotfiles) — 跨机器 AI CLI + shell 配置同步（Stow-based）。装新机器时先跑它的 `install.sh` + `bootstrap.sh`（后者会自动 clone 并装 yuanbo-skills）
-- [`freemty/cc-switch`](https://github.com/freemty/cc-switch) — 密钥/登录态管理
-
-## Repo Layout
-
-```
-skills/          Single-skill directories (each has SKILL.md)
-plugins/         Multi-skill plugins (may have .claude-plugin/, nested skills)
-projects/        Standalone projects (selfos)
-docs/            Plugin notes, knowhow, conventions
-scripts/         Build & validation scripts
-```
-
-Skills are installed by `install.sh`, which symlinks every directory containing a `SKILL.md` (in `skills/` and `plugins/`, including nested) into the selected agent's skill directory.
-
-- Claude target: `./install.sh --target claude` -> `~/.claude/skills/`
-- Codex target: `./install.sh --target codex` -> `~/.agents/skills/`
-- Antigravity target: `./install.sh --target antigravity` -> `~/.gemini/antigravity/skills/`
-- All three: `./install.sh --target all`
-
-**Submodules** (have their own GitHub repo under `freemty/`):
-- skills: beamer-style, cc-navigator, flipradio-write-skill, no-more-fomo, paper-storyteller, paper-style, writing-agents
-- plugins: labmate, meta-audit, paper-review, papermate, unbox-skills
-- projects: selfos
-
-**Inline directories** (tracked directly in this repo):
-- skills: research-slides, swiss-knife-design, transcribe, web-fetcher, weekly-report, yuanboizer-zh
-
-## Common Operations
+## Verification
 
 ```bash
-# Clone with all submodules
-git clone --recurse-submodules git@github.com:freemty/yuanbo-skills.git
-
-# Install skills (symlink to ~/.claude/skills/)
-./install.sh
-
-# Install skills for Codex (symlink to ~/.agents/skills/)
-./install.sh --target codex
-
-# Install skills for Antigravity (symlink to ~/.gemini/antigravity/skills/)
-./install.sh --target antigravity
-
-# Update all submodules to latest
-git submodule update --remote --merge
-
-# Add a new skill as submodule
-git submodule add git@github.com:freemty/<name>.git skills/<name>
-
-# Add a new plugin as submodule
-git submodule add git@github.com:freemty/<name>.git plugins/<name>
-
-# Regenerate README skill tables from scripts/generate_readme.py
-python3 scripts/generate_readme.py --write
+python3 scripts/validate_skills.py
+bash tests/test-context-audit.sh
+bash tests/test-install.sh
+git diff --check
 ```
 
-## Skill Anatomy
-
-Each skill directory must contain:
-- `SKILL.md` — frontmatter (`name`, `description`) + full skill instructions. The `description` field is what triggers Claude Code to invoke the skill.
-- `README.md` — human-facing docs for the GitHub repo page.
-- `references/` (optional) — supporting data files the skill reads at runtime.
-
-## Docs
-
-- `docs/plugins/landscape.md` — 插件 / 同类 skill 合集 / research harness / MCP server 总览索引
-- `docs/plugins/{name}.md` — 每个条目的独立笔记：plugin / third-party skill / MCP server / peer skill collection / research harness
-- `docs/outputs-convention.md` — Skill 产出物目录约定（`~/outputs/` 结构 + symlink 兼容）
-- `docs/install-codex.md` — Codex CLI 安装步骤、skill keys、手动安装/卸载流程
-- `docs/install-antigravity.md` — Google Antigravity 安装步骤、路径说明、hooks 兼容性
-
-## Guides
-
-- `docs/guides/codex-support.md` — Claude/Codex/Antigravity 三平台安装、skill keys、插件 manifest/marketplace 维护指南
-- `docs/guides/generate-readme.md` — README skill 表格自动生成脚本使用指南
-- `docs/guides/skills-sh-publishing.md` — skills.sh 上架规范：repo 结构、SKILL.md/README 模板、标准化 checklist
-- `docs/guides/skill-validation.md` — SKILL.md 契约检查 + repo 卫生规范（validate_skills.py + CI）
-- `docs/guides/research-slides.md` — Research slide workflow: restrained Beamer style, paper figures/tables, citations, source credits, and rendered PDF QA
-
-## Knowhow
-
-- `docs/knowhow/infrastructure/` — Servers, networking, disk, GPU issues
-- `docs/knowhow/toolchain/` — CLI tools, docker, conda/pip, framework tips
-- `docs/knowhow/debug-solutions/` — Error investigation paths and fixes
-- `docs/knowhow/runbooks/` — Step-by-step operational procedures
-
-## Conventions
-
-- Skill descriptions use the CSO (Context-Situation-Outcome) format for triggering: describe *when* to use the skill, not *what* it does.
-- README.md follows a consistent structure: title, one-liner, When to Use, Usage, Install (via `npx skills add` and manual), License.
-- Submodule commits in this repo track pinned versions. Run `git submodule update --remote` to advance, then commit the pointer.
-- After renaming/moving a directory, check for broken symlinks: `find ~/.claude/skills -maxdepth 1 -type l ! -exec test -e {} \; -print`
+Platform and publishing details live under `docs/guides/` and the three install
+documents.
