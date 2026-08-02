@@ -1,0 +1,18 @@
+{
+  "name": "yuanbo-skills-local",
+  "owner": {
+    "name": "freemty"
+  },
+  "metadata": {
+    "description": "Local development marketplace for Yuanbo Skills",
+    "version": "0.1.0"
+  },
+  "plugins": [
+    {
+      "name": "labmate",
+      "source": "./plugins/labmate",
+      "description": "Local LabMate build from the yuanbo-skills workspace",
+      "strict": true
+    }
+  ]
+}

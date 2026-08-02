@@ -2,6 +2,18 @@
 
 All notable changes to yuanbo-skills.
 
+## 2026-08-02
+
+### 变更
+- **LabMate read-paper**: advance the plugin pointer to v0.9.3 with validated
+  paper packets, evidence-bound anchors, literature-hub triage, explicit
+  project bridges, and replayable reading archives.
+
+### 构建与工具链
+- **Claude plugin discovery**: add a local `yuanbo-skills-local` marketplace so
+  Claude and Codex sessions can install the same LabMate workspace build rather
+  than resolving different remote/cache versions.
+
 ## 2026-07-28
 
 ### 变更
