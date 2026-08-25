@@ -70,7 +70,7 @@ SKILLS = {
     },
     "research-slides": {
         "category": "Academic Visual Identity",
-        "description": "Multi-mode research Beamer workflow — audience-first story, source-native evidence, and rendered QA",
+        "description": "Research Beamer workflow — SD reference profile, black Metropolis default, and rendered QA",
     },
     "weekly-report": {
         "category": "Productivity",

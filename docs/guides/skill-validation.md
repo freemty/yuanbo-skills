@@ -1,6 +1,7 @@
 # Skill Validation
 
-机器可验证的 SKILL.md 契约 + repo 卫生规范。`scripts/validate_skills.py` 在本地和 CI 里执行。
+机器可验证的 SKILL.md 契约 + repo 卫生规范。`scripts/validate_skills.py`
+检查格式，`scripts/context_audit.py` 检查 context-engineering 边界；两者都在本地和 CI 里执行。
 
 ## Prerequisites
 
@@ -26,9 +27,12 @@ YAML 解析器支持折叠/字面块标量（`>`, `|`, `>-`, `|-` 等），因�
 
 ```bash
 python3 scripts/validate_skills.py
+bash tests/test-context-audit.sh
 ```
 
 输出每个 skill 一行 `PASS` / `FAIL`，FAIL 下列出具体错误。末尾汇总 `N/M skills passed`。非零退出码 = 至少一个 skill 失败。
+
+Context audit 对 50 个公开 skill 做第二层检查：entrypoint 预算、硬编码步骤密度、宿主专属实现是否泄漏到共享正文、引用文件是否存在，以及 project-skill 镜像占位是否被误算成公开 skill。测试要求输出 `50 skills; 0 flagged`。
 
 ### CI
 
@@ -77,4 +81,5 @@ frontmatter 的 `name` 必须和目录名完全一致。要么改目录名，要
 2. 写 `SKILL.md`（frontmatter 必须含 `name` + `description`）。
 3. 如果是 top-level，额外写 `README.md`（面向 GitHub）。
 4. 本地跑 `python3 scripts/validate_skills.py` 确认 PASS。
-5. 提交 PR，CI 会再跑一次。
+5. 本地跑 `bash tests/test-context-audit.sh`，确认新增入口仍然是薄路由，细节按需加载。
+6. 提交 PR，CI 会再跑一次。

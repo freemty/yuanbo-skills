@@ -69,7 +69,8 @@ cp <swiss-knife-design-dir>/templates/design-tokens-override.css \
    path/to/shared/design-tokens.css
 ```
 
-`<swiss-knife-design-dir>` is the directory containing this `SKILL.md` after installation, for example `~/.agents/skills/swiss-knife-design` in Codex or `~/.claude/skills/swiss-knife-design` in Claude Code. For new pages, read `templates/base.css` for full implementation reference.
+Resolve `<swiss-knife-design-dir>` from this installed `SKILL.md`. For new
+pages, read `templates/base.css` for the full implementation reference.
 
 ## Common Mistakes
 
