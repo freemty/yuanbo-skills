@@ -10,6 +10,7 @@ All notable changes to yuanbo-skills.
 - **LabMate**: merge the progressive-disclosure refactor with the auditable read-paper workflow (v0.9.3); all 13 hook handlers are retained, with deterministic plan/apply/check or CRUD scripts for project setup, experiments, TODOs, and snapshots.
 - **research-slides**: add the Speculative Decoding deck as the default structural reference profile for new talks, including its act map, four governing dials, evidence cadence, cross-topic slot mapping, and anti-copy boundary.
 - **research-slides**: document one-entry invocation through `$research-slides` on Codex and `/research-slides` on Claude Code.
+- **selfos**: track the live-instance progressive-disclosure refactor (de-ai, digest, thought, paper-plot, note, todo slimmed with references/ on the live `~/selfOS` branch); the snapshot-based submodule refactor is superseded.
 
 ### 构建与工具链
 - **Context audit**: add a repository-wide policy check for entrypoint size, imperative density, host leakage, missing references, and duplicate project-skill mirrors; CI now requires a `50 skills; 0 flagged` result (`allowed-tools` is not flagged).
