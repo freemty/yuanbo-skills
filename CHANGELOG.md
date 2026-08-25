@@ -15,6 +15,7 @@ All notable changes to yuanbo-skills.
 ### 构建与工具链
 - **Context audit**: add a repository-wide policy check for entrypoint size, imperative density, host leakage, missing references, and duplicate project-skill mirrors; CI now requires a `50 skills; 0 flagged` result (`allowed-tools` is not flagged).
 - **LabMate**: stamp the merged plugin as v0.10.0 and advance the submodule pointer to the changelog release stamp.
+- **LabMate**: correct the hook count in agent-facing docs (thirteen handlers, not three) and advance the pointer.
 
 ## 2026-08-02
 
