@@ -26,3 +26,8 @@ git diff --check
 
 Platform and publishing details live under `docs/guides/` and the three install
 documents.
+
+## Design references
+
+- `docs/design/context-engineering.md` — progressive disclosure, host parity,
+  LabMate runtime boundaries, and verification.

@@ -1,6 +1,6 @@
 ---
 name: transcribe
-description: Use when an audio or video file needs speech-to-text transcription.
+description: Use when an audio or video file needs speech-to-text transcription. Triggers on audio file paths (.mp3/.wav/.m4a/.aac), 转写, 录音转文字, 帮我转写, meeting recordings, voice memos, or any speech-to-text request.
 user-invocable: true
 ---
 

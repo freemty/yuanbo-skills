@@ -1,6 +1,13 @@
 ---
 name: clone-web
-description: Use when recreating a web page locally, preserving a page's visual appearance, or reusing a previously captured design.
+description: Use when recreating a web page locally, preserving a page's visual appearance, or reusing a previously captured design. Triggers on /clone-web <url>, /clone-web use <name>, /clone-web list.
+allowed-tools:
+  - Read
+  - Write
+  - Edit
+  - Bash
+  - AskUserQuestion
+  - Agent
 user-invocable: true
 ---
 

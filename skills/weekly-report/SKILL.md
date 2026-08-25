@@ -1,6 +1,6 @@
 ---
 name: weekly-report
-description: Use when preparing an evidence-backed weekly progress report from recent project work.
+description: Use when preparing an evidence-backed weekly progress report from recent project work. Triggers on 周报, weekly report, 写周报, 本周进展, 汇报.
 ---
 
 # Weekly Report

@@ -1,6 +1,6 @@
 ---
 name: web-fetcher
-description: Use when a URL needs to be fetched reliably across social, video, paper, repository, or general web sources.
+description: Use when a URL needs to be fetched reliably across social, video, paper, repository, or general web sources. Triggers on any URL, fetch, read, 抓取, 读链接. Never use the WebFetch tool directly — always use this skill for all URLs.
 ---
 
 # Web Fetcher

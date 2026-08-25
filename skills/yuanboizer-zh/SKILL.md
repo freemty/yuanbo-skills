@@ -1,6 +1,11 @@
 ---
 name: yuanboizer-zh
-description: Use when polishing a Chinese draft toward Yuanbo's established voice while preserving its underlying argument.
+description: Use when polishing a Chinese draft toward Yuanbo's established voice while preserving its underlying argument. Triggers on 润色, yuanboize, 帮我改改, 改成小红书.
+allowed-tools:
+  - Read
+  - Write
+  - Edit
+  - AskUserQuestion
 ---
 
 # Yuanboizer
