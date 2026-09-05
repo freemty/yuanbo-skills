@@ -405,7 +405,10 @@ def assess(content: str | Extraction, target: str, backend: str) -> Extraction:
         extracted = '\n\n'.join(html.unescape(re.sub(r'<[^>]+>', '', p)).strip() for p in paragraphs).strip()
         if not extracted:
             raise ValueError('HTML shell has no extractable article/paragraph evidence')
-        return Extraction(extracted, 'text', 'partial', ['Basic HTML extraction; layout and completeness unverified.'])
+        result = assess(extracted, target, backend)
+        result.status = 'partial'
+        result.limitations.append('Basic HTML extraction; layout and completeness unverified.')
+        return result
     prose = re.sub(r'!?\[[^\]]*\]\([^)]*\)', '', text)
     prose = re.sub(r'(?im)^(?:title:|url source:|markdown content:).*$', '', prose).strip(' #*\n-')
     if not prose:

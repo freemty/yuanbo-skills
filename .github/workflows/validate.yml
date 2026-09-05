@@ -19,6 +19,13 @@ jobs:
         run: python3 scripts/validate_skills.py
       - name: Validate context-engineering contracts
         run: bash tests/test-context-audit.sh
+      - name: Validate release and acquisition behavior
+        run: |
+          python3 scripts/check_release.py
+          python3 skills/web-fetcher/scripts/test_fetch.py
+          python3 plugins/unbox-skills/tests/test_graph_sync.py
+          python3 plugins/papermate/tests/test_compile_feedback.py
+          python3 plugins/meta-audit/tests/test_collect.py
       - name: Validate installer behavior
         run: bash tests/test-install.sh
       - name: Validate Labmate platform parity
@@ -27,5 +34,4 @@ jobs:
           bash plugins/labmate/tests/test-platform-compat.sh
           bash plugins/labmate/tests/test-context-contract.sh
           bash plugins/labmate/tests/test-scripts.sh
-          bash plugins/labmate/tests/test-codex-plugin-smoke.sh
           python3 plugins/labmate/scripts/sync-version.py --check

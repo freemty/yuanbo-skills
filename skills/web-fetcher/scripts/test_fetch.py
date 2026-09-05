@@ -36,6 +36,12 @@ class FetchTests(unittest.TestCase):
         self.assertEqual(f.assess('Title and description', 'https://youtube.com/watch?v=a', 'test').content_kind, 'video_metadata')
         self.assertEqual(f.assess('Abstract only', 'https://arxiv.org/abs/1234.56789', 'test').status, 'partial')
 
+    def test_html_video_is_not_video_observation(self):
+        result=f.assess('<html><article>A demo description</article></html>','https://youtu.be/a','raw')
+        self.assertEqual(result.content_kind,'video_metadata')
+        self.assertEqual(result.status,'partial')
+        self.assertTrue(any('frames' in item for item in result.limitations))
+
     def test_caption_formats(self):
         fixtures = {
             'vtt': 'WEBVTT\n\n00:00:01.000 --> 00:00:02.000\nHello <b>world</b>\n',

@@ -44,6 +44,7 @@ esac
 
 mkdir -p "$CODEX_SKILLS/keep-real"
 ln -s "$REPO_ROOT/skills/web-fetcher" "$CODEX_SKILLS/keep-standalone"
+ln -s "$REPO_ROOT/plugins/labmate/docs" "$CODEX_SKILLS/keep-plugin-docs"
 rm -- "$CODEX_SKILLS/read-paper"
 mkdir -p "$CODEX_SKILLS/read-paper"
 touch "$CODEX_SKILLS/read-paper/user-owned"
@@ -58,6 +59,8 @@ run_installer --prune-plugin-skill-links
   fail "prune removed a real directory"
 [ -L "$CODEX_SKILLS/keep-standalone" ] ||
   fail "prune removed a standalone skill symlink"
+[ -L "$CODEX_SKILLS/keep-plugin-docs" ] ||
+  fail "prune removed a non-skill plugin path"
 [ -L "$CODEX_SKILLS/web-fetcher" ] ||
   fail "prune removed the installed standalone skill"
 

@@ -89,7 +89,8 @@ plugin_root_for_skill() {
       relative="${skill_dir#"$SCRIPT_DIR/plugins/"}"
       plugin_name="${relative%%/*}"
       plugin_root="$SCRIPT_DIR/plugins/$plugin_name"
-      if [ -f "$plugin_root/.codex-plugin/plugin.json" ]; then
+      if [ -f "$plugin_root/.codex-plugin/plugin.json" ] &&\
+         { [ -f "$skill_dir/SKILL.md" ] || [ -f "$skill_dir/skill.md" ]; }; then
         printf '%s\n' "$plugin_root"
         return 0
       fi
@@ -198,10 +199,7 @@ install_target() {
       skipped=$((skipped + 1))
     fi
   done < <(
-    find "$SCRIPT_DIR/skills" "$SCRIPT_DIR/plugins" \
-      -path '*/.*' -prune -o \( -name 'SKILL.md' -o -name 'skill.md' \) -print0 2>/dev/null | sort -z
-    find "$SCRIPT_DIR/projects/selfos/.claude/skills" \
-      \( -name 'SKILL.md' -o -name 'skill.md' \) -print0 2>/dev/null | sort -z
+    python3 "$SCRIPT_DIR/scripts/skill_inventory.py" "$SCRIPT_DIR" --null
   )
 
   echo ""
@@ -252,6 +250,8 @@ install_third_party() {
   echo "Third-party skills: $tp_installed cloned, $tp_skipped already present"
   echo ""
 }
+
+python3 "$SCRIPT_DIR/scripts/skill_inventory.py" "$SCRIPT_DIR" --null >/dev/null
 
 case "$TARGET" in
   claude|codex|antigravity)
