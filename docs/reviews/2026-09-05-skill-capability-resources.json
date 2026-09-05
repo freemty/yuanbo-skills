@@ -985,7 +985,7 @@
       "path": "projects/selfos/.claude/skills/note/SKILL.md",
       "action": "rewrite",
       "reason": "Capability/evidence or scope contract revised; see batch diffs and regression report.",
-      "sha256": "e4a0235aabb72606382fdc3bfb1215b70d8eccfd681c859b8ebfe18058b8c641"
+      "sha256": "ff5dd0817ab4c08f1280b33702048d4f5cb92630af08c40e842f3321995d2697"
     },
     {
       "path": "projects/selfos/.claude/skills/note/references/workflow.md",
@@ -1021,7 +1021,7 @@
       "path": "projects/selfos/.claude/skills/thought/SKILL.md",
       "action": "rewrite",
       "reason": "Capability/evidence or scope contract revised; see batch diffs and regression report.",
-      "sha256": "31d7b9f4791da79c999949a07f9d4507362ac61b9ef69ab3e9ee0430e70e4bef"
+      "sha256": "74d2df1ca896146f0af90f32ecd374ff80031cea39fe62e109f403ac5d11b2b4"
     },
     {
       "path": "projects/selfos/.claude/skills/thought/references/workflow.md",
@@ -1141,7 +1141,7 @@
       "path": "scripts/check_release.py",
       "action": "rewrite",
       "reason": "Capability/evidence or scope contract revised; see batch diffs and regression report.",
-      "sha256": "c8fc8bfdc332a544682310a61d09d12e6311305cb825107461a064e28de7684d"
+      "sha256": "ee1fe212665ce9d4394f7ad6a927a15af5a82221a129c98759ddbb7c48403bc2"
     },
     {
       "path": "scripts/context_audit.py",

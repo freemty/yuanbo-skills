@@ -1,177 +1,69 @@
 # Installing yuanbo-skills for Codex
 
-Enable `yuanbo-skills` in Codex via native skill discovery.
+Use the repository marketplace for plugins and one standalone source per skill.
+Do not combine plugin registration with global symlinks for the same skills.
 
-## Prerequisites
-
-- Git
-- OpenAI Codex CLI
-
-## Installation
-
-1. Clone the repository:
-
-   ```bash
-   git clone --recurse-submodules https://github.com/freemty/yuanbo-skills.git ~/.codex/yuanbo-skills
-   ```
-
-2. Create Codex skill symlinks:
-
-   ```bash
-   cd ~/.codex/yuanbo-skills
-   ./install.sh --target codex
-   ```
-
-   This links every `SKILL.md`/`skill.md` found under `skills/`, `plugins/`, and bundled project skill directories into `~/.agents/skills/`.
-
-3. Restart Codex to discover the skills.
-
-## Installable Skill Keys
-
-The installer links these skills into `~/.agents/skills/`. Public `skills/` and `plugins/` entries take precedence over bundled project skills when names collide.
-
-```text
-academic-writing
-analyze-experiment
-beamer-style
-cc-navigator
-clone-web
-commit-changelog
-compile-check
-de-ai
-digest
-figure-qa
-flipradio-polish
-flipradio-write
-hook-recipes
-init-project
-interview
-meta-audit
-monitor
-new-experiment
-no-more-fomo
-paper-plot
-paper-review
-paper-storyteller
-paper-style
-paper-writing-qa
-pre-submit-challenge
-read-paper
-review-review
-section-guard
-survey-literature
-swiss-knife-design
-sync-paper
-thought
-todo
-unbox
-unbox-graph
-unbox-to-wiki
-update-docs
-update-knowhow
-update-project-skill
-visualize
-web-fetcher
-weekly-report
-wiki
-wiki-help
-writing-agents
-yuanboizer-zh
-```
-
-## Manual Installation
-
-If you do not want to run the installer:
+## Existing local checkout
 
 ```bash
-git clone --recurse-submodules https://github.com/freemty/yuanbo-skills.git ~/.codex/yuanbo-skills
-mkdir -p ~/.agents/skills
-seen_skill_names=""
-{
-  find ~/.codex/yuanbo-skills/skills ~/.codex/yuanbo-skills/plugins \
-    -path '*/.*' -prune -o \( -name SKILL.md -o -name skill.md \) -print0
-  find ~/.codex/yuanbo-skills/projects/selfos/.claude/skills \
-    \( -name SKILL.md -o -name skill.md \) -print0
-} |
-while IFS= read -r -d '' skill_md; do
-  skill_dir="$(dirname "$skill_md")"
-  skill_name="$(basename "$skill_dir")"
-  case " ${seen_skill_names:-} " in *" $skill_name "*) continue ;; esac
-  seen_skill_names="${seen_skill_names:-} $skill_name"
-  ln -sf "$skill_dir" ~/.agents/skills/"$(basename "$skill_dir")"
-done
+codex plugin marketplace add /path/to/yuanbo-skills
+codex plugin add labmate@yuanbo-skills
+codex plugin add meta-audit@yuanbo-skills
+codex plugin add paper-review@yuanbo-skills
+codex plugin add papermate@yuanbo-skills
+codex plugin add unbox-skills@yuanbo-skills
+bash /path/to/yuanbo-skills/install.sh --target codex
 ```
 
-## Install a Single Skill
+The installer links standalone and bundled project skills, skips plugin-owned
+entries by default, and preserves real directories. It can attempt optional
+third-party clones; inspect the script when installation scope matters.
+An existing personal selfOS checkout should remain the source of its wiki/capture
+skills. Preserve those links instead of redirecting them to a bundled data checkout.
+
+For a fresh clone, initialize the needed submodules. The bundled selfOS submodule
+uses a private repository and requires access; that is not required to use the
+standalone skills or other plugins.
+
+## Updating and migrating old installs
+
+Update Git sources without discarding dirty work, then rerun the supported plugin
+install command for each changed plugin. A configured Git marketplace can first
+be refreshed with `codex plugin marketplace upgrade yuanbo-skills`; a local
+marketplace reads its updated checkout.
+
+Before removing old registrations, inspect installed/enabled state and actual
+link targets. Back up real directories, link targets and registry metadata.
+Install and verify replacement plugins first. The managed cleanup is:
 
 ```bash
-git clone --recurse-submodules https://github.com/freemty/yuanbo-skills.git ~/.codex/yuanbo-skills
-mkdir -p ~/.agents/skills
-ln -sf ~/.codex/yuanbo-skills/skills/web-fetcher ~/.agents/skills/web-fetcher
-ln -sf ~/.codex/yuanbo-skills/skills/paper-style ~/.agents/skills/paper-style
+bash /path/to/yuanbo-skills/install.sh --target codex --prune-plugin-skill-links
 ```
 
-For nested plugin skills:
+Prune applies to all plugin-skill links into that exact checkout. It does not
+remove real directories or links into other checkouts. The installer also
+refreshes standalone links, including bundled selfOS entries; preserve or restore
+a verified live selfOS source when that is the intended destination.
+Old real `web-fetcher` and `paper-style` directories require separate review and
+recoverable backup before replacement.
+
+Use `--include-plugin-skills` only for a legacy host without plugin support.
+Do not install both modes. Keep unrelated vendors and broken legacy links outside
+a migration unless explicitly selected.
+
+## Verification
 
 ```bash
-ln -sf ~/.codex/yuanbo-skills/plugins/unbox-skills/unbox ~/.agents/skills/unbox
-ln -sf ~/.codex/yuanbo-skills/plugins/labmate/skills/read-paper ~/.agents/skills/read-paper
+codex plugin list --marketplace yuanbo-skills --json
+python3 scripts/validate_skills.py
+bash tests/test-capability-refactor.sh
 ```
 
-## Local Plugin Metadata
+Installed/enabled registry state is not proof of actual model execution or hook
+trust. Start a new task/session after reinstalling and review changed hooks in
+the host's supported interface. Check that namespaced plugin skills appear once
+and standalone links point to the intended source. SelfOS and the standalone
+collection both have a transcribe entry: select one global source, not two copies.
 
-This repo also includes Codex plugin manifests:
-
-- `plugins/labmate/.codex-plugin/plugin.json`
-- `plugins/meta-audit/.codex-plugin/plugin.json`
-- `plugins/paper-review/.codex-plugin/plugin.json`
-- `plugins/papermate/.codex-plugin/plugin.json`
-- `plugins/unbox-skills/.codex-plugin/plugin.json`
-
-The local marketplace index is `.agents/plugins/marketplace.json`. Skill symlinks are still the most portable Codex install path; plugin manifests provide metadata for Codex builds that support local plugin marketplaces.
-
-## Hooks Compatibility
-
-The labmate and papermate Codex plugin manifests point to standalone `hooks/hooks.json` files. Hook scripts are best-effort: they run when the host supports local plugin hooks and degrade silently when optional shell dependencies such as `jq`, `gh`, or project files are unavailable.
-
-## Third-Party Skills
-
-`install.sh` also attempts to install these optional third-party skills into `~/.agents/skills/`:
-
-- `notion-lifeos`
-- `proactive-agent`
-
-If a network clone fails, the installer reports a warning and keeps the local yuanbo skills installed.
-
-## Verify
-
-```bash
-ls -la ~/.agents/skills/
-```
-
-You should see symlinks pointing to skill directories under `~/.codex/yuanbo-skills/`.
-
-## Updating
-
-```bash
-cd ~/.codex/yuanbo-skills
-git pull --recurse-submodules
-```
-
-Skills update instantly through the symlinks.
-
-## Uninstalling
-
-Remove symlinks:
-
-```bash
-for skill in ~/.agents/skills/*; do
-  case "$(readlink "$skill")" in *yuanbo-skills*) rm "$skill" ;; esac
-done
-```
-
-Optionally delete the clone:
-
-```bash
-rm -rf ~/.codex/yuanbo-skills
-```
+See [platform support](guides/codex-support.md) and
+[the migration inventory](reviews/2026-09-05-installation-migration.md).

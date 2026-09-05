@@ -25,6 +25,8 @@ def check(root=ROOT):
                     entries=data.get(key,[])
                     if isinstance(entries,str): entries=[entries]
                     for entry in entries:
+                        if '.claude-plugin' in str(path) and not entry.startswith('./'):
+                            errors.append(f'{path}: Claude {key} path must start with ./: {entry}')
                         if not (plugin/entry).exists():
                             errors.append(f'{path}: missing {key} component {entry}')
             except (KeyError,ValueError,TypeError) as exc:

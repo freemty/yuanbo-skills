@@ -13,6 +13,26 @@
       "source": "./plugins/labmate",
       "description": "Local LabMate build from the yuanbo-skills workspace",
       "strict": true
+    },
+    {
+      "name": "meta-audit",
+      "source": "./plugins/meta-audit",
+      "strict": true
+    },
+    {
+      "name": "paper-review",
+      "source": "./plugins/paper-review",
+      "strict": true
+    },
+    {
+      "name": "papermate",
+      "source": "./plugins/papermate",
+      "strict": true
+    },
+    {
+      "name": "unbox-skills",
+      "source": "./plugins/unbox-skills",
+      "strict": true
     }
   ]
 }
