@@ -11,7 +11,15 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          submodules: recursive
+          persist-credentials: false
+      - name: Check out public submodules only
+        shell: bash
+        run: |
+          mapfile -t public_modules < <(git config -f .gitmodules --get-regexp '^submodule\..*\.path$' | awk '$2 != "projects/selfos" {print $2}')
+          git -c url."https://github.com/".insteadOf=git@github.com: submodule update --init --depth 1 -- "${public_modules[@]}"
+          echo '::notice::Public CI excludes the private selfOS checkout. Run tests/test-capability-refactor.sh in an authorized full checkout for selfOS coverage.'
+      - name: Install test dependencies
+        run: sudo apt-get update && sudo apt-get install -y ripgrep jq
       - uses: actions/setup-python@v5
         with:
           python-version: "3.11"

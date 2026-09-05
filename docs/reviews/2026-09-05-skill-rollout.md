@@ -11,7 +11,7 @@
 
 | 子仓库 | 发布提交 | 默认分支 |
 | --- | --- | --- |
-| LabMate | bb663af | main |
+| LabMate | 3f744f2（执行内容 bb663af；后续为 CI 修复） | main |
 | Meta Audit | 8dc1926 | main |
 | Paper Review | 95314e7 | main |
 | PaperMate | 5afa715 | main |
@@ -51,7 +51,26 @@ selfOS 全局技能继续指向 live selfOS。两个 transcribe 入口选择 sel
 后续 `actions.json` 记录每个替换项及其可恢复副本。回滚应按目标逐项恢复，
 不把旧整份配置覆盖到含新用户变更的配置上。
 
-外层合并、本机版本和链接切换的最终结果在执行后补记。
+外层 main 已由 b6aee12 快进至 74cfc24 并推送；本机 main 和 13 个子模块已
+同步。live selfOS 已快进至 64d9e88；42 个原有未提交/未跟踪文件哈希均未变。
+
+两端各 5 个目标插件已安装且启用。Claude 的 install 对已安装项不会自动
+升级，因此另用 update 将 LabMate 从 0.10.0 升至 0.11.0；旧
+`papermate@labmate-marketplace` 已停用，其他供应商启用状态不变。
+每端保留 25 个独立/selfOS 全局来源，5 个插件提供另外 25 个技能；仓库
+仍有 51 个公开入口，重复的两个 transcribe 中只选择一个全局来源。
+共 33 项旧入口（30 个链接、3 个真实目录）移入备份，未直接删除。
+
+## 远端 CI 的范围与修复
+
+首次远端运行暴露两个环境问题：LabMate Ubuntu runner 没有 ripgrep；
+公共外层 workflow 试图用默认 token 拉取私有 selfOS，被拒绝，测试尚未开始。
+补齐 ripgrep/jq，并让 workflow 自身变化触发验证。
+
+外层公共 CI 只检出 12 个公共子模块，明确记录不覆盖私有 selfOS；不能为了
+让公共 CI 通过而提供私人知识库读取凭据。完整授权 checkout 的 51 入口回归
+与 19 个 selfOS 用例已在本机通过。公共 CI 的成功不替代这部分私有验证。
+远端最终状态随后补记。
 
 ## 验证与边界
 
