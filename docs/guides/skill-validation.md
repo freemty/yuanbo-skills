@@ -10,13 +10,13 @@
 
 ## Checks
 
-对 `skills/` 和 `plugins/` 下所有包含 `SKILL.md` 的目录执行：
+公开入口由 `scripts/skill_inventory.py` 统一发现：`skills/`、`plugins/` 和 bundled selfOS skills。工作区入口单列，不计入公开安装数量。
 
 | 检查项 | 规则 |
 |-------|------|
 | Frontmatter 存在 | `SKILL.md` 首行 `---`，以 `---` 闭合 |
 | `name` 字段 | 非空，且等于所在目录名 |
-| `description` 字段 | 非空，≥ 20 字符（保证有触发语义） |
+| `description` 字段 | 非空；是否准确表达触发语义由审查决定 |
 | README.md | 仅 `skills/*` 和 `plugins/*` 的**直接子目录**强制，嵌套子 skill 不要求 |
 
 YAML 解析器支持折叠/字面块标量（`>`, `|`, `>-`, `|-` 等），因此多行 description 能被正确拼接。
@@ -32,7 +32,7 @@ bash tests/test-context-audit.sh
 
 输出每个 skill 一行 `PASS` / `FAIL`，FAIL 下列出具体错误。末尾汇总 `N/M skills passed`。非零退出码 = 至少一个 skill 失败。
 
-Context audit 对 50 个公开 skill 做第二层检查：entrypoint 预算、硬编码步骤密度、宿主专属实现是否泄漏到共享正文、引用文件是否存在，以及 project-skill 镜像占位是否被误算成公开 skill。测试要求输出 `50 skills; 0 flagged`。
+Context audit 递归检查被调用的 references，区分错误和审查提示。断链、无效策略阻止通过；篇幅、命令示例、宿主词汇和指令密度仅作为人工审查线索。公开入口当前为 51 个，测试以共享发现结果为准，不写死数量。带引号、多行描述和有效宿主元数据均保留。
 
 ### CI
 
@@ -59,9 +59,9 @@ description: >
 
 frontmatter 的 `name` 必须和目录名完全一致。要么改目录名，要么改 frontmatter。注意：改目录名后要检查 `~/.claude/skills/` 下的 symlink 是否失效。
 
-### `description too short`
+### Description quality
 
-少于 20 字符的 description 几乎无法触发 skill。按 CSO 格式（Context-Situation-Outcome）重写，描述*何时*用而非*做什么*。参考 `skills/paper-style/SKILL.md`。
+描述应说明何时使用，并保留有效中文触发词。短描述不等于无效，字数不作为硬门槛。
 
 ### `missing README.md (required for top-level skills/plugins)`
 

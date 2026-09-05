@@ -32,3 +32,6 @@ documents.
 - `docs/design/context-engineering.md` — progressive disclosure, host parity,
   LabMate runtime boundaries, and verification.
 - `docs/specs/2026-09-05-skill-capability-refactor.md` — capability-first second-round implementation and acceptance.
+
+- `docs/reviews/2026-09-05-skill-capability-audit.md` — per-entry/resource dispositions.
+- `docs/reviews/2026-09-05-skill-capability-validation.md` — regression evidence and open live checks.

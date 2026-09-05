@@ -29,7 +29,8 @@ idempotency, and conflict detection matter.
 
 LabMate contains 12 portable skills. Claude Code additionally distributes five
 named agents; Codex and other hosts do not need generated agent definitions.
-Agent-dependent workflows use the following fallback:
+Use role instructions in the main thread when sufficient. When independent work
+benefits from permitted delegation, agent-dependent workflows use this fallback:
 
 1. Use the matching named agent when the host provides it.
 2. Otherwise use an ordinary isolated subagent with the same role body.
@@ -41,7 +42,7 @@ saving, and archival. Slide generation is a separate explicit action and routes
 research talks through `research-slides`.
 
 The September baseline has 13 handlers across five lifecycle events (the August
-revision restored them). The second-round target is four active handlers:
+revision restored them). The second-round implementation replaces them with four active handlers:
 project state at session start, silent post-commit maintenance recording, one
 pending-maintenance summary before compaction, and a Git-operation advisory.
 The advisory is not a permission interceptor. Routine reads, new files and
@@ -146,3 +147,9 @@ and isolated-install delivery are tracked in
   checklist.
 - `docs/guides/codex-support.md` — platform installation and invocation
   boundaries.
+
+## Second-round delivery
+
+- [Per-skill and resource audit](../reviews/2026-09-05-skill-capability-audit.md)
+- [Reproducible validation and live gaps](../reviews/2026-09-05-skill-capability-validation.md)
+- [Read-only installation inventory and migration](../reviews/2026-09-05-installation-migration.md)

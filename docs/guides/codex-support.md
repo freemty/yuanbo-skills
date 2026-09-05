@@ -1,160 +1,64 @@
-# Multi-Platform Support Guide
+# Multi-platform support
 
-This repo supports Claude Code, OpenAI Codex CLI, and Google Antigravity from the same skill and plugin sources. All three platforms use the Agent Skills open standard (agentskills.io) — the same `SKILL.md`/`skill.md` files work everywhere without modification.
+One authored skill source serves different hosts. Shared bodies describe
+capabilities and evidence contracts; invocation, permissions and plugin formats
+remain host-specific. A shared SKILL.md does not imply identical native tools.
 
-## Overview
+| Host | Standalone discovery | Plugin path / invocation |
+| --- | --- | --- |
+| Claude Code | ~/.claude/skills | Claude marketplace; /plugin-name:skill |
+| Codex | ~/.agents/skills | Codex marketplace recommended; $plugin-name:skill or /skills |
+| Antigravity / other Agent Skills hosts | Host-supported skill directory / selector | Verify that host's plugin support; do not assume a Codex manifest is compatible |
 
-Each platform discovers skills from a different directory:
-
-| Agent | Skill directory | Install command |
-|-------|-----------------|-----------------|
-| Claude Code | `~/.claude/skills/` | `./install.sh --target claude` |
-| Codex CLI | `~/.agents/skills/` | `./install.sh --target codex` |
-| Google Antigravity | `~/.gemini/antigravity/skills/` | `./install.sh --target antigravity` |
-| All three | all directories | `./install.sh --target all` |
-
-The default remains Claude-compatible:
+## Codex
 
 ```bash
-./install.sh
+codex plugin marketplace add /path/to/yuanbo-skills
+codex plugin add labmate@yuanbo-skills
+bash install.sh --target codex
 ```
 
-## Codex Installation
+The installer links standalone/bundled skills and skips plugin-owned entries by
+default. Install other needed plugins (papermate, paper-review, meta-audit,
+unbox-skills) through the same marketplace; do not also register global copies.
 
-For a fresh Codex install:
+Legacy builds without plugins may use `--include-plugin-skills` instead.
+Before `--prune-plugin-skill-links`, inventory the actual targets and installed
+replacements. Prune applies to all plugin-skill links into the checkout running
+the installer, not arbitrary copies or other worktrees. Real directories are
+never removed. The September local migration findings and rollback boundaries
+are in [installation migration](../reviews/2026-09-05-installation-migration.md).
+
+## Discovery and precedence
+
+`scripts/skill_inventory.py` is shared by format validation, context audit and
+installation. Current inventory: 51 public entries, with workspace skills separate.
+Standalone skills precede plugin legacy entries, then bundled project entries.
+The first same-named directory wins with a warning; this matters for todo and
+transcribe. Plugin namespaces and standalone names are not interchangeable.
 
 ```bash
-git clone --recurse-submodules https://github.com/freemty/yuanbo-skills.git ~/.codex/yuanbo-skills
-cd ~/.codex/yuanbo-skills
-./install.sh --target codex
+python3 scripts/skill_inventory.py
+python3 scripts/skill_inventory.py --workspace
 ```
 
-Restart Codex after installation so it reloads `~/.agents/skills/`.
+Claude/Antigravity installer behavior is retained. `--target all` applies the
+plugin exclusion only to Codex. Do not install hidden project-skill templates.
+A real destination directory is skipped, not overwritten.
 
-## Antigravity Installation
+## Verify each layer
 
-For a fresh Google Antigravity install:
+1. Source: format/reference and behavioral tests.
+2. Metadata: manifest/version/policy checks.
+3. Installation: enabled plugin registry and actual discovery, not cache presence.
+4. Execution: correct source version, available fallback and host-trusted hooks.
 
 ```bash
-git clone --recurse-submodules https://github.com/freemty/yuanbo-skills.git ~/.antigravity/yuanbo-skills
-cd ~/.antigravity/yuanbo-skills
-./install.sh --target antigravity
+bash tests/test-capability-refactor.sh
+bash plugins/labmate/tests/test-codex-plugin-smoke.sh
 ```
 
-Restart Antigravity (or `agy` CLI) after installation so it reloads `~/.gemini/antigravity/skills/`.
-
-Antigravity also supports workspace-level skills at `.agents/skills/` inside your project root — the same path Codex uses.
-
-## Installable Skill Keys
-
-The installer links every public `SKILL.md`/`skill.md` under `skills/`, `plugins/`, and bundled project skill directories, excluding hidden directories such as plugin-internal `.claude/` templates. Public `skills/` and `plugins/` entries take precedence over bundled project skills when names collide.
-
-```text
-academic-writing
-analyze-experiment
-beamer-style
-cc-navigator
-clone-web
-commit-changelog
-compile-check
-de-ai
-digest
-figure-qa
-flipradio-polish
-flipradio-write
-hook-recipes
-init-project
-interview
-meta-audit
-monitor
-new-experiment
-no-more-fomo
-paper-plot
-paper-review
-paper-storyteller
-paper-style
-paper-writing-qa
-pre-submit-challenge
-read-paper
-review-review
-section-guard
-survey-literature
-swiss-knife-design
-sync-paper
-thought
-todo
-unbox
-unbox-graph
-unbox-to-wiki
-update-docs
-update-knowhow
-update-project-skill
-visualize
-web-fetcher
-weekly-report
-wiki
-wiki-help
-writing-agents
-yuanboizer-zh
-```
-
-## Plugin Metadata
-
-Claude plugin metadata stays in each plugin's `.claude-plugin/plugin.json`.
-
-Codex and Antigravity plugin metadata lives beside it:
-
-```text
-plugins/labmate/.codex-plugin/plugin.json
-plugins/meta-audit/.codex-plugin/plugin.json
-plugins/paper-review/.codex-plugin/plugin.json
-plugins/papermate/.codex-plugin/plugin.json
-plugins/unbox-skills/.codex-plugin/plugin.json
-```
-
-Antigravity uses the same `plugin.json` format as Codex, so the `.codex-plugin/` manifests are directly compatible with both platforms.
-
-The repo-local marketplace index is:
-
-```text
-.agents/plugins/marketplace.json
-```
-
-Skill symlinks are still the most portable cross-platform path. The `.codex-plugin` manifests and marketplace file are metadata for builds that support local plugin marketplaces.
-
-## Verification
-
-Check shell syntax:
-
-```bash
-bash -n install.sh
-```
-
-Check Codex manifest JSON:
-
-```bash
-python3 -m json.tool .agents/plugins/marketplace.json >/tmp/yuanbo-marketplace.json
-python3 -m json.tool plugins/labmate/.codex-plugin/plugin.json >/tmp/labmate-codex-plugin.json
-python3 -m json.tool plugins/meta-audit/.codex-plugin/plugin.json >/tmp/meta-audit-codex-plugin.json
-python3 -m json.tool plugins/paper-review/.codex-plugin/plugin.json >/tmp/paper-review-codex-plugin.json
-python3 -m json.tool plugins/papermate/.codex-plugin/plugin.json >/tmp/papermate-codex-plugin.json
-python3 -m json.tool plugins/unbox-skills/.codex-plugin/plugin.json >/tmp/unbox-codex-plugin.json
-```
-
-Check every public skill is visible to Codex:
-
-```bash
-for s in academic-writing analyze-experiment beamer-style cc-navigator clone-web commit-changelog compile-check de-ai digest figure-qa flipradio-polish flipradio-write hook-recipes init-project interview meta-audit monitor new-experiment no-more-fomo paper-plot paper-review paper-storyteller paper-style paper-writing-qa pre-submit-challenge read-paper review-review section-guard survey-literature swiss-knife-design sync-paper thought todo transcribe unbox unbox-graph unbox-to-wiki update-docs update-knowhow update-project-skill visualize web-fetcher weekly-report wiki wiki-help writing-agents yuanboizer-zh; do
-  test -f "$HOME/.agents/skills/$s/SKILL.md" || test -f "$HOME/.agents/skills/$s/skill.md" || echo "MISSING $s"
-done
-```
-
-No output means all listed skills are installed.
-
-## Maintenance Notes
-
-- When adding a public skill, ensure it has `SKILL.md` and rerun `./install.sh --target all`.
-- When adding a plugin, add both `.claude-plugin/plugin.json` and `.codex-plugin/plugin.json` if it should appear in all ecosystems. The `.codex-plugin/` manifest is shared by Codex and Antigravity.
-- Do not install hidden template skills globally. The installer intentionally prunes paths matching `*/.*`.
-- If an existing target directory is a real directory rather than a symlink, the installer skips it instead of overwriting user-managed content.
-- Keep Claude, Codex, and Antigravity install docs in sync when changing install behavior.
+The installer and plugin smoke use temporary HOME/Codex directories. The plugin
+smoke requires an available compatible CLI and does not prove actual model
+completion or hook trust. Restart/review hooks only during an authorized real
+migration. No helper automatically changes global model/reasoning settings.

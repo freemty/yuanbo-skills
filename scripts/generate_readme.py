@@ -57,7 +57,7 @@ SKILLS = {
     },
     "paper-review": {
         "category": "Research & Knowledge",
-        "description": "Multi-role academic peer review — 4 expert agents cross-review, outputs venue-ready form fields. Includes review-review audit",
+        "description": "Multi-role academic peer review — optional expert perspectives with main-thread fallback, outputs venue-ready form fields. Includes review-review audit",
         "type": "plugin",
     },
     "paper-style": {
@@ -78,7 +78,7 @@ SKILLS = {
     },
     "web-fetcher": {
         "category": "Productivity",
-        "description": "Unified URL fetcher — auto-routes Twitter/YouTube/Bilibili/小红书/GitHub etc.",
+        "description": "Optional source adapters — Markdown/JSON extraction with explicit media coverage",
     },
     "cc-navigator": {
         "category": "Productivity",
@@ -86,7 +86,7 @@ SKILLS = {
     },
     "meta-audit": {
         "category": "Productivity",
-        "description": "AI automation maturity audit — L0-L5 scoring, ecosystem benchmarks, Top-3 actions",
+        "description": "Evidence-grounded workflow/context audit and optional tested hook adapters",
         "type": "plugin",
     },
     "labmate": {

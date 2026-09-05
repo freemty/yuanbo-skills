@@ -136,7 +136,7 @@ yuanboizer-zh
 | [unbox-skills](plugins/unbox-skills/) | Researcher deep profiling — personality, early career, mentorship lineage, direction evolution. Includes unbox, unbox-graph, unbox-to-wiki |
 | [selfos](projects/selfos/) | Personal knowledge base — ingest, compile, query wiki, context recovery *(private)* |
 | [no-more-fomo](skills/no-more-fomo/) | AI daily digest from Twitter KOLs, lab blogs, podcasts, arxiv, HackerNews |
-| [paper-review](plugins/paper-review/) | Multi-role academic peer review — 4 expert agents cross-review, outputs venue-ready form fields. Includes review-review audit |
+| [paper-review](plugins/paper-review/) | Multi-role academic peer review — optional expert perspectives with main-thread fallback, outputs venue-ready form fields. Includes review-review audit |
 | [papermate](plugins/papermate/) | Paper writing QA pipeline — section guard, figure QA, compile check, pre-submit challenge |
 
 ### Academic Visual Identity
@@ -152,9 +152,9 @@ yuanboizer-zh
 | Skill | Description |
 |-------|-------------|
 | [weekly-report](skills/weekly-report/) | Weekly progress report for managers |
-| [web-fetcher](skills/web-fetcher/) | Unified URL fetcher — auto-routes Twitter/YouTube/Bilibili/小红书/GitHub etc. |
+| [web-fetcher](skills/web-fetcher/) | Optional source adapters — Markdown/JSON extraction with explicit media coverage |
 | [cc-navigator](skills/cc-navigator/) | Agent workflow navigator — recommends the right skill, agent, tool, or workflow |
-| [meta-audit](plugins/meta-audit/) | AI automation maturity audit — L0-L5 scoring, ecosystem benchmarks, Top-3 actions |
+| [meta-audit](plugins/meta-audit/) | Evidence-grounded workflow/context audit and optional tested hook adapters |
 | [labmate](plugins/labmate/) | Research harness for AI coding agents — experiments, papers, knowhow, and project memory |
 | [swiss-knife-design](skills/swiss-knife-design/) | Personal web design system — project pages, dashboards, leaderboards, slides with consistent visual identity |
 | [transcribe](skills/transcribe/) | Audio transcription — speech-to-text via Whisper for meetings, voice memos, recordings |

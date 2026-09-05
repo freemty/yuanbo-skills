@@ -2,6 +2,27 @@
 
 All notable changes to yuanbo-skills.
 
+## 2026-09-05
+
+### Capability-first second round
+- Keep 51 public entries and review called references, roles, templates, scripts
+  and hooks. Native readers/browser/media capabilities are usable without a
+  mandatory CLI or named agent; evidence coverage defines completion.
+- Web Fetcher keeps Markdown/-o compatibility and adds a JSON retrieval envelope;
+  validates short posts, distinguishes author replies/comments/media, preserves
+  subtitle timestamps and labels partial video/paper coverage.
+- Unbox preserves identity/source/incremental boundaries; graph sync has explicit
+  data roots, previews, atomic writes and no inferred relationships from headings.
+- LabMate prepares 0.11.0 with four quiet lifecycle handlers; Papermate 0.2.0,
+  Paper Review/Unbox/Meta Audit 1.1.0. Releases are committed locally, not pushed.
+- Preserve research-slides' SD reference profile and selfOS evidence/data schemas;
+  remove workflow quotas and redundant approvals from writing/navigation references.
+- Unify discovery, quoted/block description handling, policy/manifest checks,
+  installer precedence and recoverable prune behavior. Review signals are not errors.
+- Release checks no longer mutate local installations. Current main/global sources
+  remain unchanged; see the dated audit, regression/live-gap and migration reports
+  under docs/reviews/.
+
 ## 2026-08-25
 
 ### 变更
