@@ -365,9 +365,9 @@
     },
     {
       "path": "plugins/labmate/references/archival-contract.md",
-      "action": "retain",
-      "reason": "Preserve domain knowledge, schema or existing adapter; test coverage is reported separately.",
-      "sha256": "1b6ea0353d72e236b115defb8b4188f55de8c300769664313199930aa255b5a6"
+      "action": "rewrite",
+      "reason": "Capability/evidence or scope contract revised; see batch diffs and regression report.",
+      "sha256": "351d136a2119c219f36e83694819064a950bc48da747e1a530d89dbadc96277e"
     },
     {
       "path": "plugins/labmate/references/check_agent_parity.sh",
@@ -557,9 +557,9 @@
     },
     {
       "path": "plugins/labmate/skills/read-paper/SKILL.md",
-      "action": "retain",
-      "reason": "Preserve domain knowledge, schema or existing adapter; test coverage is reported separately.",
-      "sha256": "ea98c1ae704f4d1f454894fa40ba15d7f5e83717d46c0e24fb981ea8f51fad3d"
+      "action": "rewrite",
+      "reason": "Capability/evidence or scope contract revised; see batch diffs and regression report.",
+      "sha256": "be4ce353a42ab6f15f71816ecf273e46187a3558dc192b9f645c610f8ef93c7f"
     },
     {
       "path": "plugins/labmate/skills/read-paper/agents/openai.yaml",
@@ -607,13 +607,13 @@
       "path": "plugins/labmate/skills/update-docs/SKILL.md",
       "action": "rewrite",
       "reason": "Capability/evidence or scope contract revised; see batch diffs and regression report.",
-      "sha256": "9ff2491e4c2b3ab0fb96b3fc988b7a63ba2d7c8f808a193b58c8382acedce245"
+      "sha256": "aa799d536843f1432bbd7234934091c530d009fc478bc2a0e2840739dda94deb"
     },
     {
       "path": "plugins/labmate/skills/update-knowhow/SKILL.md",
       "action": "rewrite",
       "reason": "Capability/evidence or scope contract revised; see batch diffs and regression report.",
-      "sha256": "872510ef9c5dd292cb3e7a666d0b29f74e342746e698d78e647d87d879deb2ed"
+      "sha256": "7aede3b5152071b2915dd95300c6d0c9404e7c4c9eaede9a3c61c4492a4a5bec"
     },
     {
       "path": "plugins/labmate/skills/update-knowhow/agents/openai.yaml",
@@ -953,45 +953,45 @@
     },
     {
       "path": "projects/selfos/.claude/skills/digest/SKILL.md",
-      "action": "retain",
-      "reason": "Preserve domain knowledge, schema or existing adapter; test coverage is reported separately.",
-      "sha256": "4c81dea6c79e1dac2cf16ed818302d588db5f75a7ef756244cb9c31b12f18a1b"
+      "action": "rewrite",
+      "reason": "Capability/evidence or scope contract revised; see batch diffs and regression report.",
+      "sha256": "84fcba8b84845ea74f2add4da9b131acdd722eee8be93de5d516c25694a6fdae"
     },
     {
       "path": "projects/selfos/.claude/skills/digest/references/workflow.md",
-      "action": "retain",
-      "reason": "Preserve domain knowledge, schema or existing adapter; test coverage is reported separately.",
-      "sha256": "c728e9df716fb3038595374175e3ec6d7a7387e1f01f99c415b12e91b79f921f"
+      "action": "rewrite",
+      "reason": "Capability/evidence or scope contract revised; see batch diffs and regression report.",
+      "sha256": "958f41ccd0cd352c95bf3d8cae03d88135582662fc9c6f18bdb2a42764174082"
     },
     {
       "path": "projects/selfos/.claude/skills/interview/SKILL.md",
-      "action": "retain",
-      "reason": "Preserve domain knowledge, schema or existing adapter; test coverage is reported separately.",
-      "sha256": "be35d9c5ff0bf21e5fedeaed47473de83797ac9d35545888d9497cf63088d622"
+      "action": "rewrite",
+      "reason": "Capability/evidence or scope contract revised; see batch diffs and regression report.",
+      "sha256": "36286b461b0d8f846469b1f48b7639d835cf81eeb5e01350bab4fc400732ddfb"
     },
     {
       "path": "projects/selfos/.claude/skills/interview/references/interview-workflow.md",
-      "action": "retain",
-      "reason": "Preserve domain knowledge, schema or existing adapter; test coverage is reported separately.",
-      "sha256": "d35016cb8fbafed34624fbbf91487ef07de8757633d7a6d97bea2bd76c7c673c"
+      "action": "rewrite",
+      "reason": "Capability/evidence or scope contract revised; see batch diffs and regression report.",
+      "sha256": "0b0c8e76adba839b47ffe65ef9c9280869e5e8c24c1f3b16b6466fecad76dd93"
     },
     {
       "path": "projects/selfos/.claude/skills/interview/references/modes.md",
-      "action": "retain",
-      "reason": "Preserve domain knowledge, schema or existing adapter; test coverage is reported separately.",
-      "sha256": "10d9aa45c1424912e712533963a042b7550413fd5dc120e6430dead291a2d4ba"
+      "action": "rewrite",
+      "reason": "Capability/evidence or scope contract revised; see batch diffs and regression report.",
+      "sha256": "79fe8efffe46f8b7ce98f2111eed18ade4d9c17a4b87b87198e38e101ac868e0"
     },
     {
       "path": "projects/selfos/.claude/skills/note/SKILL.md",
-      "action": "retain",
-      "reason": "Preserve domain knowledge, schema or existing adapter; test coverage is reported separately.",
-      "sha256": "8ffed94fcc3d607e19c76f007bdf4ed3b44d7704ef4571116983a0ff820b7af2"
+      "action": "rewrite",
+      "reason": "Capability/evidence or scope contract revised; see batch diffs and regression report.",
+      "sha256": "e4a0235aabb72606382fdc3bfb1215b70d8eccfd681c859b8ebfe18058b8c641"
     },
     {
       "path": "projects/selfos/.claude/skills/note/references/workflow.md",
-      "action": "retain",
-      "reason": "Preserve domain knowledge, schema or existing adapter; test coverage is reported separately.",
-      "sha256": "ff6769efef11d6d8fbc71fde8f6b3ba72b0e2a06f6827fcaa11c54681c27a62b"
+      "action": "rewrite",
+      "reason": "Capability/evidence or scope contract revised; see batch diffs and regression report.",
+      "sha256": "bbe020f17a2c3374489309a8cfc13eb53d2e8a483557e82e4fdaa481dc1315fe"
     },
     {
       "path": "projects/selfos/.claude/skills/paper-plot/SKILL.md",
@@ -1019,21 +1019,21 @@
     },
     {
       "path": "projects/selfos/.claude/skills/thought/SKILL.md",
-      "action": "retain",
-      "reason": "Preserve domain knowledge, schema or existing adapter; test coverage is reported separately.",
-      "sha256": "18260bed87dbc18dfcf45276053fa38316d0e94879cac93c916f6f446c7d1cbb"
+      "action": "rewrite",
+      "reason": "Capability/evidence or scope contract revised; see batch diffs and regression report.",
+      "sha256": "31d7b9f4791da79c999949a07f9d4507362ac61b9ef69ab3e9ee0430e70e4bef"
     },
     {
       "path": "projects/selfos/.claude/skills/thought/references/workflow.md",
-      "action": "retain",
-      "reason": "Preserve domain knowledge, schema or existing adapter; test coverage is reported separately.",
-      "sha256": "2b3b8330abd9d176bfdab2b0e5ee9400be4bf39615fba4f8eea3e56b51ccac93"
+      "action": "rewrite",
+      "reason": "Capability/evidence or scope contract revised; see batch diffs and regression report.",
+      "sha256": "b770ebc5324a542c53e494a402a8cbc2067f61c589062f76f2d1a90f9913341e"
     },
     {
       "path": "projects/selfos/.claude/skills/todo/SKILL.md",
-      "action": "retain",
-      "reason": "Preserve domain knowledge, schema or existing adapter; test coverage is reported separately.",
-      "sha256": "99abb038680edb7dd601e6264c0a80c88e10dabbe3c269b6f52ef6b42f45d15e"
+      "action": "rewrite",
+      "reason": "Capability/evidence or scope contract revised; see batch diffs and regression report.",
+      "sha256": "ca54886144bb462088b802debf6a3bb7a8d6b73364ca9ed3018a05657b0dea76"
     },
     {
       "path": "projects/selfos/.claude/skills/todo/references/add-workflow.md",
@@ -1063,7 +1063,7 @@
       "path": "projects/selfos/.claude/skills/transcribe/SKILL.md",
       "action": "rewrite",
       "reason": "Capability/evidence or scope contract revised; see batch diffs and regression report.",
-      "sha256": "fbca875913480ae2d8cde92d23e5f94573f2b2a251873fcaf884a9ca1de7c0d6"
+      "sha256": "70994841baaa506205fa6aaaffd29382bb1ef02eaa52570b8045b273f44cb06a"
     },
     {
       "path": "projects/selfos/.claude/skills/transcribe/references/volcengine-asr.md",
@@ -1075,43 +1075,49 @@
       "path": "projects/selfos/.claude/skills/transcribe/references/wiki-archive.md",
       "action": "rewrite",
       "reason": "Capability/evidence or scope contract revised; see batch diffs and regression report.",
-      "sha256": "13e6567a631df992705746a9f20f69aca95650cbd9e31e9f1a5b58f4457a2365"
+      "sha256": "f6e9cbc58fd53f59e9a5b9ada0e1d5e747f079eb3eec051f9c6a322703662761"
     },
     {
       "path": "projects/selfos/.claude/skills/wiki-help/SKILL.md",
-      "action": "retain",
-      "reason": "Preserve domain knowledge, schema or existing adapter; test coverage is reported separately.",
-      "sha256": "a5b38ad33af13816c69d86fe149180b54c8e8c60039f116dc68848d9521638e2"
+      "action": "rewrite",
+      "reason": "Capability/evidence or scope contract revised; see batch diffs and regression report.",
+      "sha256": "6e7626a818279121f4ce95c74fdb8ed53360ff3853f53ff87057a285c6de3fa7"
     },
     {
       "path": "projects/selfos/.claude/skills/wiki/SKILL.md",
-      "action": "retain",
-      "reason": "Preserve domain knowledge, schema or existing adapter; test coverage is reported separately.",
-      "sha256": "9b698131e825c442671a65bbb34bf543507614b2275ad5e4582b946c3fea473f"
+      "action": "rewrite",
+      "reason": "Capability/evidence or scope contract revised; see batch diffs and regression report.",
+      "sha256": "1a9f1b0c1f3d0d47798a4226727e9a6834d9d223558c6811d9a63bb8b0121fa0"
+    },
+    {
+      "path": "projects/selfos/.claude/skills/wiki/references/evidence-acquisition.md",
+      "action": "rewrite",
+      "reason": "Capability/evidence or scope contract revised; see batch diffs and regression report.",
+      "sha256": "1cbecd31667ca3d4448523d8bb2b52e9d6dda9e9eaefd8e475936634bbb479c2"
     },
     {
       "path": "projects/selfos/.claude/skills/wiki/references/ingest-workflow.md",
       "action": "rewrite",
       "reason": "Capability/evidence or scope contract revised; see batch diffs and regression report.",
-      "sha256": "cd030ed7bdb294aaa6000885608fc5d7e6b3e96dbde38bdbdc83b2a57596fce6"
+      "sha256": "a7fa10eb073a770f1d8b90aaa30e7d3e9faa22397d7f183e354b3409a697e5a0"
     },
     {
       "path": "projects/selfos/.claude/skills/wiki/references/lint-workflow.md",
-      "action": "retain",
-      "reason": "Preserve domain knowledge, schema or existing adapter; test coverage is reported separately.",
-      "sha256": "176db9ab0c023087d18ec8f55dfe0e537dd6fab80103030c8845211c653d09a7"
+      "action": "rewrite",
+      "reason": "Capability/evidence or scope contract revised; see batch diffs and regression report.",
+      "sha256": "b99faf41323567f4d42b98bed1abf838d0cf2a2d722e9b2677968a02f7b07f36"
     },
     {
       "path": "projects/selfos/.claude/skills/wiki/references/page-templates.md",
-      "action": "retain",
-      "reason": "Preserve domain knowledge, schema or existing adapter; test coverage is reported separately.",
-      "sha256": "678e6ae1e2a9c6902ed8b16c4776d6089401b07cfd1e7297b622f490561bad71"
+      "action": "rewrite",
+      "reason": "Capability/evidence or scope contract revised; see batch diffs and regression report.",
+      "sha256": "a49335987a4db7c91409a10021d3510c1be02001d2f947853d42d4ef0518b06e"
     },
     {
       "path": "projects/selfos/.claude/skills/wiki/references/query-workflow.md",
       "action": "rewrite",
       "reason": "Capability/evidence or scope contract revised; see batch diffs and regression report.",
-      "sha256": "ee1d62911a0606c8465b00621c54c644b8d05aa479479bcbb4347b32df7583ad"
+      "sha256": "5969b2801e596d7482de0d266efdcf8ed80b0cf1d59e57614b70fd07865a6d6e"
     },
     {
       "path": "projects/selfos/.claude/skills/wiki/references/sync-workflow.md",
@@ -1127,9 +1133,9 @@
     },
     {
       "path": "projects/selfos/.claude/skills/wiki/scripts/wiki-search.sh",
-      "action": "retain",
-      "reason": "Preserve domain knowledge, schema or existing adapter; test coverage is reported separately.",
-      "sha256": "04e8d80a98d1b74442c2491d3fcbb3abf4b43e23560098d5852971f584bc0170"
+      "action": "rewrite",
+      "reason": "Capability/evidence or scope contract revised; see batch diffs and regression report.",
+      "sha256": "085a8155092c9803b87682f9482d7ac21b50907c680e7bb021e9eab16ff33a54"
     },
     {
       "path": "scripts/check_release.py",
@@ -1705,7 +1711,7 @@
       "path": "tests/test-capability-refactor.sh",
       "action": "rewrite",
       "reason": "Capability/evidence or scope contract revised; see batch diffs and regression report.",
-      "sha256": "a21ae7f75b30c80e661536c5419108d7b73ae20e8b64dddb1bdfbbb4657f1998"
+      "sha256": "986f2703abf73e7da39ce7c04ff2eef41a3192f8e644c9c7e28d8376482b8bf3"
     },
     {
       "path": "tests/test-context-audit.sh",

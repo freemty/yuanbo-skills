@@ -2,6 +2,10 @@
 
 ## 范围与环境
 
+后续 wiki 补改和新增 selfOS 回归见
+[LabMate / selfOS 补充记录](2026-09-05-wiki-capability-followup.md)。
+本文下方原始 live 执行与提交 SHA 保留为当时快照，不代表补改已在真实宿主安装运行。
+
 - 主 checkout：`/Users/sum_young/code/projects/yuanbo-skills`，main 基线
   `b6aee12f8d23149d1ecfeed1ea1c60ed6c2adf0c`；保持不变。
 - 隔离工作树：`/Users/sum_young/code/projects/yuanbo-skills-worktrees/context-engineering-20260731`。

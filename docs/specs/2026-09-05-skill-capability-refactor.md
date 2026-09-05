@@ -100,3 +100,14 @@ stays on the reform branch: no push, PR or main merge. Test temporary HOME/Codex
 installations without changing active installs. Deliver audit dispositions,
 reproducible test results, outstanding live cases and a rollback-aware migration
 list (including old real web-fetcher directory and duplicate global/plugin skills).
+
+## Wiki follow-up scope
+
+The user additionally requested the same treatment for LabMate archival and
+selfOS wiki skills. Inspect entrypoints and called references together: keep
+user wording, source/analysis separation and existing schemas; remove incidental
+tool dependencies, ritual follow-ups and unintended writes. Verify target-root
+isolation, read-only modes, media coverage and inherited archival intent.
+Changes and reproducible results are recorded in
+../reviews/2026-09-05-wiki-capability-followup.md. Continue on the same isolated
+branch; no live wiki/raw, global installation or primary checkout mutations.

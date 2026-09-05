@@ -35,3 +35,4 @@ documents.
 
 - `docs/reviews/2026-09-05-skill-capability-audit.md` — per-entry/resource dispositions.
 - `docs/reviews/2026-09-05-skill-capability-validation.md` — regression evidence and open live checks.
+- `docs/reviews/2026-09-05-wiki-capability-followup.md` — LabMate archival and selfOS wiki follow-up.

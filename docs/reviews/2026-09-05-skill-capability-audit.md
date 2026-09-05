@@ -3,6 +3,7 @@
 审查基线：`b6aee12f8d23149d1ecfeed1ea1c60ed6c2adf0c`。原改革分支先快进到 main，再在隔离工作树实施。
 清单按**文件处置**记录，不把“未改文件”或“静态通过”冒充真实模型验收。
 具体回归、证据与未完成项见 [验证记录](2026-09-05-skill-capability-validation.md)。
+本清单已包含 [LabMate/selfOS wiki 补改](2026-09-05-wiki-capability-followup.md)。
 
 ## 51 个公开入口
 
@@ -31,11 +32,11 @@
 | `plugins/labmate/skills/init-project/SKILL.md` | 不因普通目录缺状态而自动初始化；保留幂等和双入口。 |
 | `plugins/labmate/skills/monitor/SKILL.md` | 保留一次调用一次检查；调度、重试与杀进程另按任务授权。 |
 | `plugins/labmate/skills/new-experiment/SKILL.md` | 保留 typed plan/apply/check、实验命名和状态格式。 |
-| `plugins/labmate/skills/read-paper/SKILL.md` | 保留 paper packet、页/公式/图表定位；补充媒体覆盖语义。 |
+| `plugins/labmate/skills/read-paper/SKILL.md` | 保留 paper packet 和页/公式/图表定位；继承已有保存意图，按指定项目/wiki 目的地保存。 |
 | `plugins/labmate/skills/survey-literature/SKILL.md` | 按可用能力获取原文；综述结论须对应实际阅读覆盖。 |
 | `plugins/labmate/skills/todo/SKILL.md` | 保留项目 TODO 数据格式与确定性接口。 |
-| `plugins/labmate/skills/update-docs/SKILL.md` | 保留 durable evidence/来源/未决问题；移除退役提醒触发。 |
-| `plugins/labmate/skills/update-knowhow/SKILL.md` | 保留显式归档意图；不把错误出现视作已解决。 |
+| `plugins/labmate/skills/update-docs/SKILL.md` | 区分观察、用户表述、决策、假设与解决；按已授权目的地保存，不自动双写 wiki。 |
+| `plugins/labmate/skills/update-knowhow/SKILL.md` | 显式归档，可独立执行；未解决调查可如实保存，不冒充已验证修复。 |
 | `plugins/labmate/skills/update-project-skill/SKILL.md` | 按需只读扫描，主线程可执行；保留镜像与事实验证。 |
 | `plugins/labmate/skills/visualize/SKILL.md` | 保留数值来源和实际渲染检查；共享角色路由按需委派。 |
 | `plugins/meta-audit/SKILL.md` | 共享发现与描述解析；错误和审查信号分离，不以数量评级。 |
@@ -53,15 +54,15 @@
 | `plugins/unbox-skills/unbox-to-wiki/SKILL.md` | 选择性编译，原始证据溯源；不自动 commit。 |
 | `projects/selfos/.claude/skills/academic-writing/SKILL.md` | 保留学术清晰度、含义和证据边界。 |
 | `projects/selfos/.claude/skills/de-ai/SKILL.md` | 保留显式去味触发与原意，不引入新的写作声音。 |
-| `projects/selfos/.claude/skills/digest/SKILL.md` | 保留只读 wiki 活动总结和事实边界。 |
-| `projects/selfos/.claude/skills/interview/SKILL.md` | 保留一次一个问题：这是用户选择的访谈模式，不是通用审批。 |
-| `projects/selfos/.claude/skills/note/SKILL.md` | 保留原话摘录、暂停/恢复与可追溯记录。 |
+| `projects/selfos/.claude/skills/digest/SKILL.md` | 只读且不扩大日期范围；跨月归档和未提交记录按证据区分。 |
+| `projects/selfos/.claude/skills/interview/SKILL.md` | 保留一次一个问题与原话先存；去固定 CLI/轮数，不伪造 updated 或清除未解决项。 |
+| `projects/selfos/.claude/skills/note/SKILL.md` | 保留 typed verbatim blocks 和生命周期；helper 显式 root 避免安装位置重定向。 |
 | `projects/selfos/.claude/skills/paper-plot/SKILL.md` | 保留数据来源、绘图模板、统计和视觉检查。 |
-| `projects/selfos/.claude/skills/thought/SKILL.md` | 保留用户原话、确定性保存与派生内容分离。 |
+| `projects/selfos/.claude/skills/thought/SKILL.md` | 保留原话、历史日期和重试身份；显式 root 优先，不自动推荐访谈。 |
 | `projects/selfos/.claude/skills/todo/SKILL.md` | 保留 T/R 与归档格式；先归档后移出，恢复时按 ID/原文去重，不自动 ingest。 |
-| `projects/selfos/.claude/skills/transcribe/SKILL.md` | 保留 ASR/原文/分析三层格式；原生路径可用，speaker 名字和重复归档审批不是前提。 |
-| `projects/selfos/.claude/skills/wiki/SKILL.md` | 保留原文/模型分析/外部证据三层；修复同步 checkpoint 与原文覆盖风险。 |
-| `projects/selfos/.claude/skills/wiki-help/SKILL.md` | 保留工作区导航；不把查询转为隐式归档。 |
+| `projects/selfos/.claude/skills/transcribe/SKILL.md` | 保留 ASR/原文/分析格式；遵从请求输出位置，仅授权 wiki 归档才写入该库。 |
+| `projects/selfos/.claude/skills/wiki/SKILL.md` | 统一目标 root、只读/写入边界和多模态覆盖；原件/用户原话/分析分离，初始化中立，部分来源可重试。 |
+| `projects/selfos/.claude/skills/wiki-help/SKILL.md` | 按宿主输出精简帮助，不假定 slash 语法或将导航变成执行。 |
 
 ## 工作区与供应商边界
 
@@ -112,7 +113,7 @@ rewrite 也涵盖新增的执行/验证资源；保留不意味着每个后端�
 | `plugins/labmate/hooks/session-start` | rewrite |
 | `plugins/labmate/hooks/worktree-suggest` | rewrite |
 | `plugins/labmate/references/agent-routing.md` | rewrite |
-| `plugins/labmate/references/archival-contract.md` | retain |
+| `plugins/labmate/references/archival-contract.md` | rewrite |
 | `plugins/labmate/references/check_agent_parity.sh` | rewrite |
 | `plugins/labmate/references/download_results.sh` | rewrite |
 | `plugins/labmate/references/experiment-template/README.md` | rewrite |
@@ -144,7 +145,7 @@ rewrite 也涵盖新增的执行/验证资源；保留不意味着每个后端�
 | `plugins/labmate/skills/monitor/agents/openai.yaml` | retain |
 | `plugins/labmate/skills/new-experiment/SKILL.md` | retain |
 | `plugins/labmate/skills/new-experiment/agents/openai.yaml` | retain |
-| `plugins/labmate/skills/read-paper/SKILL.md` | retain |
+| `plugins/labmate/skills/read-paper/SKILL.md` | rewrite |
 | `plugins/labmate/skills/read-paper/agents/openai.yaml` | retain |
 | `plugins/labmate/skills/read-paper/references/paper-acquisition.md` | rewrite |
 | `plugins/labmate/skills/read-paper/scripts/validate-paper-packet.py` | retain |
@@ -210,20 +211,20 @@ rewrite 也涵盖新增的执行/验证资源；保留不意味着每个后端�
 | `projects/selfos/.claude/skills/academic-writing/references/style-rules.md` | retain |
 | `projects/selfos/.claude/skills/de-ai/SKILL.md` | retain |
 | `projects/selfos/.claude/skills/de-ai/references/rubric.md` | retain |
-| `projects/selfos/.claude/skills/digest/SKILL.md` | retain |
-| `projects/selfos/.claude/skills/digest/references/workflow.md` | retain |
-| `projects/selfos/.claude/skills/interview/SKILL.md` | retain |
-| `projects/selfos/.claude/skills/interview/references/interview-workflow.md` | retain |
-| `projects/selfos/.claude/skills/interview/references/modes.md` | retain |
-| `projects/selfos/.claude/skills/note/SKILL.md` | retain |
-| `projects/selfos/.claude/skills/note/references/workflow.md` | retain |
+| `projects/selfos/.claude/skills/digest/SKILL.md` | rewrite |
+| `projects/selfos/.claude/skills/digest/references/workflow.md` | rewrite |
+| `projects/selfos/.claude/skills/interview/SKILL.md` | rewrite |
+| `projects/selfos/.claude/skills/interview/references/interview-workflow.md` | rewrite |
+| `projects/selfos/.claude/skills/interview/references/modes.md` | rewrite |
+| `projects/selfos/.claude/skills/note/SKILL.md` | rewrite |
+| `projects/selfos/.claude/skills/note/references/workflow.md` | rewrite |
 | `projects/selfos/.claude/skills/paper-plot/SKILL.md` | retain |
 | `projects/selfos/.claude/skills/paper-plot/references/templates.md` | retain |
 | `projects/selfos/.claude/skills/paper-plot/templates/bar_vertical.py` | retain |
 | `projects/selfos/.claude/skills/paper-plot/templates/style.py` | retain |
-| `projects/selfos/.claude/skills/thought/SKILL.md` | retain |
-| `projects/selfos/.claude/skills/thought/references/workflow.md` | retain |
-| `projects/selfos/.claude/skills/todo/SKILL.md` | retain |
+| `projects/selfos/.claude/skills/thought/SKILL.md` | rewrite |
+| `projects/selfos/.claude/skills/thought/references/workflow.md` | rewrite |
+| `projects/selfos/.claude/skills/todo/SKILL.md` | rewrite |
 | `projects/selfos/.claude/skills/todo/references/add-workflow.md` | retain |
 | `projects/selfos/.claude/skills/todo/references/done-workflow.md` | rewrite |
 | `projects/selfos/.claude/skills/todo/references/list-workflow.md` | retain |
@@ -231,15 +232,16 @@ rewrite 也涵盖新增的执行/验证资源；保留不意味着每个后端�
 | `projects/selfos/.claude/skills/transcribe/SKILL.md` | rewrite |
 | `projects/selfos/.claude/skills/transcribe/references/volcengine-asr.md` | rewrite |
 | `projects/selfos/.claude/skills/transcribe/references/wiki-archive.md` | rewrite |
-| `projects/selfos/.claude/skills/wiki-help/SKILL.md` | retain |
-| `projects/selfos/.claude/skills/wiki/SKILL.md` | retain |
+| `projects/selfos/.claude/skills/wiki-help/SKILL.md` | rewrite |
+| `projects/selfos/.claude/skills/wiki/SKILL.md` | rewrite |
+| `projects/selfos/.claude/skills/wiki/references/evidence-acquisition.md` | rewrite |
 | `projects/selfos/.claude/skills/wiki/references/ingest-workflow.md` | rewrite |
-| `projects/selfos/.claude/skills/wiki/references/lint-workflow.md` | retain |
-| `projects/selfos/.claude/skills/wiki/references/page-templates.md` | retain |
+| `projects/selfos/.claude/skills/wiki/references/lint-workflow.md` | rewrite |
+| `projects/selfos/.claude/skills/wiki/references/page-templates.md` | rewrite |
 | `projects/selfos/.claude/skills/wiki/references/query-workflow.md` | rewrite |
 | `projects/selfos/.claude/skills/wiki/references/sync-workflow.md` | rewrite |
 | `projects/selfos/.claude/skills/wiki/references/synthesize-workflow.md` | rewrite |
-| `projects/selfos/.claude/skills/wiki/scripts/wiki-search.sh` | retain |
+| `projects/selfos/.claude/skills/wiki/scripts/wiki-search.sh` | rewrite |
 | `scripts/check_release.py` | rewrite |
 | `scripts/context_audit.py` | retain |
 | `scripts/generate_readme.py` | rewrite |
