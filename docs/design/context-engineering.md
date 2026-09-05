@@ -40,15 +40,14 @@ Agent-dependent workflows use the following fallback:
 saving, and archival. Slide generation is a separate explicit action and routes
 research talks through `research-slides`.
 
-LabMate keeps three lifecycle hooks:
-
-- Session start: inject the current stage, experiment, and project-skill path.
-- Pre-compact: provide one archival reminder.
-- Pre-tool-use: guard destructive git/worktree operations.
-
-Project initialization, experiment scaffolding, TODO mutation, and project
-snapshots use deterministic scripts. The removed reminder and cross-sell hooks
-must not be recreated unless a measured failure demonstrates their value.
+The September baseline has 13 handlers across five lifecycle events (the August
+revision restored them). The second-round target is four active handlers:
+project state at session start, silent post-commit maintenance recording, one
+pending-maintenance summary before compaction, and a Git-operation advisory.
+The advisory is not a permission interceptor. Routine reads, new files and
+ordinary directories must not generate initialization or cross-skill reminders.
+Project initialization, experiment scaffolding, TODO mutation, and snapshots
+remain deterministic script operations.
 
 ## Monitoring and scheduling
 
@@ -98,8 +97,10 @@ bash tests/test-install.sh
 python3 skills/research-slides/scripts/test_template.py
 ```
 
-The current public surface is expected to report `50/50 skills passed` and
-`50 skills; 0 flagged`.
+The September baseline has 51 public entries plus a workspace-only `caveman`.
+Discover counts from the shared inventory; do not hardcode them in tests.
+Context review warnings locate debt; invalid references, policies and required
+dependencies are errors. Static checks do not establish model behavior.
 
 For LabMate:
 
@@ -117,6 +118,27 @@ tests. Passing static checks alone is not evidence that an installed cache or
 native host payload is correct.
 
 ## Sources
+
+### September 2026 capability review
+
+- **Author experience, 2026-09-04:** [Victor Nunez's post](https://x.com/victornunez/status/2095895077381972247)
+  recommends reviewing instruction files and reasoning effort during the Astra
+  rollout. His favorable experience with Light is an observation, not a universal
+  quality guarantee. Replies by other accounts are not the author's thread.
+- **Official guidance, retrieved 2026-09-05:** [GPT-6 prompting guidance](https://developers.openai.com/api/docs/guides/latest-model#prompting-best-practices)
+  describes stronger sensitivity to skills, excess clarification and testing,
+  and task-dependent delegation. It recommends auditing accessible instructions,
+  honoring user intent and calibrating verification to the change.
+- **Repository decisions:** choose text/structured, visual/browser, or scripted
+  execution from the task and available capabilities. Keep provenance, identity,
+  output schemas and authorization boundaries. Audit called references alongside
+  entrypoints. Retain existing effective reasoning settings; compare supported
+  Light/Medium configurations before recommending changes. CUA availability does
+  not prove that video frames, audio or continuous actions were observed.
+
+Implementation scope, hook migration, evidence contracts, acceptance scenarios,
+and isolated-install delivery are tracked in
+[`2026-09-05-skill-capability-refactor.md`](../specs/2026-09-05-skill-capability-refactor.md).
 
 - `plugins/labmate/docs/papers/context-engineering-claude5-trq212.md` — primary
   source summary and LabMate implications.
