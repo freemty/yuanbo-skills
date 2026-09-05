@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import argparse
 import subprocess
+import tempfile
 from pathlib import Path
 
 
@@ -21,10 +22,11 @@ def parse_args() -> argparse.Namespace:
 def main() -> int:
     args = parse_args()
     last = args.last or args.first
+    if args.first < 1 or last < args.first or args.dpi < 1:
+        raise SystemExit("invalid page range or DPI")
     args.out.mkdir(parents=True, exist_ok=True)
-    for stale in args.out.glob("page-*.png"):
-        stale.unlink()
-    prefix = args.out / "page"
+    run_dir = Path(tempfile.mkdtemp(prefix="render-", dir=args.out))
+    prefix = run_dir / "page"
     cmd = [
         "pdftoppm",
         "-png",
@@ -38,7 +40,7 @@ def main() -> int:
         str(prefix),
     ]
     subprocess.run(cmd, check=True)
-    for path in sorted(args.out.glob("page-*.png")):
+    for path in sorted(run_dir.glob("page-*.png")):
         print(path)
     return 0
 

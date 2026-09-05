@@ -1,0 +1,8 @@
+asset	source_url	figure_or_table	page	crop	claim_supported
+main.tex#frame-2	source-notes.md#definitions-a1-and-statement-t2	Native objective A1	2	none	Unconstrained equal-weight squared Euclidean objective
+main.tex#frame-3	../fixtures.md#t1-midpoint-theorem	Native theorem T2	3	none	Unique midpoint minimizer and exact minimum value
+main.tex#frame-4	source-notes.md#proof-d1-recenter	Native algebra D1	4	none	Midpoint coordinates give opposite offsets
+main.tex#frame-5	source-notes.md#proof-d2-expand	Native proof D2	5	none	Euclidean cross terms cancel and yield the supplied identity
+main.tex#frame-6	source-notes.md#proof-d3-optimize	Native proof D3	6	none	Nonnegative gap and equality condition prove global uniqueness
+main.tex#frame-7	source-notes.md#example-e1	Native worked-example table E1	7	none	Exact objective values for endpoints 0 and 2
+main.tex#frame-8	source-notes.md#scope-s1	Native scope counterexample S1	8	none	Unsquared distances lose uniqueness; no arbitrary metric claim

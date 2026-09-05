@@ -4,10 +4,14 @@
 from __future__ import annotations
 
 import argparse
+import hashlib
+import os
 import re
 import shutil
+import signal
 import subprocess
 import sys
+import tempfile
 from pathlib import Path
 
 
@@ -47,6 +51,10 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--out", type=Path)
     parser.add_argument("--dpi", type=int, default=180)
     parser.add_argument("--no-compile", action="store_true")
+    parser.add_argument("--engine", choices=("auto", "xelatex", "lualatex", "pdflatex"), default="auto")
+    parser.add_argument("--builder", choices=("auto", "latexmk", "engine"), default="auto")
+    parser.add_argument("--max-passes", type=int, default=5, help="direct-engine convergence bound (minimum 2)")
+    parser.add_argument("--timeout", type=float, default=180, help="seconds per build/render command")
     return parser.parse_args()
 
 
@@ -57,30 +65,103 @@ def require_command(name: str) -> str:
     return path
 
 
-def run_checked(cmd: list[str], cwd: Path) -> None:
-    result = subprocess.run(
+def run_checked(cmd: list[str], cwd: Path, timeout: float = 180) -> None:
+    if timeout <= 0:
+        raise SystemExit("command timeout must be positive")
+    process = subprocess.Popen(
         cmd,
         cwd=cwd,
         text=True,
         stdout=subprocess.PIPE,
         stderr=subprocess.STDOUT,
+        start_new_session=True,
     )
-    if result.returncode:
-        tail = "\n".join(result.stdout.splitlines()[-40:])
+    try:
+        output, _ = process.communicate(timeout=timeout)
+    except subprocess.TimeoutExpired:
+        if os.name == "posix":
+            os.killpg(process.pid, signal.SIGTERM)
+        else:
+            process.terminate()
+        try:
+            output, _ = process.communicate(timeout=5)
+        except subprocess.TimeoutExpired:
+            if os.name == "posix":
+                os.killpg(process.pid, signal.SIGKILL)
+            else:
+                process.kill()
+            output, _ = process.communicate()
+        print("\n".join(output.splitlines()[-20:]), file=sys.stderr)
+        raise SystemExit(f"command timed out after {timeout}s: {' '.join(cmd)}; inspect toolchain or raise --timeout")
+    if process.returncode:
+        tail = "\n".join(output.splitlines()[-40:])
         print(tail, file=sys.stderr)
-        raise SystemExit(f"command failed ({result.returncode}): {' '.join(cmd)}")
+        raise SystemExit(f"command failed ({process.returncode}): {' '.join(cmd)}")
 
 
-def compile_twice(tex: Path) -> None:
-    xelatex = require_command("xelatex")
-    cmd = [
-        xelatex,
-        "-interaction=nonstopmode",
-        "-halt-on-error",
-        tex.name,
-    ]
-    run_checked(cmd, tex.parent)
-    run_checked(cmd, tex.parent)
+def compile_deck(tex: Path, engine: str = "auto", builder: str = "auto", max_passes: int = 5, timeout: float = 180) -> None:
+    if max_passes < 2:
+        raise SystemExit("--max-passes must be at least 2")
+    use_latexmk = builder == "latexmk" or (builder == "auto" and shutil.which("latexmk"))
+    if engine == "auto":
+        magic = re.search(r"^%\s*!TeX\s+program\s*=\s*(xelatex|lualatex|pdflatex)\s*$",
+                          tex.read_text(), re.I | re.M)
+        project_config = any((tex.parent / name).is_file() for name in ("latexmkrc", ".latexmkrc"))
+        if magic:
+            engine = magic.group(1).lower()
+        elif use_latexmk and project_config:
+            engine = "project"
+        else:
+            engine = next((name for name in ("xelatex", "lualatex", "pdflatex") if shutil.which(name)), "xelatex")
+    if use_latexmk:
+        flags = {"xelatex": "-xelatex", "lualatex": "-lualatex", "pdflatex": "-pdf"}
+        cmd = [require_command("latexmk")]
+        if engine != "project":
+            require_command(engine)
+            cmd.append(flags[engine])
+        # Revisit conditional inputs that did not exist in the previous build.
+        cmd += ["-g", "-interaction=nonstopmode", "-halt-on-error", "-recorder", tex.name]
+        run_checked(cmd, tex.parent, timeout)
+        return
+    cmd = [require_command(engine), "-interaction=nonstopmode", "-halt-on-error", "-recorder", tex.name]
+    previous = None
+    for _ in range(max_passes):
+        run_checked(cmd, tex.parent, timeout)
+        state = tuple((suffix, hashlib.sha256(tex.with_suffix(suffix).read_bytes()).hexdigest())
+                      for suffix in (".aux", ".toc", ".nav", ".snm", ".out") if tex.with_suffix(suffix).exists())
+        log = tex.with_suffix(".log").read_text(errors="replace")
+        rerun = re.search(r"Rerun to get|Label\(s\) may have changed|Please \(re\)run", log, re.I)
+        if previous == state and not rerun:
+            return
+        previous = state
+    raise SystemExit(f"references did not converge in {max_passes} passes; inspect the log or use latexmk")
+
+
+def source_freshness(tex: Path, pdf: Path) -> tuple[list[str], list[str]]:
+    inputs = {tex}
+    recorder = tex.with_suffix(".fls")
+    warnings = []
+    if recorder.exists():
+        generated = {".aux", ".toc", ".nav", ".snm", ".out", ".log", ".vrb"}
+        for line in recorder.read_text(errors="replace").splitlines():
+            if line.startswith("INPUT "):
+                raw = line[6:]
+                # XeTeX records this version probe as an INPUT, not a filename.
+                if raw == "extractbb --version" or raw.startswith("|"):
+                    warnings.append(f"recorded process input has no file freshness check: {raw}")
+                    continue
+                path = (tex.parent / raw).resolve()
+                if path.suffix not in generated:
+                    inputs.add(path)
+    else:
+        warnings.append("no recorder (.fls): dependency freshness is incomplete; rerun without --no-compile")
+    failures = []
+    for path in sorted(inputs):
+        if not path.exists():
+            failures.append(f"recorded input missing: {path}")
+        elif path.stat().st_mtime > pdf.stat().st_mtime:
+            failures.append(f"PDF is older than input: {path}; rebuild before delivery")
+    return failures, warnings
 
 
 def static_assets(tex: Path) -> tuple[list[Path], list[str]]:
@@ -152,6 +233,8 @@ def parse_pages(spec: str | None, total: int) -> list[int]:
         part = part.strip()
         if not part:
             continue
+        if not re.fullmatch(r"\d+(?:-\d+)?", part):
+            raise SystemExit(f"invalid page selection: {part}; use pages or ranges such as 2,7-9")
         if "-" in part:
             start_text, end_text = part.split("-", 1)
             start, end = int(start_text), int(end_text)
@@ -163,14 +246,15 @@ def parse_pages(spec: str | None, total: int) -> list[int]:
     invalid = sorted(page for page in pages if page < 1 or page > total)
     if invalid:
         raise SystemExit(f"pages outside 1-{total}: {invalid}")
+    if not pages:
+        raise SystemExit("page selection is empty")
     return sorted(pages)
 
 
-def render_pages(pdf: Path, pages: list[int], out: Path, dpi: int) -> list[Path]:
+def render_pages(pdf: Path, pages: list[int], out: Path, dpi: int, timeout: float = 180) -> list[Path]:
     pdftoppm = require_command("pdftoppm")
     out.mkdir(parents=True, exist_ok=True)
-    for stale in out.glob("page-*.png"):
-        stale.unlink()
+    out = Path(tempfile.mkdtemp(prefix="render-", dir=out))
     rendered: list[Path] = []
     for page in pages:
         prefix = out / f"page-{page:03d}"
@@ -189,6 +273,7 @@ def render_pages(pdf: Path, pages: list[int], out: Path, dpi: int) -> list[Path]
                 str(prefix),
             ],
             pdf.parent,
+            timeout,
         )
         rendered.append(prefix.with_suffix(".png"))
     return rendered
@@ -200,14 +285,18 @@ def main() -> int:
     if not tex.exists():
         raise SystemExit(f"missing TeX source: {tex}")
     if not args.no_compile:
-        compile_twice(tex)
+        compile_deck(tex, args.engine, args.builder, args.max_passes, args.timeout)
 
     pdf = tex.with_suffix(".pdf")
     log = tex.with_suffix(".log")
     failures, warnings = scan_log(log)
     warnings.extend(source_warnings(tex))
-    if args.no_compile and pdf.exists() and pdf.stat().st_mtime < tex.stat().st_mtime:
-        warnings.append("PDF is older than the TeX source; compile before delivery")
+    if args.no_compile:
+        warnings.append("no rebuild: recorder checks known inputs only; new conditional inputs and external preprocessing/bibliography dependencies may be unobserved")
+    if pdf.exists():
+        stale, coverage = source_freshness(tex, pdf)
+        failures.extend(stale)
+        warnings.extend(coverage)
 
     assets, skipped = static_assets(tex)
     missing_assets = sorted(path for path in assets if not path.exists())
@@ -232,14 +321,14 @@ def main() -> int:
 
     total = pdf_page_count(pdf)
     pages = parse_pages(args.pages, total)
-    out = (args.out or Path(f"/tmp/research-slide-check-{tex.stem}")).resolve()
-    rendered = render_pages(pdf, pages, out, args.dpi)
+    out = (args.out or Path(tempfile.gettempdir()) / "research-slide-check").resolve()
+    rendered = render_pages(pdf, pages, out, args.dpi, args.timeout)
 
-    print(f"PASS: {pdf} ({total} pages)")
+    print(f"BUILD CHECKS PASSED: {pdf} ({total} pages)")
     print(f"static assets: {len(assets)}")
     for path in rendered:
         print(path)
-    print("Inspect the rendered PNGs for overlap, blur, clipping, density, and citation collisions.")
+    print("VISUAL REVIEW PENDING: inspect PNGs for overlap, blur, clipping, density, and citation collisions. This is not evidence/story approval.")
     return 0
 
 

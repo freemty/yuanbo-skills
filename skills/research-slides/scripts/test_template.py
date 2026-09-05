@@ -35,7 +35,6 @@ def main() -> int:
         "Never fabricate a symmetry",
         "SD-specific facts, labels, formulas, or paper names",
         "idea + survey",
-        "4–6 to methods/evidence",
     ):
         require(profile, invariant, profile_path)
 

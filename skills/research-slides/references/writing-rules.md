@@ -34,13 +34,13 @@ Do not prefix a sentence with `Point:`, `Core bet:`, or `The key insight is`. Wr
 
 - Include a formula only when it explains a decision, threshold, or trade-off that the audience will use later.
 - Define every symbol in nearby plain language. One interpretable equation is better than the paper's full derivation.
-- Keep metrics off the overview slide. Put one headline comparison and its conditions on the result slide.
-- Separate a main result from an ablation: the former establishes performance; the latter tests why the design works.
+- Keep an overview focused. Put each headline comparison beside its conditions; combine it with the mechanism only if a short talk remains legible.
+- Distinguish a main result from causal analysis, even when they share a page. A theorem instead needs assumptions and proof; a proposal needs planned validation, not invented scores.
 
 ## Endings
 
-- Prefer one takeaway slide with four declarative sentences over repeated summary tables.
-- Each sentence should carry a distinct level: pressure, method choice, trade-off, and practical implication.
+- Prefer one concise takeaway slide over repeated summary tables. One or two claims can close a short talk; a longer talk may earn four.
+- Useful levels are pressure, method choice, trade-off, and implication; retain only those actually established.
 - Do not introduce a new taxonomy or unexplained future direction in the conclusion.
 
 ## Tone

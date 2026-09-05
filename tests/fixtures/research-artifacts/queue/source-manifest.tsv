@@ -1,0 +1,5 @@
+asset	source_url	figure_or_table	page	crop	claim_supported
+main.tex#frame-2	../fixtures.md#q1-single-server-queue	Native process; source-notes.md A1	2	none	Single-server process and explicit stationary M/M/1 assumptions
+main.tex#frame-3	source-notes.md#calculation-d1	Native formula and table D1	3	none	0.25 s system time equals 0.10 s service plus 0.15 s waiting
+main.tex#frame-4	source-notes.md#calculation-d2	Calculated table D2	4	none	Waiting sensitivity at fixed service rate 10 jobs/s
+main.tex#frame-5	source-notes.md#derivation-d3	Native formula D3	5	none	Mean waiting diverges as arrival rate approaches capacity from below

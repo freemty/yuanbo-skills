@@ -2,7 +2,8 @@
 
 ## Core Paper
 
-Use 3-5 substantive slides, allocated by argumentative importance rather than paper-section count:
+For an empirical anchor paper, 3-5 substantive slides are a useful starting point,
+not a minimum. Allocate by duration and argumentative importance:
 
 1. Motivation or prior failure, only when it is non-obvious.
 2. Paper overview: exact title, source-native method figure, one TLDR.
@@ -10,7 +11,9 @@ Use 3-5 substantive slides, allocated by argumentative importance rather than pa
 4. Ablation or application: evidence that the distinctive design matters in practice.
 5. Limitation or system consequence, only when it changes the audience's conclusion.
 
-Do not merge the main result and ablation merely to save a page: they answer different questions. Crop evidence to the comparison being discussed and keep full tables in backup.
+Main result and ablation answer different questions. They can share a short-talk
+page if both remain legible and correctly interpreted; otherwise split them.
+Crop evidence to the discussed comparison and keep full tables in backup.
 
 ## Secondary Paper
 
@@ -21,7 +24,8 @@ Use one slide:
 - one TLDR sentence stating the optimization and consequence;
 - one clickable citation line.
 
-If the talk cannot support result or ablation evidence, label the work as a related method or outlook instead of presenting it as a validated core result.
+If an empirical claim lacks its supporting test, narrow or label that claim.
+Theoretical validation instead uses assumptions and proof; proposal status stays explicit.
 
 ## Literature Cluster
 
@@ -37,23 +41,28 @@ Keep this as a map, not a full explanation.
 
 ## Method Work
 
-Minimum slide set:
+Empirical argument obligations (not one required page per item):
 
 - Problem: what current method cannot do.
 - Method: paper figure or compact mechanism.
 - Evidence: result table/plot.
-- Ablation: why the design choice matters.
+- Causal analysis: test the distinctive choice when claiming it causes the gain.
 
-For experimental systems work, add one application or deployment slide when the system behavior is part of the contribution. For a short talk, move scheduler and implementation details to backup before removing the result or ablation.
+For experimental systems work, include application/deployment evidence when it
+is part of the contribution. In a short talk, remove peripheral claims and
+implementation detail before weakening evidence for the claims retained.
 
 ## Theory or Concept Work
 
-Minimum slide set:
+Theory argument obligations (combine or split to match the audience):
 
-- Claim.
-- Formalization or simple example.
-- One figure/table from the paper.
-- Limitation or implication.
+- Objects and assumptions.
+- Precise theorem or bounded claim.
+- Proof or labeled proof sketch, plus a simple example when useful.
+- Scope, counterexample or implication.
+
+No experimental ablation or paper figure is required. A displayed identity may
+be the dominant visual. An example illustrates a theorem; it does not prove it.
 
 Use formulas selectively. A formula belongs on the slide only if it clarifies the mechanism or the condition under which the claim holds.
 

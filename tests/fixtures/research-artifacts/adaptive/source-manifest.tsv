@@ -1,0 +1,7 @@
+asset	source_url	figure_or_table	page	crop	claim_supported
+main.tex#frame-2	../fixtures.md#p1-adaptive-draft-length-proposal	Native proposed process M1	2	none	Batching may change verification cost; this remains an unmeasured concern
+main.tex#frame-3	source-notes.md#contract-c1	Native correctness equation C1	3	none	Output distribution must equal target distribution at fixed prompt and settings
+main.tex#frame-4	source-notes.md#hypothesis-h1-and-mechanism-m2	Native proposed-policy table M2	4	none	Untested hypothesis and calibration-based length selection
+main.tex#frame-5	source-notes.md#plan-v1	Native planned experiment grid V1	5	none	Cross batch size and draft length; compare locked policies on held-out traces
+main.tex#frame-6	source-notes.md#plan-v2	Native metric-definition table V2	6	none	Planned latency throughput and acceptance definitions and controls
+main.tex#frame-7	source-notes.md#falsifiers-f1	Proposed rejection criteria F1	7	none	Correctness failures and absent robust gains can reject the proposal

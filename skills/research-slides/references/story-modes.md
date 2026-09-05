@@ -21,20 +21,23 @@ Use for a concept, research proposal, mechanism, or motivation-first explanation
 Default spine:
 
 1. Define the process or object with a direct teaching figure.
-2. Show the observed bottleneck or surprising fact.
-3. Explain why the obvious approach fails.
+2. Show a supported bottleneck/fact, the question to explain, or an explicitly untested concern.
+3. Explain the relevant limitation when known; do not invent a failed baseline.
 4. State the central hypothesis or trade-off.
 5. Present the proposed mechanism or method families.
 6. Use papers as evidence, not as the section structure.
-7. End with implications, falsifiers/evaluation, and four concise takeaways.
+7. End with implications, falsifiers/evaluation, and the few takeaways the talk earns.
 
-Do not invent results for proposals. Label hypotheses, expected outcomes, and evidence separately.
+Do not invent results for proposals. Label observations, hypotheses, expected
+outcomes and planned evidence separately. Without measurements, present the
+pressure as a concern to investigate, not an observed bottleneck. A proposal's
+ending states what test could reject the idea, not why it already wins.
 
 ## `paper` mode
 
 Use for one anchor paper. Allocate pages by argumentative importance, not section count.
 
-Default spine:
+Empirical default spine (for theory, use the theory obligations in `paper-slide-patterns.md`):
 
 1. Why the idea should work.
 2. What prior methods fail to do.
@@ -43,7 +46,9 @@ Default spine:
 5. Ablation/application: evidence that the distinctive design matters.
 6. Limitation and what the paper changes for the field.
 
-Core papers usually need 3-5 substantive slides. Skip implementation detail unless it changes the contribution. Keep metrics off the overview slide.
+Core papers often use 3-5 substantive slides, but duration and evidence determine
+the allocation. Skip implementation detail unless it changes the contribution.
+Keep an overview focused; a short talk can combine a mechanism and one interpretable result.
 
 ## `survey` mode
 

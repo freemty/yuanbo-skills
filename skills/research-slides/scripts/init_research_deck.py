@@ -26,13 +26,27 @@ def main() -> int:
     skill_dir = Path(__file__).resolve().parent.parent
     assets = skill_dir / "assets"
 
+    files = {"research-main.tex": "main.tex", **{
+        name: name for name in ("beamer-colors.tex", "layout-metropolis.tex",
+                               "layout-research.tex", "source-manifest.tsv")}}
+    # Check every destination before creating even the figures directory.
+    for source, name in files.items():
+        target = args.target / name
+        if not (assets / source).is_file():
+            raise SystemExit(f"missing bundled asset: {source}")
+        if target.is_symlink() or (target.exists() and not target.is_file()):
+            raise SystemExit(f"refusing non-regular destination: {target}")
+        if target.exists() and not args.force:
+            raise SystemExit(f"refusing to overwrite {target}; pass --force")
+    if args.target.is_symlink() or (args.target.exists() and not args.target.is_dir()):
+        raise SystemExit(f"invalid target directory: {args.target}")
+    figures = args.target / "figs"
+    if figures.is_symlink() or (figures.exists() and not figures.is_dir()):
+        raise SystemExit(f"invalid figures directory: {figures}")
     args.target.mkdir(parents=True, exist_ok=True)
-    (args.target / "figs").mkdir(exist_ok=True)
-    copy_file(assets / "research-main.tex", args.target / "main.tex", args.force)
-    copy_file(assets / "beamer-colors.tex", args.target / "beamer-colors.tex", args.force)
-    copy_file(assets / "layout-metropolis.tex", args.target / "layout-metropolis.tex", args.force)
-    copy_file(assets / "layout-research.tex", args.target / "layout-research.tex", args.force)
-    copy_file(assets / "source-manifest.tsv", args.target / "source-manifest.tsv", args.force)
+    figures.mkdir(exist_ok=True)
+    for source, name in files.items():
+        copy_file(assets / source, args.target / name, args.force)
 
     print(args.target / "main.tex")
     print(args.target / "beamer-colors.tex")

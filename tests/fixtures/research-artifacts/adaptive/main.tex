@@ -1,0 +1,152 @@
+% !TeX program = xelatex
+\documentclass[aspectratio=169,10pt]{beamer}
+\usepackage{amsmath,amssymb,array,booktabs,mathtools}
+\usepackage{graphicx,hyperref}
+\usepackage{tikz}
+\input{beamer-colors}
+\input{layout-metropolis}
+\author{Skill QA}
+\date{5 September 2026}
+\newcommand{\slidecite}[1]{%
+  \begin{tikzpicture}[remember picture,overlay]
+    \node[anchor=south west,align=left,text width=0.92\paperwidth,
+      inner sep=0pt,font=\tiny,text=black!38]
+      at ([xshift=0.68cm,yshift=0.72cm]current page.south west)
+      {\raggedright #1\par};
+  \end{tikzpicture}%
+}
+\newcommand{\norm}[1]{\left\lVert #1\right\rVert}
+
+\title{Adaptive Draft Length Under Batch Load:\\A Proposal}
+\hypersetup{pdftitle={Adaptive Draft Length Under Batch Load: A Proposal},pdfauthor={Skill QA}}
+\begin{document}
+\begin{frame}[plain]
+  \titlepage
+\end{frame}
+
+\begin{frame}{Batching may change verification cost}
+  \vspace{0.2cm}
+  \begin{center}
+    {\large
+      \(\text{draft }K\text{ candidates}
+      \ \longrightarrow\ \text{verify in batch }B
+      \ \longrightarrow\ \text{emit tokens}\)}
+  \end{center}
+  \vspace{0.35cm}
+  \(K\): proposed tokens per request.\qquad \(B\): active requests in the batch.
+  \vspace{0.4cm}
+  \begin{itemize}
+    \item More candidates may change both verification work and accepted output.
+    \item Request latency and total throughput may favor different choices.
+  \end{itemize}
+  \vspace{0.3cm}
+  {\color{black!55}Supplied concern only. No cost curve or measured speedup yet.}
+  \slidecite{Supplied proposal fixture P1; toy process M1 in source-notes.md. These are questions to test.}
+\end{frame}
+
+\begin{frame}{Every comparison must preserve the target distribution}
+  \vspace{0.15cm}
+  \[
+    \underbrace{q(\,\cdot\mid c)}_{\text{output with the length policy}}
+    =
+    \underbrace{p(\,\cdot\mid c)}_{\text{target-only output}}
+    \qquad\text{for each prompt }c.
+  \]
+  \vspace{0.3cm}
+  \begin{itemize}
+    \item Keep models, verifier and decoding settings fixed across policies.
+    \item Check full distributions in an enumerable toy, then run sampled regressions.
+  \end{itemize}
+  \vspace{0.35cm}
+  \begin{center}
+    A fixed draft length is the baseline.\\[0.15cm]
+    Finite checks do not prove correctness for every prompt.
+  \end{center}
+  \slidecite{Required correctness checks from P1; proposed evaluation contract C1 in source-notes.md.}
+\end{frame}
+
+\begin{frame}{The useful draft length may depend on load}
+  \vspace{0.1cm}
+  {\large Hypothesis}\qquad The lowest cost per emitted token may occur at different \(K\) for different \(B\).
+  \vspace{0.45cm}
+  \begin{center}
+    \renewcommand{\arraystretch}{1.5}
+    \begin{tabular}{lp{8.2cm}}
+      \toprule
+      Proposed step & Length policy\\
+      \midrule
+      Calibrate & Estimate time per emitted token for each \((B,K)\).\\
+      Select & Observe \(B\), then choose \(K\) from the calibrated table.\\
+      Fall back & Use a fixed \(K\) when calibration is insufficient.\\
+      \bottomrule
+    \end{tabular}
+  \end{center}
+  \vspace{0.2cm}
+  \begin{center}
+    Include the controller's own time in every comparison.
+  \end{center}
+  \slidecite{Untested hypothesis H1 and proposed mechanism M2 in source-notes.md. No gain is assumed.}
+\end{frame}
+
+\begin{frame}{A crossed experiment tests load against draft length}
+  \vspace{0.05cm}
+  \begin{center}
+    Proposed grid. Every cell is a planned measurement.
+    \vspace{0.25cm}
+
+    \renewcommand{\arraystretch}{1.35}
+    \begin{tabular}{rcccc}
+      \toprule
+      Active requests \(B\) & \(K=1\) & \(K=2\) & \(K=4\) & \(K=8\)\\
+      \midrule
+      1 & \(\circ\) & \(\circ\) & \(\circ\) & \(\circ\)\\
+      4 & \(\circ\) & \(\circ\) & \(\circ\) & \(\circ\)\\
+      16 & \(\circ\) & \(\circ\) & \(\circ\) & \(\circ\)\\
+      \bottomrule
+    \end{tabular}
+  \end{center}
+  \vspace{0.3cm}
+  \begin{itemize}
+    \item Calibrate both the adaptive policy and a strong fixed-\(K\) baseline.
+    \item Lock both policies, then compare matched held-out load traces.
+  \end{itemize}
+  \slidecite{Proposed validation V1 in source-notes.md. Grid values are authored test choices, not benchmark data.}
+\end{frame}
+
+\begin{frame}{Latency and throughput need a shared evaluation setting}
+  \vspace{0.1cm}
+  \begin{center}
+    \renewcommand{\arraystretch}{1.5}
+    \begin{tabular}{lp{8.5cm}}
+      \toprule
+      Planned metric & Definition\\
+      \midrule
+      Latency & End-to-end request time, including queueing: p50 and p95 in ms.\\
+      Throughput & Emitted output tokens per second.\\
+      Acceptance & Accepted draft tokens / proposed draft tokens.\\
+      \bottomrule
+    \end{tabular}
+  \end{center}
+  \vspace{0.35cm}
+  \begin{itemize}
+    \item Match hardware, prompts and output budgets. Include policy overhead.
+    \item Repeat paired load traces and report variability.
+  \end{itemize}
+  \slidecite{Metrics required by P1; proposed definitions and controls V2 in source-notes.md. No outcomes collected.}
+\end{frame}
+
+\begin{frame}{The proposal can fail even when drafting is faster}
+  \vspace{0.2cm}
+  \begin{itemize}
+    \item A token-distribution mismatch rejects the policy.
+    \item No robust held-out latency-throughput gain over the calibrated fixed baseline weakens the hypothesis.
+    \item Controller overhead can erase any benefit from a different length.
+  \end{itemize}
+  \vspace{0.5cm}
+  \begin{center}
+    {\large The next evidence is a controlled comparison.}\\[0.25cm]
+    Current status: untested proposal.
+  \end{center}
+  \slidecite{Proposed falsifiers F1 in source-notes.md. Prespecify the operating point before interpreting trade-offs.}
+\end{frame}
+\end{document}

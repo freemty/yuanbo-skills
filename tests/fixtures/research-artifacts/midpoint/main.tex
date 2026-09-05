@@ -1,0 +1,176 @@
+% !TeX program = xelatex
+\documentclass[aspectratio=169,10pt]{beamer}
+\usepackage{amsmath,amssymb,array,booktabs,mathtools}
+\usepackage{graphicx,hyperref}
+\usepackage{tikz}
+\input{beamer-colors}
+\input{layout-metropolis}
+\author{Skill QA}
+\date{5 September 2026}
+\newcommand{\slidecite}[1]{%
+  \begin{tikzpicture}[remember picture,overlay]
+    \node[anchor=south west,align=left,text width=0.92\paperwidth,
+      inner sep=0pt,font=\tiny,text=black!38]
+      at ([xshift=0.68cm,yshift=0.72cm]current page.south west)
+      {\raggedright #1\par};
+  \end{tikzpicture}%
+}
+\newcommand{\norm}[1]{\left\lVert #1\right\rVert}
+
+\title{Why the Midpoint Minimizes Squared Distance}
+\hypersetup{pdftitle={Why the Midpoint Minimizes Squared Distance},pdfauthor={Skill QA}}
+\begin{document}
+\begin{frame}[plain]
+  \titlepage
+\end{frame}
+
+\begin{frame}{One location determines both squared distances}
+  \vspace{0.25cm}
+  \[
+    \underset{x\in\mathbb{R}^{d}}{\operatorname{minimize}}
+    \qquad
+    F(x)=\norm{x-a}^{2}+\norm{x-b}^{2}
+  \]
+  \vspace{0.55cm}
+  \begin{itemize}
+    \item \(a,b\in\mathbb{R}^{d}\) are fixed. \(d\geq1\).
+    \item \(x\) can be any point in the same space.
+    \item \(\norm{\cdot}\) is the Euclidean norm. Both terms have equal weight.
+  \end{itemize}
+  \vspace{0.3cm}
+  \begin{center}
+    Moving toward one endpoint can move us away from the other.
+  \end{center}
+  \slidecite{Supplied theorem fixture T1; definitions A1 in source-notes.md.}
+\end{frame}
+
+\begin{frame}{The midpoint is the unique minimizer}
+  \vspace{0.2cm}
+  {\large Theorem}\qquad Define the midpoint \(m=(a+b)/2\).
+  \vspace{0.45cm}
+  \[
+    \underset{x\in\mathbb{R}^{d}}{\operatorname{argmin}}\; F(x)=\{m\},
+    \qquad
+    F(m)=\frac{\norm{a-b}^{2}}{2}.
+  \]
+  \vspace{0.5cm}
+  \begin{center}
+    We will prove the exact gap for every competing \(x\):
+    \vspace{0.25cm}
+    \[
+      F(x)-F(m)=2\norm{x-m}^{2}.
+    \]
+  \end{center}
+  \slidecite{Statement T2 from supplied identity T1; full proof D1-D3 in source-notes.md.}
+\end{frame}
+
+\begin{frame}{Centering gives equal and opposite offsets}
+  \vspace{0.1cm}
+  \[
+    y=x-m,\qquad v=\frac{b-a}{2}.
+  \]
+  \vspace{0.25cm}
+  \[
+    a=m-v,\qquad b=m+v
+  \]
+  \vspace{0.35cm}
+  \[
+    \underbrace{x-a}_{\text{offset from }a}=y+v,
+    \qquad
+    \underbrace{x-b}_{\text{offset from }b}=y-v.
+  \]
+  \vspace{0.45cm}
+  \begin{center}
+    \(y\) measures displacement from the midpoint.\\[0.15cm]
+    \(v\) is the fixed half-separation between the endpoints.
+  \end{center}
+  \slidecite{Algebraic proof D1 in source-notes.md. All equalities hold for any fixed \(a,b\in\mathbb{R}^{d}\).}
+\end{frame}
+
+\begin{frame}{The cross terms cancel exactly}
+  \vspace{0.1cm}
+  \begin{align*}
+    \norm{y+v}^{2}
+      &=\norm{y}^{2}+2\langle y,v\rangle+\norm{v}^{2},\\[0.2cm]
+    \norm{y-v}^{2}
+      &=\norm{y}^{2}-2\langle y,v\rangle+\norm{v}^{2}.
+  \end{align*}
+  \vspace{0.2cm}
+  \[
+    F(x)=2\norm{y}^{2}+2\norm{v}^{2}
+       =2\norm{x-m}^{2}+\frac{\norm{a-b}^{2}}{2}.
+  \]
+  \vspace{0.35cm}
+  \begin{center}
+    \(\langle y,v\rangle\) is the Euclidean inner product.\\[0.12cm]
+    The endpoint separation contributes only a constant.
+  \end{center}
+  \slidecite{Full inner-product expansion D2 in source-notes.md, deriving the supplied identity T1.}
+\end{frame}
+
+\begin{frame}{A nonnegative gap proves global uniqueness}
+  \vspace{0.3cm}
+  \[
+    F(x)-F(m)=2\norm{x-m}^{2}\geq0
+    \qquad\text{for every }x\in\mathbb{R}^{d}.
+  \]
+  \vspace{0.5cm}
+  \[
+    F(x)=F(m)
+    \quad\Longleftrightarrow\quad
+    \norm{x-m}^{2}=0
+    \quad\Longleftrightarrow\quad
+    x=m.
+  \]
+  \vspace{0.55cm}
+  \begin{center}
+    No other point reaches the same value.\\[0.18cm]
+    The proof also covers \(a=b\), when \(m=a=b\).
+  \end{center}
+  \slidecite{Optimization proof D3 in source-notes.md. Positive definiteness supplies the equality condition.}
+\end{frame}
+
+\begin{frame}{For 0 and 2, the excess loss is \(2(x-1)^2\)}
+  \vspace{0.1cm}
+  \[
+    a=0,\quad b=2,\quad m=1,\qquad
+    F(x)=x^2+(x-2)^2=2(x-1)^2+2.
+  \]
+  \vspace{0.5cm}
+  \begin{center}
+    \renewcommand{\arraystretch}{1.5}
+    \begin{tabular}{lccccc}
+      \toprule
+      \(x\) & 0 & 0.5 & \(\mathbf{1}\) & 1.5 & 2\\
+      \midrule
+      \(F(x)\) & 4 & 2.5 & \(\mathbf{2}\) & 2.5 & 4\\
+      \bottomrule
+    \end{tabular}
+  \end{center}
+  \vspace{0.5cm}
+  \begin{center}
+    Equal displacements from 1 incur equal excess loss.
+  \end{center}
+  \slidecite{Worked example E1 in source-notes.md. This example illustrates the proved theorem.}
+\end{frame}
+
+\begin{frame}{The guarantee depends on squared Euclidean geometry}
+  \vspace{0.2cm}
+  Without the square, uniqueness already fails on the real line:
+  \vspace{0.2cm}
+  \[
+    |x|+|x-2|=2
+    \qquad\text{for every }x\in[0,2].
+  \]
+  \vspace{0.35cm}
+  \begin{itemize}
+    \item An arbitrary metric need not define the vector midpoint or satisfy the identity.
+    \item The theorem assumes equal weights and an unconstrained Euclidean domain.
+  \end{itemize}
+  \vspace{0.35cm}
+  \begin{center}
+    In the stated setting, the exact squared gap proves one global minimizer.
+  \end{center}
+  \slidecite{Scope contrast S1 in source-notes.md. The unsquared example follows from the triangle inequality.}
+\end{frame}
+\end{document}

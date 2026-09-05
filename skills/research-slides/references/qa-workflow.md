@@ -32,3 +32,31 @@ python3 scripts/check_deck.py path/to/main.tex --pages 7,12-14
 ```
 
 The script prepares rendered pages; the agent must still inspect them visually. A clean log is necessary, not sufficient.
+
+## Build and review states
+
+`check_deck.py` keeps existing options and adds `--engine auto|xelatex|lualatex|pdflatex`,
+`--builder auto|latexmk|engine`, `--max-passes` and `--timeout` (180 seconds per
+build/render command by default). A timed-out build is a failure, not a background
+success; investigate the toolchain or explicitly raise the bound for a known slow
+build. Auto prefers latexmk when available,
+honors a `% !TeX program = ...` directive, then a local latexmk configuration;
+otherwise it chooses an available engine (XeLaTeX first for the bundled profile).
+Direct-engine mode reruns until auxiliary state converges, with a bounded pass
+count. Bibliography workflows should use the project's latexmk configuration.
+Nonstandard output/job names require a project build and an explicit QA source/PDF
+mapping; this helper expects a same-stem PDF beside the source and fails otherwise.
+
+`--no-compile` inspects existing outputs, rejects known stale/missing recorded
+inputs, and reports incomplete dependency coverage when no `.fls` exists.
+The recorder cannot discover newly appearing conditional files or every external
+preprocessing/bibliography dependency without rebuilding; `--no-compile` reports
+that limit even when all known inputs are fresh.
+`--out` is a parent directory: every render gets a unique child directory, leaving
+prior previews intact. Scripts report build checks passed and visual review pending.
+
+Completion records distinguish: source/evidence checked; build checked; pages
+actually viewed; issues fixed; remaining coverage. For a new deck inspect every
+page. For repair inspect changed and neighboring pages, then review navigation
+and source/PDF synchronization. Neither a clean build nor attractive layout proves
+the research claim.

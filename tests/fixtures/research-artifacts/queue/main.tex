@@ -1,0 +1,118 @@
+% !TeX program = xelatex
+\documentclass[aspectratio=169,10pt]{beamer}
+\usepackage{amsmath,amssymb,array,booktabs,mathtools}
+\usepackage{graphicx,hyperref}
+\usepackage{tikz}
+\input{beamer-colors}
+\input{layout-metropolis}
+\author{Skill QA}
+\date{5 September 2026}
+\newcommand{\slidecite}[1]{%
+  \begin{tikzpicture}[remember picture,overlay]
+    \node[anchor=south west,align=left,text width=0.92\paperwidth,
+      inner sep=0pt,font=\tiny,text=black!38]
+      at ([xshift=0.68cm,yshift=0.72cm]current page.south west)
+      {\raggedright #1\par};
+  \end{tikzpicture}%
+}
+\newcommand{\norm}[1]{\left\lVert #1\right\rVert}
+
+\title{Waiting Near Capacity}
+\hypersetup{pdftitle={Waiting Near Capacity},pdfauthor={Skill QA}}
+\begin{document}
+\begin{frame}[plain]
+  \titlepage
+\end{frame}
+
+\begin{frame}{Random arrivals share one server}
+  \vspace{0.15cm}
+  \begin{center}
+    {\large
+    \(\underbrace{\text{arrivals}}_{\lambda=6\ \text{jobs/s}}
+    \ \longrightarrow\ \text{waiting line}
+    \ \longrightarrow\
+    \underbrace{\text{one server}}_{\mu=10\ \text{jobs/s}}
+    \ \longrightarrow\ \text{departures}\)}
+  \end{center}
+  \vspace{0.35cm}
+  \begin{itemize}
+    \item Poisson arrivals and independent exponential service times.
+    \item First-come first-served, unbounded waiting room.
+    \item Stationary regime: \(\lambda<\mu\).
+  \end{itemize}
+  \vspace{0.25cm}
+  \(\lambda\): average arrival rate.\qquad \(\mu\): service rate while busy.
+  \slidecite{Supplied toy fixture Q1; explicit model assumptions A1 in source-notes.md.}
+\end{frame}
+
+\begin{frame}{System time includes 0.15 seconds of waiting}
+  \vspace{0.05cm}
+  \[
+    \underbrace{\mathbb{E}[T]}_{\text{arrival to departure}}
+    =\frac{1}{\mu-\lambda}
+    =\frac{1}{10-6}
+    =\boxed{0.25\ \text{s}}
+  \]
+  \vspace{0.35cm}
+  \begin{center}
+    \renewcommand{\arraystretch}{1.5}
+    \begin{tabular}{lcc}
+      \toprule
+      Mean time & Calculation & Seconds\\
+      \midrule
+      Service & \(1/\mu\) & \(0.10\)\\
+      Waiting & \(0.25-0.10\) & \(\mathbf{0.15}\)\\
+      \bottomrule
+    \end{tabular}
+  \end{center}
+  \vspace{0.25cm}
+  \begin{center}
+    Utilization is \(\rho=\lambda/\mu=0.60\), yet arrivals can still wait.
+  \end{center}
+  \slidecite{Supplied formula Q1; calculation D1 in source-notes.md. Model means, not measured latencies.}
+\end{frame}
+
+\begin{frame}{Less spare capacity produces sharply higher delay}
+  \vspace{0.1cm}
+  \begin{center}
+    \(\mu=10\) jobs/s throughout.\qquad Mean service time stays at \(0.10\) s.
+    \vspace{0.4cm}
+
+    \renewcommand{\arraystretch}{1.5}
+    \begin{tabular}{rccc}
+      \toprule
+      \(\lambda\) (jobs/s) & Utilization & System time (s) & Waiting (s)\\
+      \midrule
+      2 & \(20\%\) & \(0.125\) & \(0.025\)\\
+      \textbf{6} & \(\mathbf{60\%}\) & \(\mathbf{0.250}\) & \(\mathbf{0.150}\)\\
+      8 & \(80\%\) & \(0.500\) & \(0.400\)\\
+      9 & \(90\%\) & \(1.000\) & \(0.900\)\\
+      \bottomrule
+    \end{tabular}
+  \end{center}
+  \vspace{0.2cm}
+  \begin{center}
+    From 6 to 9 jobs/s, mean waiting grows sixfold.
+  \end{center}
+  \slidecite{Calculated sensitivity example D2 in source-notes.md. Every row assumes stationary M/M/1.}
+\end{frame}
+
+\begin{frame}{Near capacity, the model's mean waiting diverges}
+  \vspace{0.1cm}
+  \[
+    \underbrace{\mathbb{E}[W_q]}_{\text{mean waiting}}
+    =\frac{1}{\mu-\lambda}-\frac{1}{\mu}
+    =\frac{\lambda}{\mu(\mu-\lambda)}
+    \ \longrightarrow\ \infty
+    \quad\text{as }\lambda\to\mu^{-}.
+  \]
+  \vspace{0.45cm}
+  \begin{itemize}
+    \item Random arrivals and service create backlogs. Less spare capacity leaves less room to clear them.
+    \item High utilization can coexist with large waiting times.
+  \end{itemize}
+  \vspace{0.35cm}
+  {\color{black!55}Scope: stationary means under this model. No tail-latency or deployment guarantee.}
+  \slidecite{Algebra and limit D3; assumptions A1 in source-notes.md. The finite-mean formula requires \(\lambda<\mu\).}
+\end{frame}
+\end{document}
