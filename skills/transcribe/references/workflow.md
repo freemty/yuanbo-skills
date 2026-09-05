@@ -1,75 +1,30 @@
-# /transcribe — Audio Transcription
+# Speech transcription
 
-Transcribe audio files using Volcengine (火山引擎) ASR API. Supports speaker diarization, punctuation, and timestamps.
+Select available native transcription or an explicitly configured provider.
+Identify input path/URL, language, duration and requested timestamps/speaker labels.
+For video speech, use supported native media input or extract an audio working copy
+with an available converter. Never claim to have inspected video actions from ASR.
 
-## When to Use
+## Bundled provider adapter
 
-- User provides audio file path (mp3/wav/m4a/aac/ogg/opus/pcm/amr/spx)
-- User says "转写", "录音转文字", "帮我转写", "/transcribe"
-- Meeting recordings, voice memos, any speech-to-text request
+`scripts/transcribe.py <file_or_url> [-o output.md] [--json]` uses Volcengine ASR.
+Read its help and check the current service documentation if setup/limits matter.
+Check credential presence without printing its value. If absent, use an available
+native route or explain the provider requirement; do not write shell startup files
+or make the whole task fail solely because this optional key is missing.
 
-**Not for:** live streaming ASR, TTS, video-only files
+Do not send private recordings to an additional service outside the authorized
+task. Preserve the input and raw transcript before editorial changes. Inspect
+adapter failures rather than assuming empty output means silence.
 
-## Setup Guide
+## Deliverable
 
-If `VOLCENGINE_ASR_API_KEY` is not set, output this and STOP:
+Return actual transcript/output path when saving was requested, source, language,
+timestamp coverage, speaker-label confidence and uncertain spans. Speaker IDs are
+not identified people; use supplied names or reliable audio/context evidence,
+otherwise retain anonymous labels. Do not force a speaker-identification question
+when the requested transcription can be completed with labels.
 
-```
-### 🔑 火山引擎 ASR 设置
-
-1. 打开 https://console.volcengine.com/speech/app
-2. 注册/登录（支持手机号）
-3. 点击「语音识别」→「大模型语音识别」→「立即试用」（20 小时免费）
-4. 在控制台创建 API Key
-5. 设置环境变量：
-
-   echo 'export VOLCENGINE_ASR_API_KEY="你的key"' >> ~/.zshrc
-   source ~/.zshrc
-
-设置好后再次运行 /transcribe 即可。
-```
-
-## Quick Reference
-
-| Constraint | Limit |
-|-----------|-------|
-| Max file size | 100MB |
-| Max duration | 2 hours |
-| Formats | mp3, wav, m4a, aac, ogg, opus, pcm, amr, spx |
-| Languages | Chinese (primary) + 23 others |
-| Features | speaker diarization, punctuation, timestamps, ITN |
-
-## Flow
-
-### 0. Check API Key
-
-```bash
-echo "${VOLCENGINE_ASR_API_KEY:-NOT_SET}"
-```
-
-If `NOT_SET` → print Setup Guide and stop.
-
-### 1. Transcribe
-
-```bash
-VOLCENGINE_ASR_API_KEY="$VOLCENGINE_ASR_API_KEY" python3 scripts/transcribe.py "<file_path>" -o /tmp/transcript-output.md
-```
-
-### 2. Present Result
-
-Show: duration, speaker count, first few lines. Ask user what to do next.
-
-## Script
-
-The transcription script lives at `scripts/transcribe.py` in this skill directory (or at the project's `scripts/transcribe.py`).
-
-Usage:
-```bash
-python3 scripts/transcribe.py <file_or_url> [-o output.md] [--json]
-```
-
-## Common Mistakes
-
-- Attempting transcription without checking API key first
-- Not saving raw transcript before any post-processing
-- Forgetting to ask user to identify speakers
+Keep original wording distinct from corrections, summary and translation.
+Timestamped quotations retain interval and transcript origin. A transcription
+request does not itself authorize wiki archival or publication.

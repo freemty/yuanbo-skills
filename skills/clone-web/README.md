@@ -20,4 +20,6 @@ ln -sf "$(pwd)" ~/.agents/skills/clone-web
 
 ## Notes
 
-Requires Playwright MCP access for navigation, screenshots, and pixel comparison.
+Uses the available host browser or browser automation for navigation and screenshots.
+Playwright is optional. Without rendered source/local comparisons, visual parity
+remains unverified.

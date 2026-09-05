@@ -1,10 +1,11 @@
 # Multi-Agent Workflow
 
-Use parallel agents when a deck covers several papers, needs historical style recovery, or requires figure/result extraction from many sources. Keep a small repair local.
+When delegation is available and appropriate, use independent agents when a deck covers several papers, needs historical style recovery, or requires figure/result extraction from many sources. Keep a small repair local. If subagents are unavailable or disabled, apply the
+same story/evidence/style/QA roles in the main thread; the deck can still complete.
 
 ## Read-only audit split
 
-Run independent agents for:
+Possible read-only role split:
 
 - **Story:** test the causal spine against the target audience.
 - **Evidence:** extract the method figure, main result, ablation, and exact claim from each core paper.

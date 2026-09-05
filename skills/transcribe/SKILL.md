@@ -6,7 +6,9 @@ user-invocable: true
 
 # Transcribe
 
-Resolve this skill's directory and inspect the interface:
+Use an available native transcription capability when it meets the requested
+language, timestamp and speaker needs. The bundled provider adapter is optional.
+For that adapter, resolve this skill's directory and inspect the interface:
 
 ```bash
 python3 <skill-dir>/scripts/transcribe.py --help
@@ -15,7 +17,8 @@ python3 <skill-dir>/scripts/transcribe.py --help
 Read `references/workflow.md` only for provider setup, edge cases, and output
 handling. Verify the input file and duration before calling a paid provider.
 Return the transcript path and note language, speaker handling, and uncertain
-segments.
+segments. Keep timestamps for quotations or media alignment. Transcribing a video's
+audio does not establish screen content or visible actions.
 
 Do not archive, summarize, or publish a transcript unless the user requested
 that additional action.

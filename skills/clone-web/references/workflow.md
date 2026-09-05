@@ -37,7 +37,10 @@ Read `clones/registry.json` → display a table: name, display_name, color_schem
 
 ## Prerequisites
 
-Playwright MCP must be connected.
+Use any available host browser/screenshot or browser automation interface. DOM
+inspection and CSS extraction are optional accelerators. When no visual browser
+is available, work from supplied screenshots/assets or report visual QA pending;
+do not claim rendered parity from HTML alone.
 
 ## Clone Pipeline
 
@@ -47,7 +50,9 @@ Parse the URL from args. Derive slug from domain (e.g., `generalistai.com` → `
 
 ### Step 1: Reconnaissance
 
-Navigate via Playwright and capture baseline:
+Navigate with the available browser and capture a baseline. The following
+Playwright snippet is an optional adapter example; use the host's documented API
+when different:
 
 ```javascript
 async (page) => {
@@ -59,7 +64,7 @@ async (page) => {
 }
 ```
 
-Detect tech stack — run `page.evaluate()`:
+If the browser permits DOM inspection, inspect the tech stack (optional Playwright examples):
 - `document.querySelectorAll('link[rel="stylesheet"]')` → CSS bundle URLs
 - `document.body.className` → Tailwind utility classes?
 - `getComputedStyle(document.documentElement)` → CSS custom properties
@@ -125,7 +130,7 @@ Fallback mapping for inaccessible fonts:
    - CSS `color-scheme` property does NOT change `@media (prefers-color-scheme)` results
 
 3. **Interactive element replacement:**
-   - Canvas/WebGL animations → screenshot of element via Playwright, use as `<img>`
+   - Canvas/WebGL animations → screenshot of element via the available browser, use as `<img>`
    - Video players → `<video autoplay muted loop>` with original CDN `src`
    - Complex SVG/interactive demos → placeholder or screenshot
 
@@ -163,7 +168,10 @@ for i in range(3):
 
 ### Step 5: Iteration
 
-Fix in priority order: color scheme → background → grid/layout → fonts → interactive elements → spacing. Repeat Step 4→5 until target reached (max 5 rounds).
+Fix in priority order: color scheme → background → grid/layout → fonts → interactive elements → spacing. Repeat where a material mismatch remains, within the requested scope. Pixel
+scores are diagnostics, not a perceptual or functional equivalence guarantee.
+Check requested links, controls, responsive states and keyboard behavior. Mark
+static substitutes explicitly; do not strip source iframes just to improve a score.
 
 ### Step 6: Package
 
@@ -195,7 +203,7 @@ After pixel accuracy target is met, generate the distributable unit:
    }
    ```
 4. **registry.json** — append entry to `clones/registry.json`
-5. **Cleanup** — delete intermediate screenshots (diff heatmaps, iteration PNGs)
+5. **Evidence** — retain baseline and final screenshots plus material diff evidence; remove only task-owned disposable intermediates if appropriate
 
 ### Step 7: Deliver
 
@@ -208,6 +216,6 @@ Report to user:
 ## Key Insights
 
 - SVG `className` is `SVGAnimatedString` — use `el.getAttribute('class')` not `el.className.split()`
-- YouTube iframes cause screenshot timeouts — remove before screenshotting
-- Playwright defaults to `prefers-color-scheme: light` — always set explicitly
+- If a video/iframe blocks capture, wait for an observable stable state or capture its region separately; document substitutions.
+- Record the actual color scheme and viewport in either browser adapter.
 - Video `currentTime` must be set for frame to appear in screenshot

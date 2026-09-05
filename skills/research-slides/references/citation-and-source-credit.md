@@ -50,3 +50,13 @@ For a webpage or image, show the exact clickable URL:
 - Any self-redrawn figure based on a paper: cite `Adapted from: ...`.
 - Any online material fetched during the task must leave a visible source trail in the deck.
 - Keep a source manifest while authoring: asset path, source URL, figure/table number, page, crop, and claim supported.
+
+## Recorded talks and demos
+
+For a talk/video asset record URL, speaker, date and timestamp interval in the
+source manifest's existing locator/claim fields. State whether evidence came from
+slides, captions, audio, frames or continuous playback. Inspect actual frames for
+screen claims and intervals for action sequences; metadata is not observation.
+Credit extracted frames and label redrawn interpretations. Preserve caption-derived
+or translated quotation status and missing-modality limits. Native browser/media
+capabilities and optional conversion tools are valid acquisition paths.
