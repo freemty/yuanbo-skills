@@ -164,5 +164,45 @@ research artifact was changed.
 - The numerical fixture derives from supplied premises; the proposal is untested.
 - Initializer rollback covers ordinary errors, not process crashes or concurrent
   edits occurring after the final preflight. Review conflicts before using `--force`.
-- This iteration is locally committed, not installed, merged or pushed. Deployment
-  remains a separate user-authorized step.
+- At the end of artifact validation this iteration was locally committed, not
+  installed, merged or pushed. The subsequently authorized local rollout is
+  recorded below; the verification limits above still apply.
+
+## Authorized local main rollout — 2026-09-05
+
+The user subsequently requested merging today's skill changes into the local
+main branches and applying them on this machine.
+
+- Outer `main` fast-forwarded to `903e1b3`. All 12 public submodules' local
+  `main` branches fast-forwarded to their reviewed gitlink targets. In particular,
+  Paper Storyteller is `79fdfa1`, Paper Style is `6e4c75d`, and LabMate is
+  `3f744f2` (version `0.11.0`). No remote push was performed in this rollout.
+- Bundled and live selfOS remain at `64d9e88`, already containing the wiki skill
+  changes. The old bundled local `private` branch has independent history and
+  was not reset or rewritten. All 42 existing dirty/untracked live selfOS files
+  retained their contents, with no new paths observed.
+- Existing Codex and Claude Code links already target the live repositories;
+  advancing those repositories applied the updated files without reinstalling
+  or duplicating skills. Each host has 25 selected global skill sources plus
+  five enabled owned plugins exposing 25 skills. The 51 public source entries
+  include two transcribe alternatives; only one is selected for installation.
+- Plugin versions are LabMate `0.11.0`, Meta Audit `1.1.0`, Paper Review `1.1.0`,
+  PaperMate `0.2.0`, and Unbox `1.1.0`. Each host's 105 checked plugin resources
+  match the reviewed source inventory. No duplicate owned plugin skill was
+  found in the global skill directories.
+- `bash tests/test-capability-refactor.sh` passed on merged main, including
+  temporary-HOME installer, format, context, hook and offline behavior checks.
+  Tests invoked through the actual installed Research Slides and Paper Style
+  paths also passed (template contract, seven workflow tests, four paper setup
+  tests with five-theme subcases).
+- A private pre-rollout snapshot is stored at
+  `/Users/sum_young/.codex/backups/skills-rollout-20260905-j1q_soor`.
+  Existing install settings, third-party skills and personal records were not
+  changed. Repository commits and the preserved feature branches retain the
+  pre-merge history.
+
+This verifies installed files, registry state and offline behavior, not that an
+already-running model session has reloaded every instruction. Use a new turn or
+session; if Codex still exposes old entries, restart it. Codex documents automatic
+skill-change detection and symlink support in its
+[skill guide](https://learn.chatgpt.com/docs/build-skills).
