@@ -70,7 +70,12 @@ selfOS 全局技能继续指向 live selfOS。两个 transcribe 入口选择 sel
 外层公共 CI 只检出 12 个公共子模块，明确记录不覆盖私有 selfOS；不能为了
 让公共 CI 通过而提供私人知识库读取凭据。完整授权 checkout 的 51 入口回归
 与 19 个 selfOS 用例已在本机通过。公共 CI 的成功不替代这部分私有验证。
-远端最终状态随后补记。
+远端结果：外层 [94035dd 的公共 CI](https://github.com/freemty/yuanbo-skills/actions/runs/33968357967)
+通过；LabMate [3f744f2 的 validate job](https://github.com/freemty/labmate/actions/runs/33968195376/job/101311935507)
+通过。其同一 workflow 的 sync job 返回 `Bad credentials`，已有
+`MARKETPLACE_PAT` 无法认证旧 `freemty/labmate-marketplace`。
+未更换 secret、扩大凭据权限或将失败隐藏为通过；旧 marketplace 自动同步
+仍待维护者更新凭据。已推送主线与两端本地 marketplace 实装不依赖该同步。
 
 ## 验证与边界
 
@@ -79,6 +84,13 @@ selfOS 全局技能继续指向 live selfOS。两个 transcribe 入口选择 sel
   临时目录安装回归。254 项资源清单已刷新合并后的内容哈希。
 - Claude 验证 5 个插件 manifest 和本地 marketplace 均通过；根目录 CLAUDE.md
   的开发说明不是插件自动加载指令，这一提示不作为校验失败。
+- 实际安装后的 Codex/Claude registry 中，每个自有插件恰有一个启用实例；
+  两端分别核对 25 个插件入口和 105 份资源 SHA256，全与已审查内容一致。
+  安装缓存的 LabMate 9 个 hook 回归及平台兼容测试通过。
+  未选择的第三方/旧链接原目标保持；selfOS 42 个未提交文件再次验证不变。
+  非敏感逐项结果保存于备份目录的 `verified-install.json`。
+- research-slides 实际链接中的 SD 默认 profile 存在，入口仍指定黑色配色与
+  Metropolis 布局，不退回 layout-research。未重新生成 slides 冒充产物验证。
 - 原生媒体、真实模型质量对照仍沿用[验证记录](2026-09-05-skill-capability-validation.md)
   中的未完成状态。注册成功、缓存存在不能证明 hooks 已信任或本任务热加载了新版。
 - 必须在新任务/会话中检查实际发现和 hook 信任；不通过手工伪造信任哈希绕过宿主审核。
