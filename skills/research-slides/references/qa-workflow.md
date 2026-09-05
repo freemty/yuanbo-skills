@@ -6,9 +6,9 @@
 - Compile or open the current PDF and render the target pages.
 - Note the current page count, neighboring slide density, and citation baseline.
 
-## After each meaningful edit
+## After a coherent change set
 
-1. Compile with XeLaTeX twice.
+1. Use the project build configuration (XeLaTeX/LuaLaTeX for the bundled profile); rerun as needed to resolve references, or use latexmk.
 2. Scan for fatal errors, undefined references/citations, missing assets, overfull boxes, and hyperlink warnings.
 3. Render every changed page and its immediate neighbors at 180 dpi or higher.
 4. Inspect the PNGs, not only extracted text.

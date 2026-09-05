@@ -9,6 +9,8 @@ description: >
 
 # Swiss Knife Design — Personal Brand System
 
+Apply this personal profile when requested or no more specific active design exists. Explicit user direction and the artifact's reference profile take precedence; research-slides keeps its Speculative Decoding profile. Preserve existing tokens and assets unless replacement is in scope; do not blindly overwrite a project's style files.
+
 Black + white + red. Red is a scalpel, not a paintbrush.
 
 ## When to Use

@@ -1,22 +1,19 @@
 # Figure Extraction Workflow
 
-## Source Priority
+## Choose an available source
 
-1. arXiv source archive (`https://arxiv.org/e-print/<id>`)
-2. paper PDF rendered at high DPI
-3. official project page or blog image
-4. manually redrawn diagram
-
-Use the original figure unless it is unreadable or teaches the wrong level of detail. A redraw is a last resort, not a default cleanup step.
+Use an original vector/source asset when available and faithful to the cited
+figure; otherwise use a readable PDF crop or the original project-page image.
+Choose based on the needed figure and current access, not a fixed download chain.
+A redraw must be labeled and preserve the mechanism/data rather than inventing
+details. Native PDF screenshots are valid without a separate CLI.
 
 ## arXiv Source
 
-```bash
-mkdir -p /tmp/paper-src
-curl -L --fail https://arxiv.org/e-print/<id> -o /tmp/paper-src/source.tar
-tar -xzf /tmp/paper-src/source.tar -C /tmp/paper-src
-find /tmp/paper-src -maxdepth 3 -type f | sort
-```
+If using an arXiv source archive, download into a unique temporary directory.
+Inspect entries before extracting; reject absolute paths, parent traversal and
+links escaping that directory. Do not overwrite project files or execute source
+scripts. Inspect extracted figures against the actual paper caption.
 
 Look for `figures/`, `figure_text/`, `*.pdf`, `*.png`, `*.jpg`, and table `.tex` files. Use the paper's caption text to identify the correct figure.
 
@@ -51,7 +48,7 @@ python3 <research-slides>/scripts/crop_whitespace.py figure.png --in-place
 ## Blogs and Web Images
 
 - Prefer direct image URLs when available.
-- For GIFs in static PDFs, use a representative still frame unless the final delivery format supports animation.
+- For GIFs in static PDFs, use a timestamped representative still for appearance; a single frame does not establish the animation's temporal behavior.
 - Always cite the page or image URL below the figure.
 
 ## Quality Bar
