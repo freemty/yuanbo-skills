@@ -2,7 +2,7 @@
 
 Unified URL fetcher with platform-aware routing.
 
-Use when receiving any URL. The skill routes Twitter/X, YouTube, Bilibili, Xiaohongshu, GitHub, Zhihu, Reddit, arXiv, HackerNews, Weibo, and generic webpages through the best available fetch path.
+Use for specialized extraction, repeatable retrieval or saved source evidence. Native readers and browser/media capabilities remain available directly. The optional CLI supports social, video, paper and repository adapters and reports actual coverage.
 
 ## Install
 
@@ -20,4 +20,6 @@ ln -sf "$(pwd)" ~/.agents/skills/web-fetcher
 
 ## Script
 
-Run `scripts/fetch.py` from the installed skill directory.
+Run `scripts/fetch.py URL [-o FILE]` from the installed skill directory for Markdown.
+Add `--format json` for a provenance/coverage envelope. Video metadata and captions
+are partial observations, never proof that frames or audio were analyzed.

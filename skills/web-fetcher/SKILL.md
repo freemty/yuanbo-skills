@@ -1,21 +1,28 @@
 ---
 name: web-fetcher
-description: Use when a URL needs to be fetched reliably across social, video, paper, repository, or general web sources. Triggers on any URL, fetch, read, 抓取, 读链接. Never use the WebFetch tool directly — always use this skill for all URLs.
+description: Use when a source needs specialized extraction, download, or saved retrieval evidence across social, video, paper and repository sites. Triggers on reliable fetch, 抓取, 提取正文, 保存链接内容.
 ---
 
 # Web Fetcher
 
-Resolve this skill's installation directory and use its typed interface:
+Choose the available capability that matches the requested evidence. Ordinary
+text can be read directly with native search, readers or structured integrations;
+visual/interactive questions need a browser or media-capable host. This skill's
+CLI is an optional adapter for extraction, conversion and repeatable retrieval.
+
+Resolve this skill's installation directory for its CLI:
 
 ```bash
 python3 <skill-dir>/scripts/fetch.py --help
 python3 <skill-dir>/scripts/fetch.py <url>
+python3 <skill-dir>/scripts/fetch.py <url> --format json -o evidence.json
 ```
 
-The script owns platform routing and fallbacks. Read
-`references/routing-and-fallbacks.md` only when diagnosing a source-specific
-failure or changing routing behavior.
+Read [capability selection](references/capability-selection.md) when choosing a
+path, [source adapters](references/source-adapters.md) for CLI support/failures,
+and [media evidence](references/media-evidence.md) for video/audio/visual claims.
 
-Preserve the canonical URL and report partial/blocked retrieval. Use another
-host-native fetch path only when the script cannot represent the source or the
-user explicitly requests it.
+Report URL, acquisition time and actual coverage. A caption supports speech,
+metadata describes a source, and neither establishes observed actions. Missing
+CLI tools do not prevent native reads. Reading does not authorize archival or
+publishing; save only when the requested task includes it.

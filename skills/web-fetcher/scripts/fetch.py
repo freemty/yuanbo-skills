@@ -27,6 +27,19 @@ import shutil
 import subprocess
 import sys
 import urllib.request
+import html
+import xml.etree.ElementTree as ET
+from dataclasses import dataclass, field
+from datetime import datetime, timezone
+from urllib.parse import urlparse
+
+
+@dataclass
+class Extraction:
+    content: str
+    content_kind: str = "text"
+    status: str = "ok"
+    limitations: list[str] = field(default_factory=list)
 
 
 UA = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36"
@@ -43,7 +56,7 @@ def _run(cmd: list[str], timeout: int = 30) -> str:
     return out
 
 
-PROXY = os.environ.get("HTTP_PROXY", os.environ.get("http_proxy", "http://127.0.0.1:7890"))
+PROXY = os.environ.get("HTTPS_PROXY") or os.environ.get("HTTP_PROXY") or os.environ.get("http_proxy")
 
 
 def fetch_url(url: str, headers: dict | None = None, timeout: int = 30) -> str:
@@ -61,6 +74,7 @@ def _format_tweet(tweet: dict) -> str:
     name = user.get("name", "Unknown")
     handle = user.get("screenName", "")
     text = tweet.get("text", "")
+    tweet_id = tweet.get("id") or tweet.get("id_str")
     created = tweet.get("createdAt", "")
     likes = tweet.get("likeCount", 0)
     retweets = tweet.get("retweetCount", 0)
@@ -72,37 +86,100 @@ def _format_tweet(tweet: dict) -> str:
         "",
         text,
     ]
+    if tweet_id and handle:
+        lines.append(f"\nSource: https://x.com/{handle}/status/{tweet_id}")
     for m in media:
         media_url = m.get("url", "")
         if media_url:
-            lines.append(f"\n![media]({media_url})")
+            lines.append(f"\nAttached media (not inspected): [{m.get('type', 'media')}]({media_url})")
     return "\n".join(lines)
 
 
-def fetch_via_xreach(url: str, match: re.Match) -> str:
+def fetch_via_xreach(url: str, match: re.Match) -> Extraction:
     """Fetch a tweet via xreach CLI → markdown. Tries thread first, falls back to single."""
     # Try thread first (gets full conversation context)
     try:
-        raw = _run(["xreach", "thread", url, "--json", "--proxy", PROXY], timeout=45)
+        raw = _run(["xreach", "thread", url, "--json"] + (["--proxy", PROXY] if PROXY else []), timeout=45)
         data = json.loads(raw)
         tweets = data if isinstance(data, list) else [data]
-        if len(tweets) > 1:
-            parts = [f"# Thread ({len(tweets)} tweets)"]
-            for t in tweets:
-                parts.append(_format_tweet(t))
-            return "\n\n---\n\n".join(parts)
-        return f"# Tweet\n\n{_format_tweet(tweets[0])}"
+        return format_conversation(tweets, url)
     except Exception as thread_err:
         print(f"[xreach thread] Failed: {thread_err}, trying single tweet", file=sys.stderr)
 
     # Fallback to single tweet
-    raw = _run(["xreach", "tweet", url, "--json", "--proxy", PROXY])
+    raw = _run(["xreach", "tweet", url, "--json"] + (["--proxy", PROXY] if PROXY else []))
     data = json.loads(raw)
     tweet = data[0] if isinstance(data, list) else data
-    return f"# Tweet\n\n{_format_tweet(tweet)}"
+    return format_conversation([tweet], url)
 
 
-def fetch_via_ytdlp(url: str, match: re.Match) -> str:
+def format_conversation(tweets: list[dict], url: str) -> Extraction:
+    wanted = urlparse(url).path.rstrip('/').split('/')[-1]
+    root = next((t for t in tweets if str(t.get('id') or t.get('id_str')) == wanted), None)
+    if root is None or not (root.get('text') or root.get('media')):
+        raise ValueError('requested root tweet missing; conversation is not source evidence')
+    author = root.get('user', {}).get('screenName', '').lower()
+    replies = [t for t in tweets if t is not root and t.get('user', {}).get('screenName', '').lower() == author]
+    others = [t for t in tweets if t is not root and t not in replies]
+    parts = ['# Root post', _format_tweet(root)]
+    for heading, items in [('Author replies', replies), ('Other accounts / conversation context', others)]:
+        if items:
+            parts += [f'# {heading}'] + [_format_tweet(t) for t in items]
+    limits = ['Conversation retrieval may be incomplete; other accounts are not author claims.']
+    if any(t.get('media') for t in tweets):
+        limits.append('Attached media links were retrieved, not visually or aurally inspected.')
+    return Extraction('\n\n---\n\n'.join(parts), 'social_post', limitations=limits)
+
+
+def timestamp(seconds: float) -> str:
+    millis = round(float(seconds) * 1000)
+    hours, rest = divmod(millis, 3600000)
+    minutes, rest = divmod(rest, 60000)
+    secs, ms = divmod(rest, 1000)
+    return f'{hours:02}:{minutes:02}:{secs:02}.{ms:03}'
+
+
+def parse_captions(raw: str, ext: str) -> list[str]:
+    """Normalize supported caption formats to timestamped cues, never a flat transcript."""
+    cues = []
+    if ext == 'json3':
+        for event in json.loads(raw).get('events', []):
+            text = ''.join(s.get('utf8', '') for s in event.get('segs', []))
+            if text.strip():
+                start = event.get('tStartMs', 0) / 1000
+                end = start + event.get('dDurationMs', 0) / 1000
+                cues.append(f'[{timestamp(start)} --> {timestamp(end)}] {text.strip()}')
+    elif ext == 'srv1':
+        for node in ET.fromstring(raw).iter('text'):
+            start = float(node.get('start', 0))
+            end = start + float(node.get('dur', 0))
+            text = html.unescape(''.join(node.itertext())).strip()
+            if text:
+                cues.append(f'[{timestamp(start)} --> {timestamp(end)}] {text}')
+    elif ext in {'vtt', 'srt'}:
+        timing = None
+        parts = []
+        def flush():
+            if timing and parts:
+                cues.append(f'[{timing}] ' + ' '.join(parts))
+        for line in raw.replace('\r', '').split('\n') + ['']:
+            if '-->' in line:
+                flush()
+                timing = ' '.join(line.strip().replace(',', '.').split()[:3])
+                parts = []
+            elif not line.strip():
+                flush()
+                timing, parts = None, []
+            elif timing:
+                text = html.unescape(re.sub(r'<[^>]+>', '', line)).strip()
+                if text:
+                    parts.append(text)
+    else:
+        raise ValueError(f'unsupported caption format: {ext}')
+    return cues
+
+
+def fetch_via_ytdlp(url: str, match: re.Match) -> Extraction:
     """Fetch video metadata + subtitles via yt-dlp → markdown."""
     raw = _run(["yt-dlp", "--dump-json", "--no-warnings", url], timeout=60)
     data = json.loads(raw)
@@ -129,13 +206,13 @@ def fetch_via_ytdlp(url: str, match: re.Match) -> str:
     if description:
         lines.append(description)
 
-    # Try to fetch subtitles for richer content
+    # Captions support speech claims only; no frames or audio are inspected here.
     subtitles = data.get("subtitles", {})
     auto_captions = data.get("automatic_captions", {})
     sub_langs = subtitles or auto_captions
     if sub_langs:
         # Prefer zh/en manual subs, then auto captions
-        for lang in ["zh-Hans", "zh", "zh-CN", "en", "ja"]:
+        for lang in dict.fromkeys(["zh-Hans", "zh", "zh-CN", "en", "ja", *sub_langs]):
             subs = subtitles.get(lang) or auto_captions.get(lang)
             if subs:
                 # Find a text-based format
@@ -147,24 +224,18 @@ def fetch_via_ytdlp(url: str, match: re.Match) -> str:
                 if sub_url:
                     try:
                         sub_text = fetch_url(sub_url, timeout=15)
-                        # Strip timing info for readability (basic cleanup)
-                        clean_lines = []
-                        for line in sub_text.splitlines():
-                            line = line.strip()
-                            if not line or re.match(r"^\d+$", line) or re.match(r"\d{2}:\d{2}", line) or line.startswith("WEBVTT"):
-                                continue
-                            # Remove VTT tags
-                            line = re.sub(r"<[^>]+>", "", line)
-                            if line and line not in clean_lines[-1:]:
-                                clean_lines.append(line)
+                        clean_lines = parse_captions(sub_text, fmt['ext'])
                         if clean_lines:
                             lines.append(f"\n## Subtitles ({lang})\n")
                             lines.append("\n".join(clean_lines))
+                            return Extraction('\n'.join(lines), 'video_captions', 'partial',
+                                [f"{'Manual' if lang in subtitles else 'Automatic'} captions ({lang}); timestamps retained.",
+                                 'No frames or audio inspected; caption coverage may omit silence, actions or uncaptioned speech.'])
                     except Exception as e:
                         print(f"[subtitles] Failed to fetch {lang}: {e}", file=sys.stderr)
-                break
 
-    return "\n".join(lines)
+    return Extraction('\n'.join(lines), 'video_metadata', 'partial',
+                      ['No usable captions retrieved.', 'No frames or audio inspected. Description is uploader metadata, not observed video.'])
 
 
 def fetch_via_mcporter(url: str, match: re.Match) -> str:
@@ -318,10 +389,44 @@ GENERIC_STRATEGIES = [
 ]
 
 
-MIN_CONTENT_LEN = 500  # skip results that are too short (likely error pages)
+def assess(content: str | Extraction, target: str, backend: str) -> Extraction:
+    if isinstance(content, Extraction):
+        return content
+    text = content.strip()
+    if not text or text.startswith('%PDF'):
+        raise ValueError('empty or binary content; use a native document reader')
+    # Look for a gate in the title/leading content, not a mention inside an article.
+    lead = re.sub(r'<[^>]+>', ' ', text[:1200]).strip()
+    if re.search(r'(?im)^(?:title:\s*|#*\s*)?(?:403\b|404\b|access denied\b|sign in to (?:continue|x)|log in to continue|just a moment|verify (?:you are|that you)|captcha\b|page not found|this page requires javascript)', lead):
+        raise ValueError('login, challenge or error page')
+    if re.search(r'<(?:html|!doctype)\b', text, re.I):
+        body = re.sub(r'<(?:script|style|nav|header|footer)\b[^>]*>.*?</(?:script|style|nav|header|footer)>', '', text, flags=re.S|re.I)
+        paragraphs = re.findall(r'<(?:p|article)\b[^>]*>(.*?)</(?:p|article)>', body, re.S|re.I)
+        extracted = '\n\n'.join(html.unescape(re.sub(r'<[^>]+>', '', p)).strip() for p in paragraphs).strip()
+        if not extracted:
+            raise ValueError('HTML shell has no extractable article/paragraph evidence')
+        return Extraction(extracted, 'text', 'partial', ['Basic HTML extraction; layout and completeness unverified.'])
+    prose = re.sub(r'!?\[[^\]]*\]\([^)]*\)', '', text)
+    prose = re.sub(r'(?im)^(?:title:|url source:|markdown content:).*$', '', prose).strip(' #*\n-')
+    if not prose:
+        raise ValueError('navigation-only result')
+    if re.search(r'(youtube\.com|youtu\.be|bilibili\.com)', urlparse(target).netloc):
+        return Extraction(text, 'video_metadata', 'partial', ['Text page only; no verified captions, frames or audio.'])
+    if urlparse(target).netloc == 'arxiv.org':
+        return Extraction(text, 'paper_page', 'partial', ['Paper landing/extracted page; full-text coverage and requested anchors not validated.'])
+    if re.search(r'(?:twitter|x)\.com$', urlparse(target).netloc):
+        return Extraction(text, 'social_page', 'partial', ['Unstructured social extraction; root/reply attribution and media not validated.'])
+    return Extraction(text)
 
 
-def fetch(target: str) -> str:
+def fetch_result(target: str) -> dict:
+    retrieved = datetime.now(timezone.utc).isoformat()
+    def packet(extraction: Extraction, backend: str) -> dict:
+        return dict(source_url=target, retrieved_at=retrieved, backend=backend,
+                    status=extraction.status, content_kind=extraction.content_kind,
+                    content=extraction.content, limitations=extraction.limitations)
+    if urlparse(target).scheme not in {'http', 'https'} or not urlparse(target).netloc:
+        return packet(Extraction('', 'none', 'unsupported', ['Only absolute HTTP(S) URLs are supported.']), 'none')
     errors = []
 
     # Phase 1: platform-specific handlers (with per-platform fallback chain)
@@ -341,14 +446,8 @@ def fetch(target: str) -> str:
 
         try:
             print(f"[{handler_name}] Fetching...", file=sys.stderr)
-            content = handler(target, m)
-            if len(content) < MIN_CONTENT_LEN:
-                msg = f"too short ({len(content)} chars), trying next"
-                print(f"[{handler_name}] {msg}", file=sys.stderr)
-                errors.append((handler_name, msg))
-                continue
-            print(f"[{handler_name}] Success ({len(content)} chars)", file=sys.stderr)
-            return content
+            result = assess(handler(target, m), target, handler_name)
+            return packet(result, handler_name)
         except Exception as e:
             print(f"[{handler_name}] Failed: {e}", file=sys.stderr)
             errors.append((handler_name, str(e)))
@@ -358,35 +457,37 @@ def fetch(target: str) -> str:
     for name, fn in GENERIC_STRATEGIES:
         try:
             print(f"[{name}] Fetching...", file=sys.stderr)
-            content = fn(target)
-            if len(content) < MIN_CONTENT_LEN:
-                msg = f"too short ({len(content)} chars), likely error page"
-                print(f"[{name}] Skipped: {msg}", file=sys.stderr)
-                errors.append((name, msg))
-                continue
-            print(f"[{name}] Success ({len(content)} chars)", file=sys.stderr)
-            return content
+            return packet(assess(fn(target), target, name), name)
         except Exception as e:
             print(f"[{name}] Failed: {e}", file=sys.stderr)
             errors.append((name, str(e)))
 
-    raise RuntimeError(
-        "All strategies failed:\n"
-        + "\n".join(f"  - {name}: {err}" for name, err in errors)
-    )
+    return packet(Extraction('', 'none', 'blocked', [f'{name}: {err}' for name, err in errors]), 'none')
+
+
+def markdown(result: dict) -> str:
+    note = f"Source: {result['source_url']}\nRetrieved: {result['retrieved_at']}\nBackend: {result['backend']}\nCoverage: {result['status']} / {result['content_kind']}"
+    if result['limitations']:
+        note += '\n' + '\n'.join('- ' + item for item in result['limitations'])
+    return result['content'] + '\n\n---\n' + note + '\n'
+
+
+def fetch(target: str) -> str:
+    result = fetch_result(target)
+    if result['status'] in {'blocked', 'unsupported'}:
+        raise RuntimeError('; '.join(result['limitations']))
+    return markdown(result)
 
 
 def main():
     parser = argparse.ArgumentParser(description="Fetch web page content as text")
     parser.add_argument("url", help="Target URL to fetch")
     parser.add_argument("-o", "--output", help="Output file (default: stdout)")
+    parser.add_argument('--format', choices=['markdown', 'json'], default='markdown')
     args = parser.parse_args()
 
-    try:
-        content = fetch(args.url)
-    except RuntimeError as e:
-        print(f"Error: {e}", file=sys.stderr)
-        sys.exit(1)
+    result = fetch_result(args.url)
+    content = json.dumps(result, ensure_ascii=False, indent=2) if args.format == 'json' else markdown(result)
 
     if args.output:
         with open(args.output, "w", encoding="utf-8") as f:
@@ -394,7 +495,8 @@ def main():
         print(f"Saved to {args.output}", file=sys.stderr)
     else:
         print(content)
+    return 1 if result['status'] in {'blocked', 'unsupported'} else 0
 
 
 if __name__ == "__main__":
-    main()
+    sys.exit(main())
